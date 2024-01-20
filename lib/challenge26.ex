@@ -25,19 +25,19 @@ defmodule Challenge26 do
     end)
   end
 
-  defp flatten(lst, dst\\[])
+  defp flatten(lst, dst \\ [])
 
   defp flatten([h | t], dst) do
     new_dst =
       if is_list(h) && !Enum.empty?(h) do
-          #if Enum.all?(h, fn item -> !is_list(item) end) do
-          if Enum.all?(h, &!is_list(&1)) do
-            Enum.concat(dst, [h])
-          else
-            flatten(h, dst)
-          end
+        # if Enum.all?(h, fn item -> !is_list(item) end) do
+        if Enum.all?(h, &(!is_list(&1))) do
+          Enum.concat(dst, [h])
+        else
+          flatten(h, dst)
+        end
       else
-          dst
+        dst
       end
 
     flatten(t, new_dst)

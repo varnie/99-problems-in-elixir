@@ -14,7 +14,7 @@ defmodule Challenge22 do
     if x > y do
       dst
     else
-      range_helper(x+1, y, dst ++ [x])
+      range_helper(x + 1, y, dst ++ [x])
     end
   end
 end

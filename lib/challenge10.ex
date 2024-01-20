@@ -6,6 +6,7 @@ defmodule Challenge10 do
   """
   def encode(lst) do
     packed_lst = Challenge9.pack(lst)
+
     Enum.map(packed_lst, fn item ->
       {length(item), List.first(item)}
     end)
