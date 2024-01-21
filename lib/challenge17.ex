@@ -3,13 +3,9 @@ defmodule Challenge17 do
   (*) Split a list into two parts; the length of the first part is given.
     Do not use any predefined predicates.
   """
-  def split(lst, n) do
-    cond do
-      n <= 0 -> nil
-      n >= length(lst) -> [lst, []]
-      true -> split_helper(lst, %ListsPair{}, n, 0)
-    end
-  end
+  def split(_lst, n) when n <= 0, do: nil
+  def split(lst, n) when n >= length(lst), do: [lst, []]
+  def split(lst, n), do: split_helper(lst, %ListsPair{}, n, 0)
 
   defp split_helper([], %ListsPair{first: first, second: second}, _n, _counter) do
     [first, second]

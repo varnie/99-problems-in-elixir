@@ -4,11 +4,12 @@ defmodule Challenge20 do
   """
   def remove_at(lst, k) do
     lst
-    |> Enum.with_index()
+    |> Stream.with_index(1)
     |> Enum.reduce([], fn {val, index}, acc ->
-      cond do
-        index + 1 === k -> acc
-        true -> acc ++ [val]
+      if index == k do
+        acc
+      else
+        acc ++ [val]
       end
     end)
   end

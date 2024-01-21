@@ -2,19 +2,9 @@ defmodule Challenge22 do
   @doc """
   (*) Create a list containing all integers within a given range.
   """
-  def range(x, y) do
-    cond do
-      x > y -> []
-      x == y -> []
-      true -> range_helper(x, y, [])
-    end
-  end
+  def range(x, y) when x >= y, do: []
+  def range(x, y), do: range_helper(x, y, [])
 
-  defp range_helper(x, y, dst) do
-    if x > y do
-      dst
-    else
-      range_helper(x + 1, y, dst ++ [x])
-    end
-  end
+  defp range_helper(x, y, dst) when x > y, do: dst
+  defp range_helper(x, y, dst), do: range_helper(x + 1, y, dst ++ [x])
 end

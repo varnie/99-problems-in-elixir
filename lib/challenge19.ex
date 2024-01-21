@@ -4,7 +4,7 @@ defmodule Challenge19 do
   """
   def rotate(lst, k) do
     lst
-    |> Enum.with_index()
+    |> Stream.with_index()
     |> Enum.reduce([], fn {_val, index}, acc ->
       new_item =
         cond do

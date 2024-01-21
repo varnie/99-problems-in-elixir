@@ -6,11 +6,11 @@ defmodule Challenge18 do
   """
   def slice(lst, i, k) do
     lst
-    |> Enum.with_index()
+    |> Stream.with_index(1)
     |> Enum.reduce([], fn {val, index}, acc ->
       cond do
-        index + 1 < i -> acc
-        index + 1 <= k -> acc ++ [val]
+        index < i -> acc
+        index <= k -> acc ++ [val]
         true -> acc
       end
     end)

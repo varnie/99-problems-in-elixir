@@ -1,12 +1,4 @@
 defmodule Challenge1 do
-  use Application
-
-  @spec start(any(), any()) :: {:ok, pid()}
-  def start(_type, _args) do
-    Challenge1.p01_my_last([1, 2, 3])
-    {:ok, self()}
-  end
-
   @doc """
     (*) Find the last element of a list.
     Example:

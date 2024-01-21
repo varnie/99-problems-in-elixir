@@ -6,19 +6,16 @@ defmodule Challenge11 do
     Only elements with duplicates are transferred as [N,E] terms.
   """
   def encode_modified(lst) do
-    encoded = Challenge10.encode(lst)
-
-    Enum.map(encoded, fn item ->
+    lst
+    |> Challenge10.encode()
+    |> Enum.map(fn item ->
       {len, letter} = item
 
-      result =
-        if len > 1 do
-          item
-        else
-          letter
-        end
-
-      result
+      if len > 1 do
+        item
+      else
+        letter
+      end
     end)
   end
 end

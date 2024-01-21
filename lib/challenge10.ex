@@ -5,9 +5,9 @@ defmodule Challenge10 do
     Consecutive duplicates of elements are encoded as terms [N,E] where N is the number of duplicates of the element E.
   """
   def encode(lst) do
-    packed_lst = Challenge9.pack(lst)
-
-    Enum.map(packed_lst, fn item ->
+    lst
+    |> Challenge9.pack()
+    |> Enum.map(fn item ->
       {length(item), List.first(item)}
     end)
   end

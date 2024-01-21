@@ -4,16 +4,22 @@ defmodule Challenge16 do
   """
   def drop(lst, n) do
     lst
-    |> Enum.with_index()
-
-    Enum.reduce(Enum.with_index(lst), [], fn {val, index}, acc ->
-      if rem(index + 1, n) == 0 do
+    |> Enum.with_index(1)
+    |> Enum.reduce([], fn {val, index}, acc ->
+      if rem(index, n) == 0 do
         # drop val every n'th time
         acc
       else
         acc ++ [val]
       end
     end)
+  end
+
+  def drop_another_version(lst, n) do
+    lst
+    |> Enum.with_index(1)
+    |> Enum.filter(fn {_val, index} -> rem(index, n) != 0 end)
+    |> Enum.map(&Kernel.elem(&1, 0))
   end
 
   @doc """

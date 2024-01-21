@@ -7,14 +7,9 @@ defmodule Challenge28 do
   """
 
   def lsort(lst_of_lsts) do
-    Enum.reduce(lst_of_lsts, [], fn src_elem, acc ->
+    List.foldl(lst_of_lsts, [], fn src_elem, acc ->
       src_elem_len = length(src_elem)
-
-      pos =
-        Enum.count(acc, fn dst_elem ->
-          src_elem_len >= length(dst_elem)
-        end)
-
+      pos = Enum.count(acc, &(src_elem_len >= length(&1)))
       acc = List.insert_at(acc, pos, src_elem)
       acc
     end)
@@ -31,10 +26,7 @@ defmodule Challenge28 do
   others with a more frequent length come later.
   """
   def lfsort(lst_of_lists) do
-    frequencies = Enum.frequencies_by(lst_of_lists, &length/1)
-
-    Enum.sort(lst_of_lists, fn item1, item2 ->
-      frequencies[length(item1)] <= frequencies[length(item2)]
-    end)
+    freqs = lst_of_lists |> Enum.frequencies_by(&length/1)
+    Enum.sort(lst_of_lists, &(freqs[length(&1)] <= freqs[length(&2)]))
   end
 end
