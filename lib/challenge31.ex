@@ -39,7 +39,7 @@ defmodule Challenge31 do
     end
   end
 
-  def find_sum_of_digits(num, result \\ 0) do
+  defp find_sum_of_digits(num, result \\ 0) do
     if num >= 10 do
       find_sum_of_digits(div(num, 10), result + rem(num, 10))
     else
