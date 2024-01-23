@@ -1,7 +1,8 @@
 defmodule Challenge32 do
 
   @doc """
-  (**) Determine the greatest common divisor of two positive integer numbers.
+  (**) (**) Determine the greatest common divisor of two positive integer numbers.
+    Use Euclid's algorithm.
   """
   def gcd(a, b) when a > 0 and b > 0 do
     {a, b} =
