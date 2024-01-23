@@ -1,7 +1,7 @@
 defmodule Challenge32 do
 
   @doc """
-  (**) Determine whether a given integer number is prime.
+  (**) Determine the greatest common divisor of two positive integer numbers.
   """
   def gcd(a, b) when a > 0 and b > 0 do
     {a, b} =
