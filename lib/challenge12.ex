@@ -1,6 +1,6 @@
 defmodule Challenge12 do
   @doc """
-  **) Decode a run-length encoded list.
+  (**) Decode a run-length encoded list.
     Given a run-length code list generated as specified in problem P11. Construct its uncompressed version.
   """
   def decode(lst) do
@@ -14,7 +14,7 @@ defmodule Challenge12 do
 
   @spec decode_my1(any()) :: list()
   @doc """
-  **) Decode a run-length encoded list.
+  (**) Decode a run-length encoded list.
     Given a run-length code list generated as specified in problem P11. Construct its uncompressed version.
   """
   def decode_my1(lst) do
@@ -30,7 +30,7 @@ defmodule Challenge12 do
   end
 
   @doc """
-  **) Decode a run-length encoded list.
+  (**) Decode a run-length encoded list.
     Given a run-length code list generated as specified in problem P11. Construct its uncompressed version.
   """
   def decode_my2(lst) do
