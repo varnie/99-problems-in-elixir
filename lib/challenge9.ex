@@ -8,33 +8,31 @@ defmodule Challenge9 do
   end
 
   defp pack_helper(_src = [], dst) do
-    dst
+    Enum.reverse(dst)
   end
 
   defp pack_helper(_src = [head | tail], dst) do
-    last_item_dst = get_last_item(dst)
+    first_item_dst = get_first_item(dst)
 
-    if head == last_item_dst do
-      pack_helper(tail, append_to_last_item(dst, head))
+    if head == first_item_dst do
+      pack_helper(tail, append_to_first_item(dst, head))
     else
-      pack_helper(tail, dst ++ [[head]])
+      pack_helper(tail, [[head] | dst])
     end
   end
 
-  defp append_to_last_item(lst, item) do
-    last_index = length(lst) - 1
-
+  defp append_to_first_item(lst, item) do
     Enum.with_index(lst, fn element, index ->
-      case index == last_index do
-        true -> element ++ [item]
+      case index == 0 do
+        true -> [item | element]
         _ -> element
       end
     end)
   end
 
-  def get_last_item(lst_or_obj) do
+  def get_first_item(lst_or_obj) do
     case is_list(lst_or_obj) do
-      true -> get_last_item(List.last(lst_or_obj))
+      true -> get_first_item(List.first(lst_or_obj))
       _ -> lst_or_obj
     end
   end

@@ -4,12 +4,15 @@ defmodule Challenge12 do
     Given a run-length code list generated as specified in problem P11. Construct its uncompressed version.
   """
   def decode(lst) do
-    Enum.reduce(lst, [], fn item, acc ->
-      case item do
-        {count, letter} -> acc ++ List.duplicate(letter, count)
-        _ -> acc ++ [item]
-      end
-    end)
+    reversed_lst =
+      Enum.reduce(lst, [], fn item, acc ->
+        case item do
+          {count, letter} -> Enum.concat(List.duplicate(letter, count), acc)
+          _ -> [item | acc]
+        end
+      end)
+
+    Enum.reverse(reversed_lst)
   end
 
   @spec decode_my1(any()) :: list()
@@ -34,13 +37,16 @@ defmodule Challenge12 do
     Given a run-length code list generated as specified in problem P11. Construct its uncompressed version.
   """
   def decode_my2(lst) do
-    for item <- lst, reduce: [] do
-      acc when is_tuple(item) and tuple_size(item) == 2 ->
-        {count, letter} = item
-        acc ++ List.duplicate(letter, count)
+    reversed_lst =
+      for item <- lst, reduce: [] do
+        acc when is_tuple(item) and tuple_size(item) == 2 ->
+          {count, letter} = item
+          Enum.concat(List.duplicate(letter, count), acc)
 
-      acc ->
-        acc ++ [item]
-    end
+        acc ->
+          [item | acc]
+      end
+
+    Enum.reverse(reversed_lst)
   end
 end
