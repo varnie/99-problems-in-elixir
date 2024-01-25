@@ -24,9 +24,9 @@ defmodule Challenge3 do
   end
 
   defp helper([head | tail], cur_index, k) do
-    cond do
-      cur_index == k -> head
-      true -> helper(tail, cur_index + 1, k)
+    case cur_index == k do
+      true -> head
+      _ -> helper(tail, cur_index + 1, k)
     end
   end
 end

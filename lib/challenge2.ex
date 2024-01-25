@@ -25,7 +25,7 @@ defmodule Challenge2 do
     p02_but_last_1_helper(hd(lst), tl(lst))
   end
 
-  defp p02_but_last_1_helper(acc, [_head | _tail = []]) do
+  defp p02_but_last_1_helper(acc, [_head]) do
     acc
   end
 
@@ -36,7 +36,7 @@ defmodule Challenge2 do
   @doc """
     (*) Find the last but one element of a list.
   """
-  def p02_but_last_2([a, _b | _tail = []]) do
+  def p02_but_last_2([a, _b]) do
     a
   end
 
