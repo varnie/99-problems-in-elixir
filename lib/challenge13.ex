@@ -8,12 +8,12 @@ defmodule Challenge13 do
     As in problem P11, simplify the result list by replacing the singleton terms [1,X] by X.
   """
   def encode_direct(lst) do
-    encode_direct_helper(lst, [], %CountLetter{count: 0, letter: nil})
+    encode_direct_helper(lst, [], %CountLetter{count: 0, letter: nil}) |> Enum.reverse()
   end
 
   defp encode_direct_helper([], dst, countLetter = %CountLetter{count: count, letter: letter}) do
     if count > 0 && !is_nil(letter) do
-      dst ++ [decide_generated_item(countLetter)]
+      [decide_generated_item(countLetter) | dst]
     else
       dst
     end
@@ -32,7 +32,7 @@ defmodule Challenge13 do
           encode_direct_helper(tail, dst, %{countLetter | count: count + 1, letter: head})
 
         _ ->
-          encode_direct_helper(tail, dst ++ [decide_generated_item(countLetter)], %{
+          encode_direct_helper(tail, [decide_generated_item(countLetter) | dst], %{
             countLetter
             | count: 1,
               letter: head
