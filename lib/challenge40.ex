@@ -8,7 +8,7 @@ defmodule Challenge40 do
     Write a predicate to find the two prime numbers that sum up to a given even integer.
   """
   def goldbach(num) when num > 2 and rem(num, 2) == 0 do
-    first_satisfied_val = Enum.find(1..num-1, fn elem ->
+      first_satisfied_val = Enum.find(1..num-1, fn elem ->
       Challenge31.is_prime(elem) and Challenge31.is_prime(num - elem)
     end)
 
