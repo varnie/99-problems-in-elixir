@@ -3,7 +3,7 @@ defmodule Challenge35 do
   (**) Determine the prime factors of a given positive integer.
   """
   def prime_factors(t) do
-    prime_factors_impl(t)
+    t |> prime_factors_impl() |> Enum.reverse()
   end
 
   defp find_next_prime_number(i) do
@@ -22,7 +22,7 @@ defmodule Challenge35 do
 
       cond do
         rem(t, next_prime_number) == 0 ->
-          prime_factors_impl(div(t, next_prime_number), 1, result ++ [next_prime_number])
+          prime_factors_impl(div(t, next_prime_number), 1, [next_prime_number | result])
 
         true ->
           prime_factors_impl(t, next_prime_number, result)
