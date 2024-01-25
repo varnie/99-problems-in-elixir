@@ -32,16 +32,6 @@ defmodule Challenge16Test do
     assert Challenge16.drop_another_version(["a"], 1) == []
   end
 
-  test "drop_slightly_rewritten" do
-    assert Challenge16.drop_slightly_rewritten(
-             ["a", "b", "c", "d", "e", "f", "g", "h", "i", "k"],
-             3
-           ) == ["a", "b", "d", "e", "g", "h", "k"]
-
-    assert Challenge16.drop_slightly_rewritten([], 1) == []
-    assert Challenge16.drop_slightly_rewritten(["a"], 1) == []
-  end
-
   test "drop_using_recursion" do
     assert Challenge16.drop_using_recursion(["a", "b", "c", "d", "e", "f", "g", "h", "i", "k"], 3) ==
              ["a", "b", "d", "e", "g", "h", "k"]

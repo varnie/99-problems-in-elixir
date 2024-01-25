@@ -30,7 +30,6 @@ defmodule Challenge26 do
   defp flatten([h | t], dst) do
     new_dst =
       if is_list(h) && !Enum.empty?(h) do
-        # if Enum.all?(h, fn item -> !is_list(item) end) do
         if Enum.all?(h, &(!is_list(&1))) do
           Enum.concat(dst, [h])
         else

@@ -12,7 +12,7 @@ defmodule Challenge19 do
           true -> Enum.at(lst, index + k - length(lst))
         end
 
-      [new_item|acc]
+      [new_item | acc]
     end)
     |> Enum.reverse()
   end

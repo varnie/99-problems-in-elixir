@@ -8,15 +8,15 @@ defmodule Challenge17 do
   def split(lst, n), do: split_helper(lst, %ListsPair{}, n, 0)
 
   defp split_helper([], %ListsPair{first: first, second: second}, _n, _counter) do
-    [first, second]
+    [first, second] |> Enum.map(&Enum.reverse/1)
   end
 
   defp split_helper([head | tail], dst = %ListsPair{first: first, second: second}, n, counter) do
     dst =
       cond do
         counter == 0 -> %{dst | first: [head]}
-        counter <= n - 1 -> %{dst | first: first ++ [head], second: []}
-        true -> %{dst | second: second ++ [head]}
+        counter <= n - 1 -> %{dst | first: [head | first], second: []}
+        true -> %{dst | second: [head | second]}
       end
 
     split_helper(tail, dst, n, counter + 1)
