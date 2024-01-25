@@ -6,7 +6,8 @@ defmodule Challenge26 do
     cond do
       k <= 0 -> nil
       k > length(lst) -> []
-      true -> combinations_helper(k, lst, []) |> flatten()
+      # |> flatten()
+      true -> combinations_helper(k, lst, []) |> our_reduce([])
     end
   end
 
@@ -14,10 +15,10 @@ defmodule Challenge26 do
     lst
     |> Enum.with_index()
     |> Enum.map(fn {elem, index} ->
-      new_cur = cur ++ [elem]
+      new_cur = [elem | cur]
 
       if length(new_cur) == k do
-        new_cur
+        new_cur |> Enum.reverse()
       else
         new_lst = Enum.drop(lst, index + 1)
         combinations_helper(k, new_lst, new_cur)
@@ -25,24 +26,21 @@ defmodule Challenge26 do
     end)
   end
 
-  defp flatten(lst, dst \\ [])
-
-  defp flatten([h | t], dst) do
-    new_dst =
-      if is_list(h) && !Enum.empty?(h) do
-        if Enum.all?(h, &(!is_list(&1))) do
-          Enum.concat(dst, [h])
+  defp our_reduce(lst, dst) do
+    Enum.reduce(lst, dst, fn elem, acc ->
+      if is_list(elem) && !Enum.empty?(elem) do
+        if Enum.all?(elem, &(!is_list(&1))) do
+          [elem | acc]
         else
-          flatten(h, dst)
+          our_reduce(elem, acc)
         end
       else
-        dst
+        if !is_list(elem) do
+          [elem | acc]
+        else
+          acc
+        end
       end
-
-    flatten(t, new_dst)
-  end
-
-  defp flatten([], dst) do
-    dst
+    end)
   end
 end
