@@ -3,8 +3,10 @@ defmodule Challenge14 do
   (*) Duplicate the elements of a list.
   """
   def dupli(lst) do
-    Enum.reduce(lst, [], fn elem, acc ->
-      acc ++ [elem, elem]
+    reversed_lst = Enum.reduce(lst, [], fn elem, acc ->
+      [elem, elem | acc]
     end)
+
+    Enum.reverse(reversed_lst)
   end
 end

@@ -10,9 +10,10 @@ defmodule Challenge18 do
     |> Enum.reduce([], fn {val, index}, acc ->
       cond do
         index < i -> acc
-        index <= k -> acc ++ [val]
+        index <= k -> [val|acc]
         true -> acc
       end
     end)
+    |> Enum.reverse()
   end
 end

@@ -9,8 +9,9 @@ defmodule Challenge20 do
       if index == k do
         acc
       else
-        acc ++ [val]
+        [val|acc]
       end
     end)
+    |> Enum.reverse()
   end
 end
