@@ -6,7 +6,6 @@ defmodule Challenge26 do
     cond do
       k <= 0 -> nil
       k > length(lst) -> []
-      # |> flatten()
       true -> combinations_helper(k, lst, []) |> our_reduce([])
     end
   end

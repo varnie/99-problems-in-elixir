@@ -13,7 +13,7 @@ defmodule Challenge13 do
 
   defp encode_direct_helper([], dst, countLetter = %CountLetter{count: count, letter: letter}) do
     if count > 0 && !is_nil(letter) do
-      [decide_generated_item(countLetter) | dst]
+      [generated_item(countLetter) | dst]
     else
       dst
     end
@@ -32,7 +32,7 @@ defmodule Challenge13 do
           encode_direct_helper(tail, dst, %{countLetter | count: count + 1, letter: head})
 
         _ ->
-          encode_direct_helper(tail, [decide_generated_item(countLetter) | dst], %{
+          encode_direct_helper(tail, [generated_item(countLetter) | dst], %{
             countLetter
             | count: 1,
               letter: head
@@ -41,7 +41,7 @@ defmodule Challenge13 do
     end
   end
 
-  defp decide_generated_item(%CountLetter{count: count, letter: letter}) do
+  defp generated_item(%CountLetter{count: count, letter: letter}) do
     if count == 1 do
       letter
     else

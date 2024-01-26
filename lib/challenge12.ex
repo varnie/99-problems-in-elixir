@@ -15,7 +15,6 @@ defmodule Challenge12 do
     Enum.reverse(reversed_lst)
   end
 
-  @spec decode_my1(any()) :: list()
   @doc """
   (**) Decode a run-length encoded list.
     Given a run-length code list generated as specified in problem P11. Construct its uncompressed version.

@@ -5,14 +5,14 @@ defmodule Challenge8 do
     The order of the elements should not be changed.
   """
   def compress(lst) do
-    reversed_lst = Enum.reduce(lst, [], fn item, acc ->
+    lst
+    |> Enum.reduce([], fn item, acc ->
       if List.first(acc) == item do
         acc
       else
         [item | acc]
       end
     end)
-
-    Enum.reverse(reversed_lst)
+    |> Enum.reverse()
   end
 end
