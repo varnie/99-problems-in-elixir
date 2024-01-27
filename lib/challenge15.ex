@@ -3,10 +3,10 @@ defmodule Challenge15 do
   (**) Duplicate the elements of a list a given number of times.
   """
   def dupli(lst, num) do
-    reversed_lst = Enum.reduce(lst, [], fn elem, acc ->
-      Enum.concat(List.duplicate(elem, num), acc)
+    lst
+    |> Enum.map(fn elem ->
+      List.duplicate(elem, num)
     end)
-
-    Enum.reverse(reversed_lst)
+    |> List.flatten()
   end
 end
