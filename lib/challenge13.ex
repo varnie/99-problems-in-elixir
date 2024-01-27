@@ -1,5 +1,5 @@
 defmodule Challenge13 do
-  import CountLetter
+
 
   @doc """
   (**) Run-length encoding of a list (direct solution).
