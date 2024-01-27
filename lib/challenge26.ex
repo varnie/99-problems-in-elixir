@@ -28,7 +28,7 @@ defmodule Challenge26 do
   defp our_reduce(lst, dst) do
     Enum.reduce(lst, dst, fn elem, acc ->
       if is_list(elem) && !Enum.empty?(elem) do
-        if Enum.all?(elem, &(!is_list(&1))) do
+        if Enum.all?(elem, &!is_list(&1)) do
           [elem | acc]
         else
           our_reduce(elem, acc)
