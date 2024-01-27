@@ -3,6 +3,7 @@ defmodule Challenge22 do
   (*) Create a list containing all integers within a given range.
   """
   def range(x, y) when x >= y, do: []
+
   def range(x, y) do
     range_helper(x, y, []) |> Enum.reverse()
   end

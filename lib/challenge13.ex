@@ -1,6 +1,4 @@
 defmodule Challenge13 do
-
-
   @doc """
   (**) Run-length encoding of a list (direct solution).
     Implement the so-called run-length encoding data compression method directly.

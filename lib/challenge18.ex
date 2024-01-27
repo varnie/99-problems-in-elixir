@@ -10,7 +10,7 @@ defmodule Challenge18 do
     |> Enum.reduce([], fn {val, index}, acc ->
       cond do
         index < i -> acc
-        index <= k -> [val|acc]
+        index <= k -> [val | acc]
         true -> acc
       end
     end)

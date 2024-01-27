@@ -21,7 +21,7 @@ defmodule Challenge31 do
   def is_prime_another_impl(num) when num == 2, do: true
 
   def is_prime_another_impl(num) do
-    Enum.all?(2..(num - 1), &rem(num, &1) != 0)
+    Enum.all?(2..(num - 1), &(rem(num, &1) != 0))
   end
 
   @doc """
