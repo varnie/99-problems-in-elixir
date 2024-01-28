@@ -28,4 +28,16 @@ defmodule Challenges.ThinWrapper do
   end
 
   def put(key, value), do: :ets.insert(:thin, {key, value})
+
+  def get_or_create(key, func) do
+    case get(key) do
+      nil ->
+        result = func.()
+        put(key, result)
+        result
+
+      value ->
+        value
+    end
+  end
 end

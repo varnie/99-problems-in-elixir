@@ -1,6 +1,6 @@
 defmodule Challenge49 do
   @doc """
-  **) Gray code.
+  (**) Gray code.
     An n-bit Gray code is a sequence of n-bit strings constructed according to certain rules. For example,
     n = 1: C(1) = ['0','1'].
     n = 2: C(2) = ['00','01','11','10'].
@@ -21,18 +21,12 @@ defmodule Challenge49 do
   end
 
   def gray(n) do
-    result = Challenges.ThinWrapper.get(n)
-
-    if is_nil(result) do
+    Challenges.ThinWrapper.get_or_create(n, fn ->
       prev = gray(n - 1)
       prev_reversed = Enum.reverse(prev)
 
-      result = Enum.concat(prefix(prev, ~c"0"), prefix(prev_reversed, ~c"1"))
-      Challenges.ThinWrapper.put(n, result)
-      result
-    else
-      result
-    end
+      Enum.concat(prefix(prev, ~c"0"), prefix(prev_reversed, ~c"1"))
+    end)
   end
 
   defp prefix(coll, pref) do
