@@ -12,14 +12,27 @@ defmodule Challenge49 do
 
     Can you apply the method of "result caching" in order to make the predicate more efficient, when it is to be used repeatedly?
   """
-  def gray(n) when n == 1, do: [~c"0", ~c"1"]
-  def gray(n) when n == 2, do: [~c"00", ~c"01", ~c"11", ~c"10"]
+  def gray(n) when n == 1 do
+    [~c"0", ~c"1"]
+  end
+
+  def gray(n) when n == 2 do
+    [~c"00", ~c"01", ~c"11", ~c"10"]
+  end
 
   def gray(n) do
-    prev = gray(n - 1)
-    prev_reversed = Enum.reverse(prev)
+    result = Challenges.ThinWrapper.get(n)
 
-    Enum.concat(prefix(prev, ~c"0"), prefix(prev_reversed, ~c"1"))
+    if is_nil(result) do
+      prev = gray(n - 1)
+      prev_reversed = Enum.reverse(prev)
+
+      result = Enum.concat(prefix(prev, ~c"0"), prefix(prev_reversed, ~c"1"))
+      Challenges.ThinWrapper.put(n, result)
+      result
+    else
+      result
+    end
   end
 
   defp prefix(coll, pref) do
