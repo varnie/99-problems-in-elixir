@@ -8,7 +8,7 @@ defmodule Challenge10 do
     lst
     |> Challenge9.pack()
     |> Enum.map(fn item ->
-      {length(item), List.first(item)}
+      {length(item), hd(item)}
     end)
   end
 end
