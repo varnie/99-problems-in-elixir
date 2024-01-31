@@ -14,10 +14,7 @@ defmodule Challenge50 do
         %TreeNode{symbol: symbol, weight: weight, left: nil, right: nil}
       end)
 
-    IO.inspect(nodes_list)
     huffman_tree = huffman_tree_gen(nodes_list)
-    IO.inspect(huffman_tree)
-
     huffman_tree |> traverse_huffman_tree("") |> List.flatten()
   end
 
