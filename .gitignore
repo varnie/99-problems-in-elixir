@@ -26,3 +26,5 @@ challenges-*.tar
 /tmp/
 
 .idea
+
+/.elixir_ls/
