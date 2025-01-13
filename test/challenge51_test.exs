@@ -1,0 +1,11 @@
+defmodule Challenge51Test do
+  use ExUnit.Case
+
+  test "is_tree" do
+    assert Challenge51.is_tree(nil) == true
+    assert Challenge51.is_tree([:a, [:b, nil, nil], nil]) == true
+    assert Challenge51.is_tree([:a, [:b, nil, nil]]) == false
+    assert Challenge51.is_tree([:a, nil, nil]) == true
+    assert Challenge51.is_tree([nil, nil, nil]) == false
+  end
+end
