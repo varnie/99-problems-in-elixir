@@ -8,7 +8,6 @@ defmodule Challenge54 do
   end
 
   defp is_tree_helper(nil), do: true
-  defp is_tree_helper([]), do: true
 
   defp is_tree_helper([root, l, r]) when root != nil and is_atom(root),
     do: is_tree_helper(l) && is_tree_helper(r)

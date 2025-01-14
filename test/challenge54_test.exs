@@ -3,7 +3,7 @@ defmodule Challenge54Test do
 
   test "is_tree" do
     assert Challenge54.is_tree(nil) == true
-    assert Challenge54.is_tree([]) == true
+    assert Challenge54.is_tree([]) == false
     assert Challenge54.is_tree([:a, [:b, nil, nil], nil]) == true
     assert Challenge54.is_tree([:a, [:b, nil, nil]]) == false
     assert Challenge54.is_tree([:a, nil, nil]) == true
