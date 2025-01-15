@@ -32,33 +32,14 @@ defmodule Challenge55 do
     end
   end
 
-  # TODO: refactor
   defp cbal_tree_helper(nodes_list) do
     nodes_list
-    |> Enum.map(fn node ->
-      new_left_nodes_list = gen_new_nodes(node.left)
-      new_right_nodes_list = gen_new_nodes(node.right)
-
-      result_a =
-        Enum.reduce(new_left_nodes_list, [], fn new_left_node, acc ->
-          [%TreeNode{symbol: node.symbol, left: new_left_node, right: node.right} | acc]
-        end)
-
-      result_b =
-        Enum.reduce(new_right_nodes_list, [], fn new_right_node, acc ->
-          [%TreeNode{symbol: node.symbol, left: node.left, right: new_right_node} | acc]
-        end)
-
-      Enum.concat(result_a, result_b)
-    end)
+    |> Enum.map(&gen_new_nodes/1)
     |> List.flatten()
-    |> Enum.filter(fn node ->
-      calc_condition_is_met(node)
-    end)
+    |> Enum.filter(&calc_condition_is_met/1)
     |> Enum.uniq()
   end
 
-  # TODO: refactor
   defp gen_new_nodes(node) do
     if is_nil(node) do
       [%TreeNode{symbol: :x, left: nil, right: nil}]
@@ -95,27 +76,11 @@ defmodule Challenge55 do
     end
   end
 
-  def count_nodes_in_tree(node) do
+  defp count_nodes_in_tree(node) do
     if is_nil(node) do
       0
     else
-      count = 1
-
-      count_nodes_in_left_subtree =
-        if !is_nil(node.left) do
-          count_nodes_in_tree(node.left)
-        else
-          0
-        end
-
-      count_nodes_in_right_subtree =
-        if !is_nil(node.right) do
-          count_nodes_in_tree(node.right)
-        else
-          0
-        end
-
-      count + count_nodes_in_left_subtree + count_nodes_in_right_subtree
+      1 + count_nodes_in_tree(node.left) + count_nodes_in_tree(node.right)
     end
   end
 end
