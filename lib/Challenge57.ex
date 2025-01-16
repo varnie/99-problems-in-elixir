@@ -1,6 +1,6 @@
 defmodule Challenge57 do
   @doc """
-    **) Binary search trees (dictionaries)
+    (**) Binary search trees (dictionaries)
         Write a function to construct a binary search tree from a list of integer numbers.
         Example:
         * (construct '(3 2 5 7 1))
