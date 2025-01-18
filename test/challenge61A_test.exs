@@ -1,0 +1,39 @@
+defmodule Challenge61ATest do
+  use ExUnit.Case
+
+  setup_all do
+    {:ok,
+     leaves_result_list: [
+       %TreeNode{left: nil, right: nil, symbol: 2, weight: nil},
+       %TreeNode{symbol: 3, weight: nil, left: nil, right: nil}
+     ]}
+  end
+
+  test "leaves", state do
+    assert Challenge61A.leaves(nil) == []
+
+    assert Challenge61A.leaves(%TreeNode{symbol: 1, left: nil, right: nil}) == [
+             %TreeNode{symbol: 1, weight: nil, left: nil, right: nil}
+           ]
+
+    assert Challenge61A.leaves(%TreeNode{
+             symbol: 1,
+             left: %TreeNode{symbol: 2, left: nil, right: nil},
+             right: nil
+           }) == [%TreeNode{left: nil, right: nil, symbol: 2, weight: nil}]
+
+    result_3 =
+      Challenge61A.leaves(%TreeNode{
+        symbol: 1,
+        left: %TreeNode{symbol: 2, left: nil, right: nil},
+        right: %TreeNode{symbol: 3, left: nil, right: nil}
+      })
+
+    desired_result_3 = state[:leaves_result_list]
+    assert length(result_3) == length(desired_result_3)
+
+    assert Enum.all?(result_3, fn elem ->
+             elem in desired_result_3
+           end)
+  end
+end
