@@ -36,38 +36,5 @@ defmodule Challenge63Test do
              },
              right: %TreeNode{symbol: 3, weight: nil, left: nil, right: nil}
            }
-
-    # assert Challenge62B.atlevel(
-    #          %TreeNode{
-    #            symbol: 1,
-    #            weight: nil,
-    #            left: %TreeNode{
-    #              symbol: 2,
-    #              weight: nil,
-    #              left: %TreeNode{symbol: 3, weight: nil, left: nil, right: nil},
-    #              right: nil
-    #            },
-    #            right: %TreeNode{
-    #              symbol: 4,
-    #              weight: nil,
-    #              left: nil,
-    #              right: %TreeNode{left: nil, right: nil, symbol: 5, weight: nil}
-    #            }
-    #          },
-    #          2
-    #        ) == [
-    #          %TreeNode{
-    #            symbol: 2,
-    #            weight: nil,
-    #            left: %TreeNode{symbol: 3, weight: nil, left: nil, right: nil},
-    #            right: nil
-    #          },
-    #          %TreeNode{
-    #            symbol: 4,
-    #            weight: nil,
-    #            left: nil,
-    #            right: %TreeNode{symbol: 5, weight: nil, left: nil, right: nil}
-    #          }
-    #        ]
   end
 end
