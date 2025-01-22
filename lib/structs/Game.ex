@@ -1,110 +1,15 @@
 defmodule Game do
-  @board_axis_indexes 0..7
-  @board_indexes 0..63
+  @board_axis_indexes 1..8
 
-  def create_board() do
-    Enum.reduce(0..7, Map.new(), fn x, acc_tmp ->
+  defp create_board() do
+    Enum.reduce(@board_axis_indexes, Map.new(), fn x, acc_tmp ->
       board_tmp = acc_tmp
 
-      Enum.reduce(0..7, board_tmp, fn y, acc ->
-        Map.put(acc, x * 8 + y, {x, y})
+      Enum.reduce(@board_axis_indexes, board_tmp, fn y, acc ->
+        Map.put(acc, (x - 1) * 8 + y, {x, y})
       end)
     end)
   end
-
-  # def solve2() do
-  #   board = create_board()
-
-  #   for a <- @board_indexes,
-  #       b <- (a + 1)..63,
-  #       c <- (b + 1)..63,
-  #       d <- (c + 1)..63,
-  #       e <- (d + 1)..63,
-  #       f <- (e + 1)..63,
-  #       g <- (f + 1)..63,
-  #       h <- (g + 1)..63,
-  #       suitable_positions(
-  #         board[a],
-  #         board[b],
-  #         board[c],
-  #         board[d],
-  #         board[e],
-  #         board[f],
-  #         board[g],
-  #         board[h]
-  #       ),
-  #       do: [board[a], board[b], board[c], board[d], board[e], board[f], board[g], board[h]]
-  # end
-
-  # def get_valid_continuations(board, cur_queens, cur_index) do
-  #   if (cur_index + 1) in @board_indexes do
-  #     new_possible_indexes =
-  #       Enum.reduce((cur_index + 1)..63, [], fn x, acc ->
-  #         new_queen = board[x]
-
-  #         if is_suitable_place_for_new_queen(cur_queens, new_queen) do
-  #           # acc stores new indexes
-  #           acc ++ [x]
-  #         else
-  #           acc
-  #         end
-  #       end)
-
-  #     if new_possible_indexes == [] do
-  #       cur_queens
-  #     else
-  #       result =
-  #         Enum.map(new_possible_indexes, fn index ->
-  #           new_queen = board[index]
-  #           new_cur_queens = cur_queens ++ [new_queen]
-  #           new_cur_queens = get_valid_continuations(board, new_cur_queens, index)
-  #           new_cur_queens
-  #         end)
-
-  #       result
-  #     end
-  #   else
-  #     cur_queens
-  #   end
-  # end
-
-  # def solve1() do
-  #   board = create_board()
-
-  #   start_time = System.monotonic_time(:second)
-  #   IO.puts("Started at: #{start_time} seconds")
-
-  #   result =
-  #     for a <- 0..63//8,
-  #         b <- 1..63//8,
-  #         c <- 2..63//8,
-  #         d <- 3..63//8,
-  #         e <- 4..63//8,
-  #         f <- 5..63//8,
-  #         g <- 6..63//8,
-  #         h <- 7..63//8,
-  #         # length(
-  #         #   Enum.uniq_by([a, b, c, d, e, f, g, h], fn queen ->
-  #         #     div(queen, 8)
-  #         #   end)
-  #         # ) == 8,
-  #         suitable_positions(
-  #           board[a],
-  #           board[b],
-  #           board[c],
-  #           board[d],
-  #           board[e],
-  #           board[f],
-  #           board[g],
-  #           board[h]
-  #         ),
-  #         do: [board[a], board[b], board[c], board[d], board[e], board[f], board[g], board[h]]
-
-  #   end_time = System.monotonic_time(:second)
-  #   IO.puts("Ended at: #{end_time} seconds")
-  #   IO.puts("Execution time: #{end_time - start_time} seconds")
-  #   result
-  # end
 
   def solve() do
     board = create_board()
@@ -113,17 +18,17 @@ defmodule Game do
     IO.puts("Started at: #{start_time} seconds")
 
     result =
-      for a <- 0..63//8,
-          b <- 1..63//8,
-          c <- 2..63//8,
-          d <- 3..63//8,
-          e <- 4..63//8,
-          f <- 5..63//8,
-          g <- 6..63//8,
-          h <- 7..63//8,
+      for a <- 1..64//8,
+          b <- 2..64//8,
+          c <- 3..64//8,
+          d <- 4..64//8,
+          e <- 5..64//8,
+          f <- 6..64//8,
+          g <- 7..64//8,
+          h <- 8..64//8,
           length(
-            Enum.uniq_by([a, b, c, d, e, f, g, h], fn queen ->
-              div(queen, 8)
+            Enum.uniq([a, b, c, d, e, f, g, h], fn queen ->
+              div(queen - 1, 8)
             end)
           ) == 8,
           suitable_positions(
@@ -175,7 +80,7 @@ defmodule Game do
        ) do
     # returns true if it is not hit by the present queen
 
-    # left deck's corner is (0, 0)
+    # left bottom deck's corner is (1, 1)
 
     inc_fn = fn x -> x + 1 end
     dec_fn = fn x -> x - 1 end
