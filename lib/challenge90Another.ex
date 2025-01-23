@@ -11,50 +11,89 @@ defmodule Challenge90Another do
         Use the generate-and-test paradigm.
   """
 
-  @board_axis_indexes 1..8
+  # @board_axis_indexes 1..8
 
-  defp create_board() do
-    Enum.reduce(@board_axis_indexes, Map.new(), fn x, acc_tmp ->
-      board_tmp = acc_tmp
+  # defp create_board() do
+  #   Enum.reduce(@board_axis_indexes, Map.new(), fn x, acc_tmp ->
+  #     board_tmp = acc_tmp
 
-      Enum.reduce(@board_axis_indexes, board_tmp, fn y, acc ->
-        Map.put(acc, (x - 1) * 8 + y, {x, y})
-      end)
-    end)
-  end
+  #     Enum.reduce(@board_axis_indexes, board_tmp, fn y, acc ->
+  #       Map.put(acc, (x - 1) * 8 + y, {x, y})
+  #     end)
+  #   end)
+  # end
+
+  @left for l <- 1..64//8, do: l
+  @right for r <- 8..64//8, do: r
+  @top for u <- 57..64, do: u
+  @bottom for b <- 1..8, do: b
+
+  @letters %{1 => :a, 2 => :b, 3 => :c, 4 => :d, 5 => :e, 6 => :f, 7 => :g, 8 => :h}
+  # def left() do
+  #   1..64//8
+  # end
+
+  # def right() do
+  #   8..64//8
+  # end
+
+  # def top() do
+  #   57..64
+  # end
+
+  # def bottom() do
+  #   1..8
+  # end
 
   def solve() do
-    board = create_board()
+    # board = create_board()
 
-    for a <- 1..64//8,
+    # a,b,c ... are columns values,
+    # i.e.
+    #      a = [1, 9, 17, 25, 33, 41, 49, 57],
+    #      b = [2, 10, 18, 26, 34, 42, 50, 58]
+    #      c = [3, 11, 19, 27, 35, 43, 51, 59]
+    #      ...
+    # 1..64//8,
+    for a <- @left,
         b <- 2..64//8,
         c <- 3..64//8,
         d <- 4..64//8,
         e <- 5..64//8,
         f <- 6..64//8,
         g <- 7..64//8,
-        h <- 8..64//8,
+        h <- @right,
         length(
           Enum.uniq_by([a, b, c, d, e, f, g, h], fn queen ->
             div(queen - 1, 8)
           end)
         ) == 8,
-        suitable_positions(
-          board[a],
-          board[b],
-          board[c],
-          board[d],
-          board[e],
-          board[f],
-          board[g],
-          board[h]
-        ),
-        do: [board[a], board[b], board[c], board[d], board[e], board[f], board[g], board[h]]
+        suitable_positions([a, b, c, d, e, f, g, h]),
+        do:
+          Enum.map([a, b, c, d, e, f, g, h], fn index ->
+            y =
+              if rem(index, 8) > 0 do
+                div(index, 8) + 1
+              else
+                div(index, 8)
+              end
+
+            x =
+              if rem(index, 8) > 0 do
+                rem(index, 8)
+              else
+                8
+              end
+
+            {@letters[x], y}
+          end)
+
+    # do: [a, b, c, d, e, f, g, h]
   end
 
-  defp suitable_positions(pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8) do
+  defp suitable_positions([head | tail]) do
     result =
-      Enum.reduce_while([pos2, pos3, pos4, pos5, pos6, pos7, pos8], [pos1], fn val, acc ->
+      Enum.reduce_while(tail, [head], fn val, acc ->
         if is_suitable_place_for_new_queen(acc, val) do
           {:cont, [val | acc]}
         else
@@ -71,8 +110,8 @@ defmodule Challenge90Another do
     end)
   end
 
-  defp is_within_gamefield_fn({x, y}) do
-    x in @board_axis_indexes and y in @board_axis_indexes
+  defp is_within_gamefield_fn(index) do
+    index != -1
   end
 
   defp check_if_new_queen_is_not_hit_by_present_queen(
@@ -82,10 +121,41 @@ defmodule Challenge90Another do
     # returns true if it is not hit by the present queen
     # left bottom deck's corner is (1, 1)
 
-    move_leftx_upy_corner_stream = Stream.iterate(new_queen, fn {x, y} -> {x - 1, y + 1} end)
-    move_rightx_upy_corner_stream = Stream.iterate(new_queen, fn {x, y} -> {x + 1, y + 1} end)
-    move_leftx_downy_corner_stream = Stream.iterate(new_queen, fn {x, y} -> {x - 1, y - 1} end)
-    move_rightx_downy_corner_stream = Stream.iterate(new_queen, fn {x, y} -> {x + 1, y - 1} end)
+    move_leftx_upy_corner_stream =
+      Stream.iterate(new_queen, fn pos ->
+        if pos in @left || pos in @top do
+          -1
+        else
+          pos + 8 - 1
+        end
+      end)
+
+    move_rightx_upy_corner_stream =
+      Stream.iterate(new_queen, fn pos ->
+        if pos in @right || pos in @top do
+          -1
+        else
+          pos + 8 + 1
+        end
+      end)
+
+    move_leftx_downy_corner_stream =
+      Stream.iterate(new_queen, fn pos ->
+        if pos in @left || pos in @bottom do
+          -1
+        else
+          pos - 8 - 1
+        end
+      end)
+
+    move_rightx_downy_corner_stream =
+      Stream.iterate(new_queen, fn pos ->
+        if pos in @right || pos in @bottom do
+          -1
+        else
+          pos - 8 + 1
+        end
+      end)
 
     reduce_stream_fn = fn stream ->
       Enum.reduce_while(stream, true, fn val, acc ->

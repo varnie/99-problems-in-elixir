@@ -11,6 +11,7 @@ defmodule Challenge90 do
         Use the generate-and-test paradigm.
   """
 
+  @letters %{1 => :a, 2 => :b, 3 => :c, 4 => :d, 5 => :e, 6 => :f, 7 => :g, 8 => :h}
   @board_axis_indexes 1..8
 
   defp create_board() do
@@ -49,7 +50,13 @@ defmodule Challenge90 do
           board[g],
           board[h]
         ),
-        do: [board[a], board[b], board[c], board[d], board[e], board[f], board[g], board[h]]
+        do:
+          Enum.map(
+            [board[a], board[b], board[c], board[d], board[e], board[f], board[g], board[h]],
+            fn {x, y} ->
+              {@letters[y], x}
+            end
+          )
   end
 
   defp suitable_positions(pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8) do
