@@ -11,50 +11,20 @@ defmodule Challenge90Another do
         Use the generate-and-test paradigm.
   """
 
-  # @board_axis_indexes 1..8
-
-  # defp create_board() do
-  #   Enum.reduce(@board_axis_indexes, Map.new(), fn x, acc_tmp ->
-  #     board_tmp = acc_tmp
-
-  #     Enum.reduce(@board_axis_indexes, board_tmp, fn y, acc ->
-  #       Map.put(acc, (x - 1) * 8 + y, {x, y})
-  #     end)
-  #   end)
-  # end
-
   @left for l <- 1..64//8, do: l
   @right for r <- 8..64//8, do: r
   @top for u <- 57..64, do: u
   @bottom for b <- 1..8, do: b
 
   @letters %{1 => :a, 2 => :b, 3 => :c, 4 => :d, 5 => :e, 6 => :f, 7 => :g, 8 => :h}
-  # def left() do
-  #   1..64//8
-  # end
-
-  # def right() do
-  #   8..64//8
-  # end
-
-  # def top() do
-  #   57..64
-  # end
-
-  # def bottom() do
-  #   1..8
-  # end
 
   def solve() do
-    # board = create_board()
-
     # a,b,c ... are columns values,
     # i.e.
     #      a = [1, 9, 17, 25, 33, 41, 49, 57],
     #      b = [2, 10, 18, 26, 34, 42, 50, 58]
     #      c = [3, 11, 19, 27, 35, 43, 51, 59]
     #      ...
-    # 1..64//8,
     for a <- @left,
         b <- 2..64//8,
         c <- 3..64//8,
@@ -87,8 +57,6 @@ defmodule Challenge90Another do
 
             {@letters[x], y}
           end)
-
-    # do: [a, b, c, d, e, f, g, h]
   end
 
   defp suitable_positions([head | tail]) do
