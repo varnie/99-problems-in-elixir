@@ -1,4 +1,16 @@
-defmodule Game do
+defmodule Challenge90 do
+  @moduledoc """
+    (**) Eight queens problem
+        This is a classical problem in computer science.
+        The objective is to place eight queens on a chessboard so that no two queens are attacking each other;
+        i.e., no two queens are in the same row, the same column, or on the same diagonal.
+
+        Hint: Represent the positions of the queens as a list of numbers 1..N.
+        Example: (4 2 7 3 6 8 5 1) means that the queen in the first column is in row 4,
+        the queen in the second column is in row 2, etc.
+        Use the generate-and-test paradigm.
+  """
+
   @board_axis_indexes 1..8
 
   defp create_board() do
@@ -14,42 +26,33 @@ defmodule Game do
   def solve() do
     board = create_board()
 
-    start_time = System.monotonic_time(:second)
-    IO.puts("Started at: #{start_time} seconds")
-
-    result =
-      for a <- 1..64//8,
-          b <- 2..64//8,
-          c <- 3..64//8,
-          d <- 4..64//8,
-          e <- 5..64//8,
-          f <- 6..64//8,
-          g <- 7..64//8,
-          h <- 8..64//8,
-          length(
-            Enum.uniq([a, b, c, d, e, f, g, h], fn queen ->
-              div(queen - 1, 8)
-            end)
-          ) == 8,
-          suitable_positions(
-            board[a],
-            board[b],
-            board[c],
-            board[d],
-            board[e],
-            board[f],
-            board[g],
-            board[h]
-          ),
-          do: [board[a], board[b], board[c], board[d], board[e], board[f], board[g], board[h]]
-
-    end_time = System.monotonic_time(:second)
-    IO.puts("Ended at: #{end_time} seconds")
-    IO.puts("Execution time: #{end_time - start_time} seconds")
-    result
+    for a <- 1..64//8,
+        b <- 2..64//8,
+        c <- 3..64//8,
+        d <- 4..64//8,
+        e <- 5..64//8,
+        f <- 6..64//8,
+        g <- 7..64//8,
+        h <- 8..64//8,
+        length(
+          Enum.uniq_by([a, b, c, d, e, f, g, h], fn queen ->
+            div(queen - 1, 8)
+          end)
+        ) == 8,
+        suitable_positions(
+          board[a],
+          board[b],
+          board[c],
+          board[d],
+          board[e],
+          board[f],
+          board[g],
+          board[h]
+        ),
+        do: [board[a], board[b], board[c], board[d], board[e], board[f], board[g], board[h]]
   end
 
-  def suitable_positions(pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8) do
+  defp suitable_positions(pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8) do
     is_suitable_place_for_new_queen([pos1], pos2) and
       is_suitable_place_for_new_queen([pos1, pos2], pos3) and
       is_suitable_place_for_new_queen([pos1, pos2, pos3], pos4) and
@@ -59,18 +62,9 @@ defmodule Game do
       is_suitable_place_for_new_queen([pos1, pos2, pos3, pos4, pos5, pos6, pos7], pos8)
   end
 
-  def is_suitable_place_for_new_queen(present_queens, {queen_x, queen_y} = queen) do
-    Enum.all?(present_queens, fn {present_queen_x, present_queen_y} = present_queen ->
-      cond do
-        # occupied by some already placed queen
-        queen == present_queen -> false
-        # hits vertically
-        queen_x == present_queen_x -> false
-        # hits horizontally
-        queen_y == present_queen_y -> false
-        # now we need to check if board_queen hits new queen on diagonals, and if not, then this place is suitable
-        true -> check_if_new_queen_is_not_hit_by_present_queen(present_queen, queen)
-      end
+  defp is_suitable_place_for_new_queen(present_queens, queen) do
+    Enum.all?(present_queens, fn present_queen ->
+      check_if_new_queen_is_not_hit_by_present_queen(present_queen, queen)
     end)
   end
 
@@ -79,7 +73,6 @@ defmodule Game do
          new_queen
        ) do
     # returns true if it is not hit by the present queen
-
     # left bottom deck's corner is (1, 1)
 
     inc_fn = fn x -> x + 1 end
