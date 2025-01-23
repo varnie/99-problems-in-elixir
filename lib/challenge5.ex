@@ -1,14 +1,11 @@
 defmodule Challenge5 do
-  @doc """
+  @moduledoc """
     (*) Reverse a list.
   """
   def reverse(lst) do
     Enum.reverse(lst)
   end
 
-  @doc """
-    (*) Reverse a list.
-  """
   def reverse_my(lst) do
     helper(lst, [])
   end

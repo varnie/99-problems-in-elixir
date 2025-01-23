@@ -1,5 +1,5 @@
 defmodule Challenge54 do
-  @doc """
+  @moduledoc """
   (*) Check whether a given expression represents a binary tree
   Write a function istree which returns true if and only if its argument is a list representing a binary tree.
   """

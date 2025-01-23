@@ -1,5 +1,5 @@
 defmodule Challenge61 do
-  @doc """
+  @moduledoc """
     (*) Count the leaves of a binary tree
         A leaf is a node with no successors. Write a function count-leaves to count them.
 

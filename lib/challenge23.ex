@@ -1,5 +1,5 @@
 defmodule Challenge23 do
-  @doc """
+  @moduledoc """
   (*) Extract a given number of randomly selected elements from a list.
   """
   def rnd_select(_lst, k) when k < 0, do: []

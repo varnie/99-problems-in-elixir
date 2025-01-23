@@ -1,5 +1,5 @@
 defmodule Challenge35 do
-  @doc """
+  @moduledoc """
   (**) Determine the prime factors of a given positive integer.
   """
   def prime_factors(t) do

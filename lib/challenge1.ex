@@ -1,5 +1,5 @@
 defmodule Challenge1 do
-  @doc """
+  @moduledoc """
     (*) Find the last element of a list.
   """
   def p01_my_last(lst) do

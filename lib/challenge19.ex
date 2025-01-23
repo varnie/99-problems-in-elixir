@@ -1,5 +1,5 @@
 defmodule Challenge19 do
-  @doc """
+  @moduledoc """
   (**) Rotate a list N places to the left.
   """
   def rotate(lst, k) do

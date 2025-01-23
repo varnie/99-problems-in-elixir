@@ -1,5 +1,5 @@
 defmodule Challenge63 do
-  @doc """
+  @moduledoc """
   (**) Construct a complete binary tree
       A complete binary tree with height H is defined as follows:
       The levels 1,2,3,...,H-1 contain the maximum number of nodes (i.e 2**(i-1) at the level i,

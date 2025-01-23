@@ -1,5 +1,5 @@
 defmodule Challenge32 do
-  @doc """
+  @moduledoc """
   (**) Determine the greatest common divisor of two positive integer numbers.
     Use Euclid's algorithm.
   """

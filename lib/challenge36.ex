@@ -1,5 +1,5 @@
 defmodule Challenge36 do
-  @doc """
+  @moduledoc """
   (**) Determine the prime factors of a given positive integer (2).
     Construct a list containing the prime factors and their multiplicity.
   """

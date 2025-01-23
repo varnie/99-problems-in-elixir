@@ -1,5 +1,5 @@
 defmodule Challenge25 do
-  @doc """
+  @moduledoc """
   (*) Generate a random permutation of the elements of a list.
   """
   def rnd_permu(lst) do

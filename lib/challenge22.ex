@@ -1,5 +1,5 @@
 defmodule Challenge22 do
-  @doc """
+  @moduledoc """
   (*) Create a list containing all integers within a given range.
   """
   def range(x, y) when x >= y, do: []

@@ -1,5 +1,5 @@
 defmodule Challenge50 do
-  @doc """
+  @moduledoc """
   (***) Huffman codes. Solutions
 
   We suppose a set of symbols with their frequencies, given as a list of fr(S,F) terms.

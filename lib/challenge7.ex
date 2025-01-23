@@ -1,14 +1,11 @@
 defmodule Challenge7 do
-  @doc """
+  @moduledoc """
   (**) Flatten a nested list structure.
   """
   def flatten(lst) do
     List.flatten(lst)
   end
 
-  @doc """
-  (**) Flatten a nested list structure.
-  """
   @spec my_flatten(any()) :: any()
   def my_flatten(lst) do
     Enum.reduce(lst, [], fn item, acc ->
@@ -19,9 +16,6 @@ defmodule Challenge7 do
     end)
   end
 
-  @doc """
-  (**) Flatten a nested list structure.
-  """
   def my_flatten_better_version(lst) do
     lst |> my_flatten_better_version_traverse([]) |> Enum.reverse()
   end

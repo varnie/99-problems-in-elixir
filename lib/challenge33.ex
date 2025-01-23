@@ -1,5 +1,5 @@
 defmodule Challenge33 do
-  @doc """
+  @moduledoc """
   (*) Determine whether two positive integer numbers are coprime.
     Two numbers are coprime if their greatest common divisor equals 1.
   """

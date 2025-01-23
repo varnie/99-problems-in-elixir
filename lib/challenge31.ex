@@ -1,5 +1,5 @@
 defmodule Challenge31 do
-  @doc """
+  @moduledoc """
    (**) Determine whether a given integer number is prime.
   """
   def is_prime(num) when num == 1, do: true

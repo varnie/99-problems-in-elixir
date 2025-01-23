@@ -1,5 +1,5 @@
 defmodule Challenge6 do
-  @doc """
+  @moduledoc """
   (*) Find out whether a list is a palindrome.
   """
   def is_palindrome(lst) do

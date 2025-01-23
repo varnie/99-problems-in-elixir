@@ -1,5 +1,5 @@
 defmodule Challenge20 do
-  @doc """
+  @moduledoc """
   (*) Remove the K'th element from a list.
   """
   def remove_at(lst, k) do

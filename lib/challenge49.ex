@@ -1,5 +1,5 @@
 defmodule Challenge49 do
-  @doc """
+  @moduledoc """
   (**) Gray code.
     An n-bit Gray code is a sequence of n-bit strings constructed according to certain rules. For example,
     n = 1: C(1) = ['0','1'].

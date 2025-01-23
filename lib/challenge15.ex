@@ -1,5 +1,5 @@
 defmodule Challenge15 do
-  @doc """
+  @moduledoc """
   (**) Duplicate the elements of a list a given number of times.
   """
   def dupli(lst, num) do

@@ -1,14 +1,11 @@
 defmodule Challenge4 do
-  @doc """
+  @moduledoc """
     (*) Find the number of elements of a list.
   """
   def p04_find_len(lst) do
     length(lst)
   end
 
-  @doc """
-    (*) Find the number of elements of a list.
-  """
   def p04_find_len_my(lst) do
     helper(lst, 0)
   end

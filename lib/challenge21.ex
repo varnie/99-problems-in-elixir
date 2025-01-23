@@ -1,5 +1,5 @@
 defmodule Challenge21 do
-  @doc """
+  @moduledoc """
   (*) Insert an element at a given position into a list.
   """
   def insert_at(_item, lst, k) when k < 1 or k > length(lst), do: nil

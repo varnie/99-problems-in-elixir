@@ -1,5 +1,5 @@
 defmodule Challenge62 do
-  @doc """
+  @moduledoc """
     (*) Collect the internal nodes of a binary tree in a list
         An internal node of a binary tree has either one or two non-empty successors. Write a function internals to collect them in a list.
 

@@ -1,5 +1,5 @@
 defmodule Challenge40 do
-  @doc """
+  @moduledoc """
   (**) Goldbach's conjecture.
     Goldbach's conjecture says that every positive even number greater than 2 is the sum of two prime numbers.
     Example: 28 = 5 + 23.

@@ -1,5 +1,5 @@
 defmodule Challenge2 do
-  @doc """
+  @moduledoc """
     (*) Find the last but one element of a list.
   """
   def p02_but_last(lst) do

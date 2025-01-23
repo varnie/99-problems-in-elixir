@@ -1,5 +1,5 @@
 defmodule Challenge61A do
-  @doc """
+  @moduledoc """
     (*) Collect the leaves of a binary tree in a list
         A leaf is a node with no successors. Write a function leaves to return them in a list.
 

@@ -1,5 +1,5 @@
 defmodule Challenge16 do
-  @doc """
+  @moduledoc """
   (**) Drop every N'th element from a list.
   """
   def drop(lst, n) do

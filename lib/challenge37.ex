@@ -1,5 +1,5 @@
 defmodule Challenge37 do
-  @doc """
+  @moduledoc """
   (**) Calculate Euler's totient function phi(m) (improved).
   """
   def totient_phi_improved(m) do
