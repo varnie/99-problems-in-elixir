@@ -11,7 +11,8 @@ defmodule Challenge90 do
         Use the generate-and-test paradigm.
   """
 
-  @letters %{1 => :a, 2 => :b, 3 => :c, 4 => :d, 5 => :e, 6 => :f, 7 => :g, 8 => :h}
+  # @letters %{1 => :a, 2 => :b, 3 => :c, 4 => :d, 5 => :e, 6 => :f, 7 => :g, 8 => :h}
+  @letters Map.new(Enum.zip(1..8, [:a, :b, :c, :d, :e, :f, :g, :h]))
   @board_axis_indexes 1..8
 
   defp create_board() do

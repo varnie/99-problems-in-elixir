@@ -11,12 +11,13 @@ defmodule Challenge90Another do
         Use the generate-and-test paradigm.
   """
 
-  @left for l <- 1..64//8, do: l
-  @right for r <- 8..64//8, do: r
-  @top for u <- 57..64, do: u
-  @bottom for b <- 1..8, do: b
+  @left 1..64//8
+  @right 8..64//8
+  @top 57..64
+  @bottom 1..8
 
-  @letters %{1 => :a, 2 => :b, 3 => :c, 4 => :d, 5 => :e, 6 => :f, 7 => :g, 8 => :h}
+  # @letters %{1 => :a, 2 => :b, 3 => :c, 4 => :d, 5 => :e, 6 => :f, 7 => :g, 8 => :h}
+  @letters Map.new(Enum.zip(1..8, [:a, :b, :c, :d, :e, :f, :g, :h]))
 
   def solve() do
     # a,b,c ... are columns values,
@@ -41,16 +42,18 @@ defmodule Challenge90Another do
         suitable_positions([a, b, c, d, e, f, g, h]),
         do:
           Enum.map([a, b, c, d, e, f, g, h], fn index ->
+            remainder = rem(index, 8)
+
             y =
-              if rem(index, 8) > 0 do
+              if remainder > 0 do
                 div(index, 8) + 1
               else
                 div(index, 8)
               end
 
             x =
-              if rem(index, 8) > 0 do
-                rem(index, 8)
+              if remainder > 0 do
+                remainder
               else
                 8
               end
