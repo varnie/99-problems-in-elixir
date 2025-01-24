@@ -3,13 +3,9 @@ defmodule Challenge9 do
     (**) Pack consecutive duplicates of list elements into sublists.
     If a list contains repeated elements they should be placed in separate sublists.
   """
-  def pack(lst) do
-    pack_helper(lst, [])
-  end
+  def pack(lst), do: pack_helper(lst, [])
 
-  defp pack_helper(_src = [], dst) do
-    Enum.reverse(dst)
-  end
+  defp pack_helper(_src = [], dst), do: Enum.reverse(dst)
 
   defp pack_helper(_src = [head | tail], dst) do
     first_item_dst = get_first_item(dst)
@@ -31,9 +27,10 @@ defmodule Challenge9 do
   end
 
   def get_first_item(lst_or_obj) do
-    case is_list(lst_or_obj) do
-      true -> get_first_item(List.first(lst_or_obj))
-      _ -> lst_or_obj
+    if is_list(lst_or_obj) do
+      get_first_item(List.first(lst_or_obj))
+    else
+      lst_or_obj
     end
   end
 end

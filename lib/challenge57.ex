@@ -15,9 +15,7 @@ defmodule Challenge57 do
         * (symmetric '(3 2 5 7))
         NIL
   """
-  def construct([]) do
-    nil
-  end
+  def construct([]), do: nil
 
   def construct([x]) do
     %TreeNode{symbol: x, left: nil, right: nil}
@@ -28,9 +26,7 @@ defmodule Challenge57 do
     construct_leafs(root_node, tail)
   end
 
-  defp construct_leafs(result_node, []) do
-    result_node
-  end
+  defp construct_leafs(result_node, []), do: result_node
 
   defp construct_leafs(result_node, [cur_val | tail]) do
     new_node = %TreeNode{symbol: cur_val, left: nil, right: nil}
@@ -39,18 +35,17 @@ defmodule Challenge57 do
   end
 
   defp gen_node(parent_node, new_node) do
-    if is_nil(parent_node) do
-      new_node
-    else
-      cond do
-        new_node.symbol <= parent_node.symbol ->
-          new_left_node = gen_node(parent_node.left, new_node)
-          TreeNode.set_left(parent_node, new_left_node)
+    cond do
+      is_nil(parent_node) ->
+        new_node
 
-        true ->
-          new_right_node = gen_node(parent_node.right, new_node)
-          TreeNode.set_right(parent_node, new_right_node)
-      end
+      new_node.symbol <= parent_node.symbol ->
+        new_left_node = gen_node(parent_node.left, new_node)
+        TreeNode.set_left(parent_node, new_left_node)
+
+      true ->
+        new_right_node = gen_node(parent_node.right, new_node)
+        TreeNode.set_right(parent_node, new_right_node)
     end
   end
 end

@@ -22,20 +22,19 @@ defmodule Challenge13 do
          dst,
          countLetter = %CountLetter{count: count, letter: letter}
        ) do
-    if is_nil(letter) do
-      encode_direct_helper(tail, dst, %{countLetter | count: 1, letter: head})
-    else
-      case head == letter do
-        true ->
-          encode_direct_helper(tail, dst, %{countLetter | count: count + 1, letter: head})
+    cond do
+      is_nil(letter) ->
+        encode_direct_helper(tail, dst, %{countLetter | count: 1, letter: head})
 
-        _ ->
-          encode_direct_helper(tail, [generated_item(countLetter) | dst], %{
-            countLetter
-            | count: 1,
-              letter: head
-          })
-      end
+      head == letter ->
+        encode_direct_helper(tail, dst, %{countLetter | count: count + 1, letter: head})
+
+      true ->
+        encode_direct_helper(tail, [generated_item(countLetter) | dst], %{
+          countLetter
+          | count: 1,
+            letter: head
+        })
     end
   end
 

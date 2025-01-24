@@ -16,7 +16,6 @@ defmodule Challenge90Another do
   @top 57..64
   @bottom 1..8
 
-  # @letters %{1 => :a, 2 => :b, 3 => :c, 4 => :d, 5 => :e, 6 => :f, 7 => :g, 8 => :h}
   @letters Map.new(Enum.zip(1..8, [:a, :b, :c, :d, :e, :f, :g, :h]))
 
   def solve() do

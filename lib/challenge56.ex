@@ -5,9 +5,7 @@ defmodule Challenge56 do
        is the mirror image of the left subtree. Write a function symmetric to check whether a given binary tree is symmetric.
        We are only interested in the structure, not in the contents of the nodes.
   """
-  def is_symmetric(node) do
-    is_symmetric_helper(node, node)
-  end
+  def is_symmetric(node), do: is_symmetric_helper(node, node)
 
   defp is_symmetric_helper(a, b) do
     cond do

@@ -4,9 +4,7 @@ defmodule Challenge31 do
   """
   def is_prime(num) when num == 1, do: true
 
-  def is_prime(num) do
-    is_prime_helper(num, 2)
-  end
+  def is_prime(num), do: is_prime_helper(num, 2)
 
   defp is_prime_helper(num, index) when index == num, do: true
 

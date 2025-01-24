@@ -20,9 +20,7 @@ defmodule Challenge63 do
       (complete-binary-tree n) returns a complete binary tree with n nodes
   """
 
-  def complete_binary_tree(n) when n <= 0 do
-    nil
-  end
+  def complete_binary_tree(n) when n <= 0, do: nil
 
   def complete_binary_tree(n) do
     %TreeNode{symbol: 1, left: create_successor(n, 2 * 1), right: create_successor(n, 2 * 1 + 1)}

@@ -6,21 +6,13 @@ defmodule Challenge62B do
 
        (atlevel tree l) returns the list of nodes of the binary tree tree at level L
   """
-  def atlevel(_tree, l) when l <= 0 do
-    []
-  end
+  def atlevel(_tree, l) when l <= 0, do: []
 
-  def atlevel(tree, _l) when is_nil(tree) do
-    []
-  end
+  def atlevel(tree, _l) when is_nil(tree), do: []
 
-  def atlevel(tree, l) do
-    atlevel_helper(tree, l, 1)
-  end
+  def atlevel(tree, l), do: atlevel_helper(tree, l, 1)
 
-  defp atlevel_helper(tree, l, current_level) when current_level == l do
-    [tree]
-  end
+  defp atlevel_helper(tree, l, current_level) when current_level == l, do: [tree]
 
   defp atlevel_helper(tree, l, current_level) do
     cond do
