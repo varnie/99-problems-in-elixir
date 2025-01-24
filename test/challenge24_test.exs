@@ -6,10 +6,6 @@ defmodule Challenge24Test do
     items_cnt = 49
 
     result = Challenge24.rnd_select(k, items_cnt)
-    assert length(result) == k
-
-    assert Enum.all?(result, fn elem ->
-             elem in 1..items_cnt
-           end)
+    assert Helpers.check_two_cols_equal?(result, Enum.to_list(1..items_cnt))
   end
 end

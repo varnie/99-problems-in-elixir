@@ -27,20 +27,14 @@ defmodule Challenge55Test do
   test "cbal_tree_2", state do
     result_2 = Challenge55.cbal_tree(2)
     desired_result_2 = state[:cbal_tree_2_result_list]
-    assert length(result_2) == length(desired_result_2)
 
-    assert Enum.all?(result_2, fn elem ->
-             elem in desired_result_2
-           end)
+    assert Helpers.check_two_cols_equal?(result_2, desired_result_2)
   end
 
   test "cbal_tree_3", state do
     result_3 = Challenge55.cbal_tree(3)
     desired_result_3 = state[:cbal_tree_3_result_list]
-    assert length(result_3) == length(desired_result_3)
 
-    assert Enum.all?(result_3, fn elem ->
-             elem in desired_result_3
-           end)
+    assert Helpers.check_two_cols_equal?(result_3, desired_result_3)
   end
 end

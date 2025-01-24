@@ -5,10 +5,6 @@ defmodule Challenge25Test do
     lst = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     result = Challenge25.rnd_permu(lst)
 
-    assert length(result) == length(lst)
-
-    assert Enum.all?(result, fn elem ->
-             elem in lst
-           end)
+    assert Helpers.check_two_cols_equal?(result, lst)
   end
 end

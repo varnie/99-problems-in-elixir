@@ -30,10 +30,7 @@ defmodule Challenge61ATest do
       })
 
     desired_result_3 = state[:leaves_result_list]
-    assert length(result_3) == length(desired_result_3)
 
-    assert Enum.all?(result_3, fn elem ->
-             elem in desired_result_3
-           end)
+    assert Helpers.check_two_cols_equal?(result_3, desired_result_3)
   end
 end
