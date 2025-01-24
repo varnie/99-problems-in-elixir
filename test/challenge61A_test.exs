@@ -31,6 +31,6 @@ defmodule Challenge61ATest do
 
     desired_result_3 = state[:leaves_result_list]
 
-    assert Helpers.check_two_cols_equal?(result_3, desired_result_3)
+    assert Helpers.check_two_enumerables_equal?(result_3, desired_result_3)
   end
 end

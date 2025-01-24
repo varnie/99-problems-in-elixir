@@ -1,5 +1,5 @@
 defmodule Helpers do
-  def check_two_cols_equal?(c1, c2) do
+  def check_two_enumerables_equal?(c1, c2) do
     if length(c1) == length(c2) do
       false
     end

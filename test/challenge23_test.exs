@@ -9,6 +9,6 @@ defmodule Challenge23Test do
     desired_size = state[:test_list] |> length |> div(2)
 
     result = Challenge23.rnd_select(state[:test_list], desired_size)
-    assert Helpers.check_two_cols_equal?(result, state[:test_list])
+    assert Helpers.check_two_enumerables_equal?(result, state[:test_list])
   end
 end

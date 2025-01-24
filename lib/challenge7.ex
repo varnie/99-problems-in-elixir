@@ -2,9 +2,7 @@ defmodule Challenge7 do
   @moduledoc """
   (**) Flatten a nested list structure.
   """
-  def flatten(lst) do
-    List.flatten(lst)
-  end
+  def flatten(lst), do: List.flatten(lst)
 
   @spec my_flatten(any()) :: any()
   def my_flatten(lst) do

@@ -16,7 +16,5 @@ defmodule Challenge40 do
     {first_satisfied_val, num - first_satisfied_val}
   end
 
-  def goldbach(_num) do
-    nil
-  end
+  def goldbach(_num), do: nil
 end

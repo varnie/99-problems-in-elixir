@@ -6,9 +6,7 @@ defmodule Challenge1 do
 
   def p01_my_last_02([head]), do: head
 
-  def p01_my_last_02([_head | tail]) do
-    p01_my_last_02(tail)
-  end
+  def p01_my_last_02([_head | tail]), do: p01_my_last_02(tail)
 
   def p01_my_last_02(_), do: nil
 end
