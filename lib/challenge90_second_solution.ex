@@ -1,4 +1,4 @@
-defmodule Challenge90Another do
+defmodule Challenge90SecondSolution do
   @moduledoc """
     (**) Eight queens problem
         This is a classical problem in computer science.

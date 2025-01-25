@@ -79,10 +79,10 @@ defmodule Challenge90ThirdSolution do
 
   defp is_suitable_place_for_new_queen(present_queens, queen) do
     Enum.all?(present_queens, fn present_queen ->
-      # check_if_new_queen_is_not_hit_by_present_queen(present_queen, queen)
       {present_queen_x, present_queen_y} = index_to_coordinates(present_queen)
       {queen_x, queen_y} = index_to_coordinates(queen)
 
+      # check they're not on the same diagonal
       abs(present_queen_x - queen_x) != abs(present_queen_y - queen_y)
     end)
   end
