@@ -6,8 +6,7 @@ defmodule Challenge91Test do
     assert length(result) == 64
     assert length(Enum.uniq(result)) == length(result)
 
-    [_h | tail] = Enum.to_list(result)
-    pairs = Enum.zip(result, tail)
+    pairs = Enum.zip(result, tl(result))
 
     checks_passed_count =
       Enum.count(pairs, fn pair ->
