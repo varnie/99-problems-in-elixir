@@ -1,6 +1,6 @@
 defmodule Challenge91 do
   @moduledoc """
-  (**)  (**) Knight's tour
+  (**) Knight's tour
      Another famous problem is this one: How can a knight jump on an NxN chessboard in such a way
      that it visits every square exactly once?
 
