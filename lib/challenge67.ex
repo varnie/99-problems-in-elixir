@@ -7,6 +7,108 @@ defmodule Challenge67 do
      Then write a function which does this inverse; i.e. given the string representation, construct the tree in the usual form.
   """
 
+  def string_repr_to_tree(string_repr) do
+    {tree_result, processed_symbols_count} =
+      String.codepoints(string_repr) |> string_repr_to_tree_impl()
+
+    if processed_symbols_count != String.length(string_repr) do
+      raise("Invalid format!")
+    else
+      tree_result
+    end
+  end
+
+  defp check_sanity(src_list, c) do
+    if src_list == [] do
+      false
+    else
+      test_c = hd(src_list)
+      test_c == c
+    end
+  end
+
+  defp string_repr_to_tree_impl(src_list) do
+    tree_name =
+      read_while_cond(
+        fn letter -> String.match?(letter, ~r/^[a-z0-9]$/i) end,
+        src_list
+      )
+      |> Enum.reverse()
+
+    len_name = length(tree_name)
+
+    if len_name == 0 do
+      # no tree
+      {nil, 0}
+    else
+      cnt = len_name
+      src_list = Enum.drop(src_list, len_name)
+
+      # open bracket of tree
+      if check_sanity(src_list, "(") do
+        cnt = cnt + 1
+        src_list = Enum.drop(src_list, 1)
+
+        # parse optional left node
+        {optional_left_node, optional_left_node_len} = string_repr_to_tree_impl(src_list)
+        cnt = cnt + optional_left_node_len
+        src_list = Enum.drop(src_list, optional_left_node_len)
+
+        if !check_sanity(src_list, ",") do
+          IO.puts(src_list)
+          IO.puts(optional_left_node_len)
+          raise("Expected ,")
+        end
+
+        # skip ","
+        cnt = cnt + 1
+        src_list = Enum.drop(src_list, 1)
+
+        # parse optional right node
+        {optional_right_node, optional_right_node_len} = string_repr_to_tree_impl(src_list)
+        cnt = cnt + optional_right_node_len
+        src_list = Enum.drop(src_list, optional_right_node_len)
+
+        if is_nil(optional_left_node) && is_nil(optional_right_node) do
+          raise("At least one inner node expected: either left node or right node)")
+        end
+
+        if !check_sanity(src_list, ")") do
+          IO.puts(src_list)
+          IO.puts(optional_left_node_len)
+          raise("Expected )")
+        end
+
+        cnt = cnt + 1
+        # src_list = Enum.drop(src_list, 1)
+
+        {%TreeNode{symbol: tree_name, left: optional_left_node, right: optional_right_node}, cnt}
+      else
+        IO.puts("returning blank tree_name '#{tree_name}', it took #{cnt} symbols")
+        {%TreeNode{symbol: tree_name, left: nil, right: nil}, cnt}
+      end
+    end
+  end
+
+  defp read_while_cond(cond_fn, coll), do: read_while_cond_impl(cond_fn, coll, [])
+
+  defp read_while_cond_impl(
+         cond_fn,
+         [head | tail],
+         result_codepoints
+       ) do
+    if cond_fn.(head) do
+      read_while_cond_impl(cond_fn, tail, [head | result_codepoints])
+    else
+      read_while_cond_impl(cond_fn, [], result_codepoints)
+    end
+  end
+
+  defp read_while_cond_impl(_cond_fn, [], result_codepoints) do
+    result_codepoints
+  end
+
+  ##
   def tree_to_string_repr(tree) do
     cond do
       is_nil(tree) ->
