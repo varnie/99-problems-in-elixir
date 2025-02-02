@@ -7,6 +7,8 @@ defmodule Challenge67 do
      Then write a function which does this inverse; i.e. given the string representation, construct the tree in the usual form.
   """
 
+  def string_repr_to_tree(nil), do: nil
+
   def string_repr_to_tree(string_repr) do
     {tree_result, processed_symbols_count} =
       String.codepoints(string_repr) |> string_repr_to_tree_impl()
@@ -34,8 +36,9 @@ defmodule Challenge67 do
         src_list
       )
       |> Enum.reverse()
+      |> Enum.join("")
 
-    len_name = length(tree_name)
+    len_name = String.length(tree_name)
 
     if len_name == 0 do
       # no tree
@@ -74,17 +77,13 @@ defmodule Challenge67 do
         end
 
         if !check_sanity(src_list, ")") do
-          IO.puts(src_list)
-          IO.puts(optional_left_node_len)
           raise("Expected )")
         end
 
         cnt = cnt + 1
-        # src_list = Enum.drop(src_list, 1)
 
         {%TreeNode{symbol: tree_name, left: optional_left_node, right: optional_right_node}, cnt}
       else
-        IO.puts("returning blank tree_name '#{tree_name}', it took #{cnt} symbols")
         {%TreeNode{symbol: tree_name, left: nil, right: nil}, cnt}
       end
     end
