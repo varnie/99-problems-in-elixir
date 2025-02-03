@@ -11,7 +11,7 @@ defmodule Challenge67 do
 
   def string_repr_to_tree(string_repr) do
     {tree_result, processed_symbols_count} =
-      String.codepoints(string_repr) |> string_repr_to_tree_impl()
+      string_repr |> String.codepoints() |> string_repr_to_tree_impl()
 
     if processed_symbols_count != String.length(string_repr) do
       raise("Invalid format!")
@@ -20,19 +20,14 @@ defmodule Challenge67 do
     end
   end
 
-  defp check_sanity(src_list, c) do
-    if src_list == [] do
-      false
-    else
-      test_c = hd(src_list)
-      test_c == c
-    end
-  end
+  defp check_sanity([], _), do: false
+
+  defp check_sanity([head | _rest], c), do: head == c
 
   defp string_repr_to_tree_impl(src_list) do
     tree_name =
       read_while_cond(
-        fn letter -> String.match?(letter, ~r/^[a-z0-9]$/i) end,
+        fn letter -> String.match?(letter, ~r/^[a-zA-Z0-9]$/i) end,
         src_list
       )
       |> Enum.reverse()
@@ -73,7 +68,7 @@ defmodule Challenge67 do
         src_list = Enum.drop(src_list, optional_right_node_len)
 
         if is_nil(optional_left_node) && is_nil(optional_right_node) do
-          raise("At least one inner node expected: either left node or right node)")
+          raise("At least one inner node expected: either left left or right)")
         end
 
         if !check_sanity(src_list, ")") do
@@ -103,9 +98,7 @@ defmodule Challenge67 do
     end
   end
 
-  defp read_while_cond_impl(_cond_fn, [], result_codepoints) do
-    result_codepoints
-  end
+  defp read_while_cond_impl(_cond_fn, [], result_codepoints), do: result_codepoints
 
   ##
   def tree_to_string_repr(tree) do

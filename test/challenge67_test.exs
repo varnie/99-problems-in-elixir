@@ -4,7 +4,7 @@ defmodule Challenge67Test do
   test "string_repr_to_tree" do
     assert is_nil(Challenge67.string_repr_to_tree(nil))
     assert is_nil(Challenge67.string_repr_to_tree(""))
-    assert Challenge67.string_repr_to_tree("ab") == %TreeNode{symbol: "ab"}
+    assert Challenge67.string_repr_to_tree("ABcd") == %TreeNode{symbol: "ABcd"}
 
     assert Challenge67.string_repr_to_tree("a(l,)") == %TreeNode{
              symbol: "a",
