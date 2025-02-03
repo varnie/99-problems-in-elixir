@@ -71,6 +71,7 @@ defmodule Challenge67 do
           raise("At least one inner node expected: either left left or right)")
         end
 
+        # closed bracket of tree
         if !check_sanity(src_list, ")") do
           raise("Expected )")
         end
