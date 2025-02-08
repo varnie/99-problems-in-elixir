@@ -9,19 +9,19 @@ defmodule Challenge65Test do
              symbol: "a",
              left: %TreeNode{symbol: "l"},
              right: nil
-           }) == "(a 10 1 (l 5.0 2 nil nil) nil)"
+           }) == "(a 10 1 (l 5 2 nil nil) nil)"
 
     assert Challenge65.layout_binary_tree(%TreeNode{
              symbol: "a",
              right: %TreeNode{symbol: "r"},
              left: nil
-           }) == "(a 10 1 nil (r 15.0 2 nil nil))"
+           }) == "(a 10 1 nil (r 15 2 nil nil))"
 
     assert Challenge65.layout_binary_tree(%TreeNode{
              symbol: "a",
              left: %TreeNode{symbol: "l"},
              right: %TreeNode{symbol: "r"}
-           }) == "(a 10 1 (l 5.0 2 nil nil) (r 15.0 2 nil nil))"
+           }) == "(a 10 1 (l 5 2 nil nil) (r 15 2 nil nil))"
 
     t = %TreeNode{
       symbol: "a",
@@ -46,6 +46,6 @@ defmodule Challenge65Test do
     }
 
     assert Challenge65.layout_binary_tree(t) ==
-             "(a 10 1 (b 5.0 2 (d 2.5 3 nil nil) (e 7.5 3 nil nil)) (c 15.0 2 nil (f 17.5 3 (g 16.25 4 nil nil) nil)))"
+             "(a 10 1 (b 5 2 (d 2.5 3 nil nil) (e 7.5 3 nil nil)) (c 15 2 nil (f 17.5 3 (g 16.25 4 nil nil) nil)))"
   end
 end

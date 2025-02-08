@@ -12,11 +12,21 @@ defmodule Challenge65 do
   def layout_binary_tree(t, stepx \\ 10), do: layout_binary_tree_impl(t, stepx, 1, stepx / 2)
 
   defp layout_binary_tree_impl(t, rootx, rooty, coeff) do
+    format_val = fn val ->
+      truncated_val = trunc(val)
+
+      if val - truncated_val == 0 do
+        truncated_val
+      else
+        val
+      end
+    end
+
     if TreeNode.is_leaf(t) do
-      "(#{t.symbol} #{rootx} #{rooty} nil nil)"
+      "(#{t.symbol} #{format_val.(rootx)} #{rooty} nil nil)"
     else
       "(" <>
-        "#{t.symbol} #{rootx} #{rooty}" <>
+        "#{t.symbol} #{format_val.(rootx)} #{rooty}" <>
         if is_nil(t.left) do
           " nil"
         else
