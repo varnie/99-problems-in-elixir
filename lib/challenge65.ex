@@ -9,23 +9,23 @@ defmodule Challenge65 do
   """
 
   def layout_binary_tree(nil), do: ""
-  def layout_binary_tree(t), do: layout_binary_tree_impl(t, 10, 1, 10 / 2)
+  def layout_binary_tree(t, stepx \\ 10), do: layout_binary_tree_impl(t, stepx, 1, stepx / 2)
 
   defp layout_binary_tree_impl(t, rootx, rooty, coeff) do
     if TreeNode.is_leaf(t) do
-      "(#{t.symbol} nil nil)"
+      "(#{t.symbol} #{rootx} #{rooty} nil nil)"
     else
       "(" <>
-        "#{t.symbol} #{rootx} #{rooty} " <>
+        "#{t.symbol} #{rootx} #{rooty}" <>
         if is_nil(t.left) do
-          "nil "
+          " nil"
         else
-          layout_binary_tree_impl(t.left, rootx - coeff, rooty + 1, coeff / 2)
+          " " <> layout_binary_tree_impl(t.left, rootx - coeff, rooty + 1, coeff / 2)
         end <>
         if is_nil(t.right) do
-          "nil"
+          " nil"
         else
-          layout_binary_tree_impl(t.right, rootx + coeff, rooty + 1, coeff / 2)
+          " " <> layout_binary_tree_impl(t.right, rootx + coeff, rooty + 1, coeff / 2)
         end <>
         ")"
     end
