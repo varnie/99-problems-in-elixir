@@ -21,12 +21,6 @@ defmodule Challenge55 do
       count == 1 ->
         [%TreeNode{symbol: :x, left: nil, right: nil}]
 
-      count == 2 ->
-        [
-          %TreeNode{symbol: :x, left: %TreeNode{symbol: :x, left: nil, right: nil}, right: nil},
-          %TreeNode{symbol: :x, left: nil, right: %TreeNode{symbol: :x, left: nil, right: nil}}
-        ]
-
       true ->
         cbal_tree_helper(cbal_tree(count - 1))
     end
