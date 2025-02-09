@@ -15,7 +15,7 @@ defmodule Challenge68 do
   def preorder_sequence_to_tree(""), do: nil
 
   def preorder_sequence_to_tree(seq) do
-    seq |> String.split() |> preorder_sequence_to_tree_impl()
+    seq |> String.graphemes() |> preorder_sequence_to_tree_impl()
   end
 
   defp preorder_sequence_to_tree_impl([head | tail]) do
@@ -31,43 +31,29 @@ defmodule Challenge68 do
     end
   end
 
-  def preorder(nil), do: nil
-
   def preorder(t) do
-    if TreeNode.is_leaf(t) do
-      t.symbol
-    else
-      t.symbol <>
-        if !is_nil(t.left) do
-          " " <> preorder(t.left)
-        else
-          ""
-        end <>
-        if !is_nil(t.right) do
-          " " <> preorder(t.right)
-        else
-          ""
-        end
+    cond do
+      is_nil(t) ->
+        ""
+
+      TreeNode.is_leaf(t) ->
+        "#{t.symbol}"
+
+      true ->
+        "#{t.symbol}" <> preorder(t.left) <> preorder(t.right)
     end
   end
 
-  def inorder(nil), do: nil
-
   def inorder(t) do
-    if TreeNode.is_leaf(t) do
-      t.symbol
-    else
-      if !is_nil(t.left) do
-        inorder(t.left) <> " "
-      else
+    cond do
+      is_nil(t) ->
         ""
-      end <>
-        t.symbol <>
-        if !is_nil(t.right) do
-          " " <> inorder(t.right)
-        else
-          ""
-        end
+
+      TreeNode.is_leaf(t) ->
+        "#{t.symbol}"
+
+      true ->
+        inorder(t.left) <> "#{t.symbol}" <> inorder(t.right)
     end
   end
 end
