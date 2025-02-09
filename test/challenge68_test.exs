@@ -40,6 +40,33 @@ defmodule Challenge68Test do
      }}
   end
 
+  test "preorder_sequence_to_tree", state do
+    assert Challenge68.preorder_sequence_to_tree(nil) == nil
+    assert Challenge68.preorder_sequence_to_tree("") == nil
+    assert Challenge68.preorder_sequence_to_tree("a l r") == state[:alr_tree]
+    assert Challenge68.preorder_sequence_to_tree("a l") == state[:al_tree]
+
+    assert Challenge68.preorder_sequence_to_tree("a r") == %TreeNode{
+             symbol: "a",
+             left: %TreeNode{symbol: "r", left: nil, right: nil, weight: nil},
+             right: nil
+           }
+
+    assert Challenge68.preorder_sequence_to_tree("a b d e c f g") == %TreeNode{
+             symbol: "a",
+             left: %TreeNode{symbol: "b", left: nil, right: nil},
+             right: %TreeNode{
+               symbol: "d",
+               left: %TreeNode{symbol: "e", left: nil, right: nil},
+               right: %TreeNode{
+                 symbol: "c",
+                 left: %TreeNode{symbol: "f", left: nil, right: nil},
+                 right: %TreeNode{symbol: "g", left: nil, right: nil}
+               }
+             }
+           }
+  end
+
   test "preorder", state do
     assert Challenge68.preorder(nil) == nil
 
