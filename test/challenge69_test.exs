@@ -3,6 +3,7 @@ defmodule Challenge69Test do
 
   setup_all do
     {:ok,
+     empty_tree: %TreeNode{symbol: "a", left: nil, right: nil},
      some_tree: %TreeNode{
        symbol: "a",
        left: %TreeNode{
@@ -23,15 +24,16 @@ defmodule Challenge69Test do
   end
 
   test "dotstring_to_tree", state do
-    t = state[:some_tree]
-    ds = Challenge69.dotstring(t)
+    empty_tree = state[:empty_tree]
+    assert Challenge69.dotstring_to_tree(Challenge69.dotstring(empty_tree)) == empty_tree
 
-    assert Challenge69.dotstring_to_tree(ds) == t
+    some_tree = state[:some_tree]
+    assert Challenge69.dotstring_to_tree(Challenge69.dotstring(some_tree)) == some_tree
   end
 
   test "dotstring", state do
-    t = state[:some_tree]
+    assert Challenge69.dotstring(state[:empty_tree]) == "a.."
 
-    assert Challenge69.dotstring(t) == "abd..e..c.fg..."
+    assert Challenge69.dotstring(state[:some_tree]) == "abd..e..c.fg..."
   end
 end

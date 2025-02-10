@@ -27,6 +27,8 @@ defmodule Challenge69 do
     ds |> String.graphemes() |> dotstring_to_tree_impl()
   end
 
+  defp dotstring_to_tree_impl([]), do: nil
+
   defp dotstring_to_tree_impl([head | tail]) do
     tree = %TreeNode{symbol: head}
 
@@ -54,7 +56,7 @@ defmodule Challenge69 do
   defp update_tree_where_appropriate(node_name, tree) do
     cond do
       tree.symbol == "." ->
-        {nil, false}
+        {tree, false}
 
       is_nil(tree.left) ->
         {TreeNode.set_left(tree, %TreeNode{symbol: node_name}), true}
