@@ -10,8 +10,8 @@ defmodule Challenge55Test do
      cbal_tree_3_result_list: [
        %TreeNode{
          symbol: :x,
-         left: %TreeNode{symbol: :x, weight: nil, left: nil, right: nil},
-         right: %TreeNode{symbol: :x, weight: nil, left: nil, right: nil}
+         left: %TreeNode{symbol: :x, left: nil, right: nil},
+         right: %TreeNode{symbol: :x, left: nil, right: nil}
        }
      ]}
   end

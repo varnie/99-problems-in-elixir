@@ -41,7 +41,7 @@ defmodule Challenge68Test do
 
     assert Challenge68.preorder_sequence_to_tree("ar") == %TreeNode{
              symbol: "a",
-             left: %TreeNode{symbol: "r", left: nil, right: nil, weight: nil},
+             left: %TreeNode{symbol: "r", left: nil, right: nil},
              right: nil
            }
 

@@ -25,21 +25,17 @@ defmodule Challenge65Test do
 
     t = %TreeNode{
       symbol: "a",
-      weight: nil,
       left: %TreeNode{
         symbol: "b",
-        weight: nil,
-        left: %TreeNode{symbol: "d", weight: nil, left: nil, right: nil},
-        right: %TreeNode{symbol: "e", weight: nil, left: nil, right: nil}
+        left: %TreeNode{symbol: "d",  left: nil, right: nil},
+        right: %TreeNode{symbol: "e", left: nil, right: nil}
       },
       right: %TreeNode{
         symbol: "c",
-        weight: nil,
         left: nil,
         right: %TreeNode{
           symbol: "f",
-          weight: nil,
-          left: %TreeNode{symbol: "g", weight: nil, left: nil, right: nil},
+          left: %TreeNode{symbol: "g", left: nil, right: nil},
           right: nil
         }
       }

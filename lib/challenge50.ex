@@ -11,7 +11,7 @@ defmodule Challenge50 do
     nodes_list =
       symbols_with_frequencies
       |> Enum.map(fn {symbol, weight} ->
-        %TreeNode{symbol: symbol, weight: weight, left: nil, right: nil}
+        %TreeNodeWithWeight{symbol: symbol, weight: weight, left: nil, right: nil}
       end)
 
     huffman_tree = huffman_tree_gen(nodes_list)
@@ -19,7 +19,7 @@ defmodule Challenge50 do
   end
 
   defp traverse_huffman_tree(node, acc) do
-    if TreeNode.is_leaf(node) do
+    if TreeNodeWithWeight.is_leaf(node) do
       [{node.symbol, acc}]
     else
       Enum.concat(
@@ -41,7 +41,7 @@ defmodule Challenge50 do
     nodes_lst = reject_node_from_lst(nodes_lst, b)
 
     huffman_tree_gen([
-      %TreeNode{weight: a.weight + b.weight, symbol: nil, left: a, right: b} | nodes_lst
+      %TreeNodeWithWeight{weight: a.weight + b.weight, symbol: nil, left: a, right: b} | nodes_lst
     ])
   end
 

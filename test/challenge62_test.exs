@@ -6,31 +6,26 @@ defmodule Challenge62Test do
      internals_result_list: [
        %TreeNode{
          symbol: 1,
-         weight: nil,
          left: %TreeNode{
            symbol: 2,
-           weight: nil,
-           left: %TreeNode{symbol: 3, weight: nil, left: nil, right: nil},
+           left: %TreeNode{symbol: 3, left: nil, right: nil},
            right: nil
          },
          right: %TreeNode{
            symbol: 4,
-           weight: nil,
            left: nil,
-           right: %TreeNode{symbol: 5, weight: nil, left: nil, right: nil}
+           right: %TreeNode{symbol: 5, left: nil, right: nil}
          }
        },
        %TreeNode{
          symbol: 2,
-         weight: nil,
-         left: %TreeNode{symbol: 3, weight: nil, left: nil, right: nil},
+         left: %TreeNode{symbol: 3, left: nil, right: nil},
          right: nil
        },
        %TreeNode{
          symbol: 4,
-         weight: nil,
          left: nil,
-         right: %TreeNode{symbol: 5, weight: nil, left: nil, right: nil}
+         right: %TreeNode{symbol: 5, left: nil, right: nil}
        }
      ]}
   end
@@ -48,8 +43,7 @@ defmodule Challenge62Test do
              [
                %TreeNode{
                  symbol: 1,
-                 weight: nil,
-                 left: %TreeNode{symbol: 2, weight: nil, left: nil, right: nil},
+                 left: %TreeNode{symbol: 2, left: nil, right: nil},
                  right: nil
                }
              ]
@@ -57,18 +51,15 @@ defmodule Challenge62Test do
     result_3 =
       Challenge62.internals(%TreeNode{
         symbol: 1,
-        weight: nil,
         left: %TreeNode{
           symbol: 2,
-          weight: nil,
-          left: %TreeNode{symbol: 3, weight: nil, left: nil, right: nil},
+          left: %TreeNode{symbol: 3, left: nil, right: nil},
           right: nil
         },
         right: %TreeNode{
           symbol: 4,
-          weight: nil,
           left: nil,
-          right: %TreeNode{left: nil, right: nil, symbol: 5, weight: nil}
+          right: %TreeNode{left: nil, right: nil, symbol: 5}
         }
       })
 

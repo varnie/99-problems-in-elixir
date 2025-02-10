@@ -4,8 +4,8 @@ defmodule Challenge61ATest do
   setup_all do
     {:ok,
      leaves_result_list: [
-       %TreeNode{left: nil, right: nil, symbol: 2, weight: nil},
-       %TreeNode{symbol: 3, weight: nil, left: nil, right: nil}
+       %TreeNode{left: nil, right: nil, symbol: 2},
+       %TreeNode{symbol: 3, left: nil, right: nil}
      ]}
   end
 
@@ -13,14 +13,14 @@ defmodule Challenge61ATest do
     assert Challenge61A.leaves(nil) == []
 
     assert Challenge61A.leaves(%TreeNode{symbol: 1, left: nil, right: nil}) == [
-             %TreeNode{symbol: 1, weight: nil, left: nil, right: nil}
+             %TreeNode{symbol: 1, left: nil, right: nil}
            ]
 
     assert Challenge61A.leaves(%TreeNode{
              symbol: 1,
              left: %TreeNode{symbol: 2, left: nil, right: nil},
              right: nil
-           }) == [%TreeNode{left: nil, right: nil, symbol: 2, weight: nil}]
+           }) == [%TreeNode{left: nil, right: nil, symbol: 2}]
 
     result_3 =
       Challenge61A.leaves(%TreeNode{
