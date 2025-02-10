@@ -5,17 +5,17 @@ defmodule Challenge68Test do
     {:ok,
      alr_tree: %TreeNode{
        symbol: "a",
-       left: %TreeNode{symbol: "l", weight: nil, left: nil, right: nil},
-       right: %TreeNode{symbol: "r", weight: nil, left: nil, right: nil}
+       left: %TreeNode{symbol: "l", left: nil, right: nil},
+       right: %TreeNode{symbol: "r", left: nil, right: nil}
      },
      al_tree: %TreeNode{
        symbol: "a",
-       left: %TreeNode{symbol: "l", weight: nil, left: nil, right: nil},
+       left: %TreeNode{symbol: "l", left: nil, right: nil},
        right: nil
      },
      ar_tree: %TreeNode{
        symbol: "a",
-       right: %TreeNode{symbol: "r", weight: nil, left: nil, right: nil},
+       right: %TreeNode{symbol: "r", left: nil, right: nil},
        left: nil
      },
      some_tree: %TreeNode{
@@ -27,7 +27,6 @@ defmodule Challenge68Test do
        },
        right: %TreeNode{
          symbol: "c",
-         weight: nil,
          left: nil,
          right: %TreeNode{symbol: "f", left: %TreeNode{symbol: "g"}, right: nil}
        }

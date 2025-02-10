@@ -24,12 +24,10 @@ defmodule Challenge69 do
   end
 
   def dotstring_to_tree(ds) do
-    # TODO:
-    node_names = ds |> String.graphemes()
-    dotstring_to_tree_impl(node_names)
+    ds |> String.graphemes() |> dotstring_to_tree_impl()
   end
 
-  defp dotstring_to_tree_impl(_node_names = [head | tail]) do
+  defp dotstring_to_tree_impl([head | tail]) do
     tree = %TreeNode{symbol: head}
 
     dirty_tree =
