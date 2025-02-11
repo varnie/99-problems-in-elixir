@@ -1,7 +1,7 @@
 defmodule Challenge62BTest do
   use ExUnit.Case
 
-  test "internals" do
+  test "atlevel" do
     assert Challenge62B.atlevel(%TreeNode{symbol: 1}, 0) == []
     assert Challenge62B.atlevel(%TreeNode{symbol: 1}, 1) == [%TreeNode{symbol: 1}]
 

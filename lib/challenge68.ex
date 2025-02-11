@@ -11,10 +11,23 @@ defmodule Challenge68 do
      c) If both the preorder sequence and the inorder sequence of the nodes of a binary tree are given,
      then the tree is determined unambiguously. Write a function pre-in-tree that does the job.
   """
+  def preorder_and_inorder_to_tree(pre_seq, in_seq) do
+    pre_node_names = pre_seq |> String.graphemes()
+    is_node_names = in_seq |> String.graphemes()
+    # TODO:
+
+    node_name_to_tree_map =
+      Map.new(
+        Enum.map(pre_node_names, fn node_name -> {node_name, %TreeNode{symbol: node_name}} end)
+      )
+  end
+
   def preorder_sequence_to_tree(nil), do: nil
   def preorder_sequence_to_tree(""), do: nil
 
   def preorder_sequence_to_tree(seq) do
+    # Having only preorder is not enough to build an unambiguous tree.
+    # The implementation below is just one of the possible solutions.
     seq |> String.graphemes() |> preorder_sequence_to_tree_impl()
   end
 

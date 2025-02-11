@@ -101,7 +101,6 @@ defmodule Challenge67 do
 
   defp read_while_cond_impl(_cond_fn, [], result_codepoints), do: result_codepoints
 
-  ##
   def tree_to_string_repr(tree) do
     cond do
       is_nil(tree) ->

@@ -28,9 +28,10 @@ defmodule Challenge66 do
     end
 
     calc_next_rootx_step = fn cur_rooty ->
-      cond do
-        cur_rooty == 1 -> 2
-        true -> 1
+      if cur_rooty == 1 do
+        2
+      else
+        1
       end
     end
 

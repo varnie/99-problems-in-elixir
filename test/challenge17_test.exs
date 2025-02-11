@@ -5,7 +5,7 @@ defmodule Challenge17Test do
     {:ok, test_list: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "k"]}
   end
 
-  test "drop", state do
+  test "split", state do
     assert Challenge17.split(state[:test_list], 3) == [
              ["a", "b", "c"],
              ["d", "e", "f", "g", "h", "i", "k"]

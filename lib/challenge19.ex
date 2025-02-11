@@ -7,9 +7,9 @@ defmodule Challenge19 do
     |> Stream.with_index()
     |> Enum.reduce([], fn {_val, index}, acc ->
       new_item =
-        cond do
-          index + k <= length(lst) - 1 -> Enum.at(lst, index + k)
-          true -> Enum.at(lst, index + k - length(lst))
+        case index + k <= length(lst) - 1 do
+          true -> Enum.at(lst, index + k)
+          false -> Enum.at(lst, index + k - length(lst))
         end
 
       [new_item | acc]

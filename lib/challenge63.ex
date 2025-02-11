@@ -27,11 +27,11 @@ defmodule Challenge63 do
   end
 
   defp create_successor(n, address) do
-    cond do
-      address > n ->
+    case address > n do
+      true ->
         nil
 
-      true ->
+      false ->
         %TreeNode{
           symbol: address,
           left: create_successor(n, 2 * address),

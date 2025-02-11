@@ -20,11 +20,11 @@ defmodule Challenge35 do
     else
       next_prime_number = find_next_prime_number(i + 1)
 
-      cond do
-        rem(t, next_prime_number) == 0 ->
+      case rem(t, next_prime_number) == 0 do
+        true ->
           prime_factors_impl(div(t, next_prime_number), 1, [next_prime_number | result])
 
-        true ->
+        false ->
           prime_factors_impl(t, next_prime_number, result)
       end
     end
