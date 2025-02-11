@@ -27,6 +27,12 @@ defmodule Challenge41 do
     goldbach_list_helper(from, to) |> Enum.map(fn {x, a, b} -> "#{x} = #{a} + #{b}" end)
   end
 
+  def goldbach_list_for_limit(from, to, limit) do
+    goldbach_list_helper(from, to)
+    |> Enum.filter(fn {_x, a, b} -> a > limit && b > limit end)
+    |> Enum.map(fn {x, a, b} -> "#{x} = #{a} + #{b}" end)
+  end
+
   defp goldbach_list_helper(from, to) do
     from..to
     |> Enum.filter(fn x -> rem(x, 2) == 0 end)
@@ -42,11 +48,5 @@ defmodule Challenge41 do
         )
       end
     end)
-  end
-
-  def goldbach_list_for_limit(from, to, limit) do
-    goldbach_list_helper(from, to)
-    |> Enum.filter(fn {_x, a, b} -> a > limit && b > limit end)
-    |> Enum.map(fn {x, a, b} -> "#{x} = #{a} + #{b}" end)
   end
 end
