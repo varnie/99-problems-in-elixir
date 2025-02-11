@@ -9,7 +9,7 @@ defmodule Challenge40 do
   """
   def goldbach(num) when num > 2 and rem(num, 2) == 0 do
     result_with_duplicates_in_another_order =
-      2..(num - 1)
+      1..(num - 1)
       |> Enum.filter(fn elem ->
         Challenge31.is_prime(elem) && Challenge31.is_prime(num - elem)
       end)
