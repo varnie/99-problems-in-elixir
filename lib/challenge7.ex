@@ -4,7 +4,6 @@ defmodule Challenge7 do
   """
   def flatten(lst), do: List.flatten(lst)
 
-  @spec my_flatten(any()) :: any()
   def my_flatten(lst) do
     Enum.reduce(lst, [], fn item, acc ->
       case is_list(item) do
