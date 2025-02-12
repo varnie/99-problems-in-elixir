@@ -13,11 +13,11 @@ defmodule Challenge49 do
     Can you apply the method of "result caching" in order to make the predicate more efficient, when it is to be used repeatedly?
   """
   def gray(n) when n == 1 do
-    [~c"0", ~c"1"]
+    ["0", "1"]
   end
 
   def gray(n) when n == 2 do
-    [~c"00", ~c"01", ~c"11", ~c"10"]
+    ["00", "01", "11", "10"]
   end
 
   def gray(n) do
@@ -25,13 +25,13 @@ defmodule Challenge49 do
       prev = gray(n - 1)
       prev_reversed = Enum.reverse(prev)
 
-      Enum.concat(prefix(prev, ~c"0"), prefix(prev_reversed, ~c"1"))
+      Enum.concat(prefix(prev, "0"), prefix(prev_reversed, "1"))
     end)
   end
 
   defp prefix(coll, pref) do
     Enum.map(coll, fn item ->
-      pref ++ item
+      pref <> item
     end)
   end
 end
