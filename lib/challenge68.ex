@@ -13,13 +13,59 @@ defmodule Challenge68 do
   """
   def preorder_and_inorder_to_tree(pre_seq, in_seq) do
     pre_node_names = pre_seq |> String.graphemes()
-    is_node_names = in_seq |> String.graphemes()
-    # TODO:
+    in_node_names = in_seq |> String.graphemes()
 
-    node_name_to_tree_map =
-      Map.new(
-        Enum.map(pre_node_names, fn node_name -> {node_name, %TreeNode{symbol: node_name}} end)
-      )
+    split_inorder_nodes_fn = fn in_node_names, seed_node_name ->
+      if seed_node_name not in in_node_names do
+        {[], []}
+      else
+        {left, right} =
+          Enum.split_while(in_node_names, fn x ->
+            x != seed_node_name
+          end)
+
+        {left, tl(right)}
+      end
+    end
+
+    create_tree_fn = fn me, pre_node_names, in_node_names ->
+      IO.inspect(pre_node_names, label: "pre_node_names")
+      IO.inspect(in_node_names, label: "in_node_names")
+
+      # if in_node_names == [] do
+      #   nil
+      # else
+      case pre_node_names do
+        [] ->
+          nil
+
+        # [pre_h] ->
+        #   %TreeNode{
+        #     symbol: pre_h
+        #   }
+
+        [pre_h | pre_tail] ->
+          {left_in_node_names, right_in_node_names} =
+            split_inorder_nodes_fn.(in_node_names, pre_h)
+
+          pre_for_left = Enum.filter(pre_tail, fn x -> x in left_in_node_names end)
+          pre_for_right = Enum.filter(pre_tail, fn x -> x in right_in_node_names end)
+
+          IO.inspect(pre_h, label: "ROOT will be")
+          IO.inspect({left_in_node_names, right_in_node_names}, label: "left & right")
+          IO.inspect("--", label: "***")
+
+          %TreeNode{
+            symbol: pre_h,
+            left: me.(me, pre_for_left, left_in_node_names),
+            right: me.(me, pre_for_right, right_in_node_names)
+          }
+      end
+
+      # end
+    end
+
+    create_tree_fn.(create_tree_fn, pre_node_names, in_node_names)
   end
 
   def preorder_sequence_to_tree(nil), do: nil
