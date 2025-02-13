@@ -28,7 +28,11 @@ defmodule Challenge68Test do
        right: %TreeNode{
          symbol: "c",
          left: nil,
-         right: %TreeNode{symbol: "f", left: %TreeNode{symbol: "g"}, right: nil}
+         right: %TreeNode{
+           symbol: "f",
+           left: %TreeNode{symbol: "g"},
+           right: nil
+         }
        }
      }}
   end
@@ -58,6 +62,16 @@ defmodule Challenge68Test do
                }
              }
            }
+  end
+
+  test "preorder_and_inorder_to_tree", state do
+    # assert Challenge68.preorder_and_inorder_to_tree(nil, nil) == nil
+    assert Challenge68.preorder_and_inorder_to_tree("", "") == nil
+
+    assert Challenge68.preorder_and_inorder_to_tree("alr", "lar") == state[:alr_tree]
+    assert Challenge68.preorder_and_inorder_to_tree("al", "la") == state[:al_tree]
+    assert Challenge68.preorder_and_inorder_to_tree("ar", "ar") == state[:ar_tree]
+    assert Challenge68.preorder_and_inorder_to_tree("abdecfg", "dbeacgf") == state[:some_tree]
   end
 
   test "preorder", state do
