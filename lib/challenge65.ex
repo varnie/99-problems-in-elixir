@@ -15,11 +15,7 @@ defmodule Challenge65 do
     format_val = fn val ->
       truncated_val = trunc(val)
 
-      if val - truncated_val == 0 do
-        truncated_val
-      else
-        val
-      end
+      if val - truncated_val == 0, do: truncated_val, else: val
     end
 
     if TreeNode.is_leaf(t) do

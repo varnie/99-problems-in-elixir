@@ -21,7 +21,7 @@ defmodule Challenge49 do
   end
 
   def gray(n) do
-    Challenges.ThinWrapper.get_or_create(n, fn ->
+    Challenges.CacheWrapper.get_or_create(n, fn ->
       prev = gray(n - 1)
       prev_reversed = Enum.reverse(prev)
 

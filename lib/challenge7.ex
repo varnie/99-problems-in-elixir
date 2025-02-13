@@ -6,10 +6,7 @@ defmodule Challenge7 do
 
   def my_flatten(lst) do
     Enum.reduce(lst, [], fn item, acc ->
-      case is_list(item) do
-        true -> acc ++ my_flatten(item)
-        _ -> acc ++ [item]
-      end
+      if is_list(item), do: acc ++ my_flatten(item), else: acc ++ [item]
     end)
   end
 

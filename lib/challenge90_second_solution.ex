@@ -43,19 +43,9 @@ defmodule Challenge90SecondSolution do
           Enum.map([a, b, c, d, e, f, g, h], fn index ->
             remainder = rem(index, 8)
 
-            y =
-              if remainder > 0 do
-                div(index, 8) + 1
-              else
-                div(index, 8)
-              end
+            y = if remainder > 0, do: div(index, 8) + 1, else: div(index, 8)
 
-            x =
-              if remainder > 0 do
-                remainder
-              else
-                8
-              end
+            x = if remainder > 0, do: remainder, else: 8
 
             {@letters[x], y}
           end)
@@ -80,9 +70,7 @@ defmodule Challenge90SecondSolution do
     end)
   end
 
-  defp is_within_gamefield_fn(index) do
-    index != -1
-  end
+  defp is_within_gamefield_fn(index), do: index != -1
 
   defp check_if_new_queen_is_not_hit_by_present_queen(
          present_queen,
@@ -93,38 +81,22 @@ defmodule Challenge90SecondSolution do
 
     move_leftx_upy_corner_stream =
       Stream.iterate(new_queen, fn pos ->
-        if pos in @left || pos in @top do
-          -1
-        else
-          pos + 8 - 1
-        end
+        if pos in @left || pos in @top, do: -1, else: pos + 8 - 1
       end)
 
     move_rightx_upy_corner_stream =
       Stream.iterate(new_queen, fn pos ->
-        if pos in @right || pos in @top do
-          -1
-        else
-          pos + 8 + 1
-        end
+        if pos in @right || pos in @top, do: -1, else: pos + 8 + 1
       end)
 
     move_leftx_downy_corner_stream =
       Stream.iterate(new_queen, fn pos ->
-        if pos in @left || pos in @bottom do
-          -1
-        else
-          pos - 8 - 1
-        end
+        if pos in @left || pos in @bottom, do: -1, else: pos - 8 - 1
       end)
 
     move_rightx_downy_corner_stream =
       Stream.iterate(new_queen, fn pos ->
-        if pos in @right || pos in @bottom do
-          -1
-        else
-          pos - 8 + 1
-        end
+        if pos in @right || pos in @bottom, do: -1, else: pos - 8 + 1
       end)
 
     reduce_stream_fn = fn stream ->

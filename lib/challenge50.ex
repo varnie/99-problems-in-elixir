@@ -53,11 +53,7 @@ defmodule Challenge50 do
 
   defp find_min_elem(nodes_lst) do
     Enum.reduce(nodes_lst, fn elem, acc ->
-      if elem.weight <= acc.weight do
-        elem
-      else
-        acc
-      end
+      if elem.weight <= acc.weight, do: elem, else: acc
     end)
   end
 end

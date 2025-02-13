@@ -3,8 +3,8 @@ defmodule Challenges.Application do
 
   def start(_type, _args) do
     children = [
-      # Add ThinWrapper to the supervision tree
-      {Challenges.ThinWrapper, []}
+      # Add CacheWrapper to the supervision tree
+      {Challenges.CacheWrapper, []}
     ]
 
     opts = [strategy: :one_for_one, name: Challenges.Supervisor]

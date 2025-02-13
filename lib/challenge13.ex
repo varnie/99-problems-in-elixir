@@ -39,10 +39,6 @@ defmodule Challenge13 do
   end
 
   defp generated_item(%CountLetter{count: count, letter: letter}) do
-    if count == 1 do
-      letter
-    else
-      {count, letter}
-    end
+    if count == 1, do: letter, else: {count, letter}
   end
 end

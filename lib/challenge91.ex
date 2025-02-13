@@ -64,19 +64,9 @@ defmodule Challenge91 do
   def index_to_coordinates(index) do
     remainder = rem(index, 8)
 
-    y =
-      if remainder > 0 do
-        div(index, 8) + 1
-      else
-        div(index, 8)
-      end
+    y = if remainder > 0, do: div(index, 8) + 1, else: div(index, 8)
 
-    x =
-      if remainder > 0 do
-        remainder
-      else
-        8
-      end
+    x = if remainder > 0, do: remainder, else: 8
 
     {x, y}
   end

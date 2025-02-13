@@ -19,10 +19,7 @@ defmodule Challenge9 do
 
   defp append_to_first_item(lst, item) do
     Enum.with_index(lst, fn element, index ->
-      case index == 0 do
-        true -> [item | element]
-        _ -> element
-      end
+      if index == 0, do: [item | element], else: element
     end)
   end
 

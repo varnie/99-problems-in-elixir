@@ -8,12 +8,6 @@ defmodule Challenge11 do
   def encode_modified(lst) do
     lst
     |> Challenge10.encode()
-    |> Enum.map(fn {len, letter} = item ->
-      if len > 1 do
-        item
-      else
-        letter
-      end
-    end)
+    |> Enum.map(fn {len, letter} = item -> if len > 1, do: item, else: letter end)
   end
 end

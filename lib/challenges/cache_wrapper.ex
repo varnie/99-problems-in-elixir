@@ -1,4 +1,4 @@
-defmodule Challenges.ThinWrapper do
+defmodule Challenges.CacheWrapper do
   use GenServer
 
   def start_link(_) do

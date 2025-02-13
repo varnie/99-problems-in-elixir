@@ -16,11 +16,7 @@ defmodule Challenge40 do
       |> Enum.map(fn elem -> {elem, num - elem} end)
 
     Enum.reduce(result_with_duplicates_in_another_order, [], fn elem = {a, b}, acc ->
-      if {b, a} in acc do
-        acc
-      else
-        [elem | acc]
-      end
+      if {b, a} in acc, do: acc, else: [elem | acc]
     end)
   end
 

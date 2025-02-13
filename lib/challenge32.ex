@@ -4,13 +4,7 @@ defmodule Challenge32 do
     Use Euclid's algorithm.
   """
   def gcd(a, b) when a > 0 and b > 0 do
-    {a, b} =
-      if a > b do
-        {a, b}
-      else
-        {b, a}
-      end
-
+    {a, b} = if a > b, do: {a, b}, else: {b, a}
     gcd_impl(a, b)
   end
 
@@ -20,11 +14,6 @@ defmodule Challenge32 do
 
   defp gcd_impl(a, b) do
     remainder = rem(a, b)
-
-    if remainder == 0 do
-      b
-    else
-      gcd_impl(b, remainder)
-    end
+    if remainder == 0, do: b, else: gcd_impl(b, remainder)
   end
 end

@@ -20,19 +20,11 @@ defmodule Challenge66 do
     format_val = fn val ->
       truncated_val = trunc(val)
 
-      if val - truncated_val == 0 do
-        truncated_val
-      else
-        val
-      end
+      if val - truncated_val == 0, do: truncated_val, else: val
     end
 
     calc_next_rootx_step = fn cur_rooty ->
-      if cur_rooty == 1 do
-        2
-      else
-        1
-      end
+      if cur_rooty == 1, do: 2, else: 1
     end
 
     if TreeNode.is_leaf(t) do

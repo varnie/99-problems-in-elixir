@@ -34,7 +34,7 @@ defmodule Challenge16 do
     dst |> Enum.reverse()
   end
 
-  defp drop_using_recursion_helper(_src = [head | tail], dst, n, cur_index) do
+  defp drop_using_recursion_helper([head | tail], dst, n, cur_index) do
     dst =
       if rem(cur_index + 1, n) == 0 do
         dst

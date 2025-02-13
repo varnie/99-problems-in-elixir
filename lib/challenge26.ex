@@ -34,11 +34,7 @@ defmodule Challenge26 do
           our_reduce(elem, acc)
         end
       else
-        if !is_list(elem) do
-          [elem | acc]
-        else
-          acc
-        end
+        if !is_list(elem), do: [elem | acc], else: acc
       end
     end)
   end

@@ -6,11 +6,7 @@ defmodule Challenge20 do
     lst
     |> Stream.with_index(1)
     |> Enum.reduce([], fn {val, index}, acc ->
-      if index == k do
-        acc
-      else
-        [val | acc]
-      end
+      if index == k, do: acc, else: [val | acc]
     end)
     |> Enum.reverse()
   end

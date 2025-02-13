@@ -7,11 +7,7 @@ defmodule Challenge35 do
   end
 
   defp find_next_prime_number(i) do
-    if Challenge31.is_prime(i) do
-      i
-    else
-      find_next_prime_number(i + 1)
-    end
+    if Challenge31.is_prime(i), do: i, else: find_next_prime_number(i + 1)
   end
 
   defp prime_factors_impl(t, i \\ 1, result \\ []) do

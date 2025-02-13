@@ -7,11 +7,7 @@ defmodule Challenge8 do
   def compress(lst) do
     lst
     |> Enum.reduce([], fn item, acc ->
-      if List.first(acc) == item do
-        acc
-      else
-        [item | acc]
-      end
+      if List.first(acc) == item, do: acc, else: [item | acc]
     end)
     |> Enum.reverse()
   end

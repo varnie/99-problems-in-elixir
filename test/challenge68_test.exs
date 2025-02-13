@@ -65,7 +65,7 @@ defmodule Challenge68Test do
   end
 
   test "preorder_and_inorder_to_tree", state do
-    # assert Challenge68.preorder_and_inorder_to_tree(nil, nil) == nil
+    assert Challenge68.preorder_and_inorder_to_tree(nil, nil) == nil
     assert Challenge68.preorder_and_inorder_to_tree("", "") == nil
 
     assert Challenge68.preorder_and_inorder_to_tree("alr", "lar") == state[:alr_tree]
