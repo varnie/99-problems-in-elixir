@@ -23,11 +23,36 @@ defmodule Challenge27 do
     You may find more about this combinatorial problem in a good book on discrete mathematics under the term "multinomial coefficients".
   """
 
-  def group(people, group_counts) do
-    # TODO:
+  def group(people, group_counts_list) do
+    if Enum.sum(group_counts_list) != length(people) do
+      raise("Invalid group counts provided")
+    else
+      group_impl(people, fn a, b, c, d, e, f, g, h, i ->
+        [a, b, c, d, e, f, g, h, i]
+        |> Enum.with_index()
+        |> Enum.chunk_by(fn {_, index} -> index in group_counts_list end)
+        |> Enum.map(fn items_list ->
+          for {item, _index} <- items_list,
+              do: item
+        end)
+      end)
+    end
   end
 
   def group3(people) do
+    group_impl(people, fn a, b, c, d, e, f, g, h, i -> [[a, b], [c, d, e], [f, g, h, i]] end)
+  end
+
+  defp previously_found?(new_elem, acc) do
+    Enum.find(acc, false, fn test_elem ->
+      paired_groups =
+        Enum.zip(new_elem, test_elem)
+
+      Enum.all?(paired_groups, fn {x, y} -> Enum.sort(x) == Enum.sort(y) end)
+    end)
+  end
+
+  defp group_impl(people, get_new_elem_fn) do
     # bruteforce way!
     for a <- people,
         b <- people -- [a],
@@ -40,14 +65,9 @@ defmodule Challenge27 do
         i <- people -- [a, b, c, d, e, f, g, h],
         reduce: [] do
       acc ->
-        new_elem = [[a, b], [c, d, e], [f, g, h, i]]
+        new_elem = get_new_elem_fn.(a, b, c, d, e, f, g, h, i)
 
-        if Enum.find(acc, false, fn test_elem ->
-             paired_groups =
-               Enum.zip(new_elem, test_elem)
-
-             Enum.all?(paired_groups, fn {x, y} -> Enum.sort(x) == Enum.sort(y) end)
-           end) do
+        if previously_found?(new_elem, acc) do
           acc
         else
           [new_elem | acc]
