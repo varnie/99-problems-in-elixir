@@ -1,6 +1,6 @@
 defmodule Challenge50 do
   @moduledoc """
-  (***) Huffman codes. Solutions
+  (***) Huffman codes.
 
   We suppose a set of symbols with their frequencies, given as a list of fr(S,F) terms.
   Example: [fr(a,45),fr(b,13),fr(c,12),fr(d,16),fr(e,9),fr(f,5)]. Our objective is to construct a list hc(S,C) terms,
@@ -29,11 +29,8 @@ defmodule Challenge50 do
     end
   end
 
-  defp huffman_tree_gen(nodes_lst) when length(nodes_lst) == 1 do
-    hd(nodes_lst)
-  end
+  defp huffman_tree_gen([head_node]), do: head_node
 
-  # TODO: refactoring
   defp huffman_tree_gen(nodes_lst) do
     a = find_min_elem(nodes_lst)
     nodes_lst = reject_node_from_lst(nodes_lst, a)
@@ -46,9 +43,7 @@ defmodule Challenge50 do
   end
 
   defp reject_node_from_lst(nodes_lst, node) do
-    Enum.reject(nodes_lst, fn elem ->
-      elem == node
-    end)
+    Enum.reject(nodes_lst, &(&1 == node))
   end
 
   defp find_min_elem(nodes_lst) do
