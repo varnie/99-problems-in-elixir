@@ -52,26 +52,10 @@ defmodule Challenge68 do
     create_tree_fn.(create_tree_fn, pre_node_names, in_node_names)
   end
 
-  def preorder_sequence_to_tree(nil), do: nil
-  def preorder_sequence_to_tree(""), do: nil
-
   def preorder_sequence_to_tree(seq) do
     # Having only preorder is not enough to build an unambiguous tree.
     # The implementation below is just one of the possible solutions.
-    seq |> String.graphemes() |> preorder_sequence_to_tree_impl()
-  end
-
-  defp preorder_sequence_to_tree_impl([head | tail]) do
-    tree = %TreeNode{symbol: head}
-    Enum.reduce(tail, tree, &insert_node_where_appropriate/2)
-  end
-
-  defp insert_node_where_appropriate(node_name, tree) do
-    cond do
-      is_nil(tree.left) -> TreeNode.set_left(tree, %TreeNode{symbol: node_name})
-      is_nil(tree.right) -> TreeNode.set_right(tree, %TreeNode{symbol: node_name})
-      true -> TreeNode.set_right(tree, insert_node_where_appropriate(node_name, tree.right))
-    end
+    raise("Leads to ambiguous results")
   end
 
   def preorder(t) do
