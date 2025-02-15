@@ -44,7 +44,7 @@ defmodule Challenge27 do
 
         if Enum.find(acc, false, fn test_elem ->
              paired_groups =
-               Stream.zip(new_elem, test_elem)
+               Enum.zip(new_elem, test_elem)
 
              Enum.all?(paired_groups, fn {x, y} -> Enum.sort(x) == Enum.sort(y) end)
            end) do
