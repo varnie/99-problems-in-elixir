@@ -4,9 +4,7 @@ defmodule Challenge15 do
   """
   def dupli(lst, num) do
     lst
-    |> Enum.map(fn elem ->
-      List.duplicate(elem, num)
-    end)
+    |> Enum.map(&List.duplicate(&1, num))
     |> List.flatten()
   end
 end
