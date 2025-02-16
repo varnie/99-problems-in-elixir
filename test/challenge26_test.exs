@@ -1,7 +1,7 @@
 defmodule Challenge26Test do
   use ExUnit.Case
 
-  test "rnd_permu" do
+  test "combinations" do
     lst = ["a", "b", "c", "d", "e", "f"]
     result = Challenge26.combinations(3, lst)
 
