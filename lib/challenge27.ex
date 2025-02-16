@@ -28,13 +28,13 @@ defmodule Challenge27 do
       raise("Invalid group counts provided")
     else
       group_impl(people, fn a, b, c, d, e, f, g, h, i ->
-        [a, b, c, d, e, f, g, h, i]
-        |> Enum.with_index()
-        |> Enum.chunk_by(fn {_, index} -> index in group_counts_list end)
-        |> Enum.map(fn items_list ->
-          for {item, _index} <- items_list,
-              do: item
+        elems = [a, b, c, d, e, f, g, h, i]
+
+        Enum.reduce(group_counts_list, {elems, []}, fn group_count, {cur_elems_seq, result} ->
+          {left, right} = Enum.split(cur_elems_seq, group_count)
+          {right, [left | result]}
         end)
+        |> Kernel.elem(1)
       end)
     end
   end
@@ -44,7 +44,7 @@ defmodule Challenge27 do
   end
 
   defp previously_found?(new_elem, acc) do
-    Enum.find(acc, false, fn test_elem ->
+    Enum.find(acc, fn test_elem ->
       paired_groups =
         Enum.zip(new_elem, test_elem)
 
