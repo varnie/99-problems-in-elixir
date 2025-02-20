@@ -29,7 +29,10 @@ defmodule Challenge26Test do
     ]
 
     assert Enum.sort(result) == Enum.sort(correct_result)
-
     assert length(Challenge26.combinations(3, Enum.to_list(1..12))) == 220
+
+    result = Challenge26.new_combinations(3, lst)
+    assert Enum.sort(result) == Enum.sort(correct_result)
+    assert length(Challenge26.new_combinations(3, Enum.to_list(1..12))) == 220
   end
 end
