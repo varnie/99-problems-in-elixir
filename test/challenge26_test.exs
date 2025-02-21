@@ -1,9 +1,8 @@
 defmodule Challenge26Test do
   use ExUnit.Case
 
-  test "combinations" do
+  test "combinations_first_test" do
     lst = ["a", "b", "c", "d", "e", "f"]
-    result = Challenge26.combinations(3, lst)
 
     correct_result = [
       ["a", "b", "c"],
@@ -28,11 +27,22 @@ defmodule Challenge26Test do
       ["d", "e", "f"]
     ]
 
-    assert Enum.sort(result) == Enum.sort(correct_result)
-    assert length(Challenge26.combinations(3, Enum.to_list(1..12))) == 220
+    correct_result_sorted = Enum.sort(correct_result)
 
-    result = Challenge26.new_combinations(3, lst)
-    assert Enum.sort(result) == Enum.sort(correct_result)
-    assert length(Challenge26.new_combinations(3, Enum.to_list(1..12))) == 220
+    result_a = Challenge26.combinations(3, lst)
+    result_b = Challenge26SecondSolution.combinations(3, lst)
+    result_c = Challenge26ThirdSolution.combinations(3, lst)
+
+    assert Enum.sort(result_a) == correct_result_sorted
+    assert Enum.sort(result_b) == correct_result_sorted
+    assert Enum.sort(result_c) == correct_result_sorted
+  end
+
+  test "combinations_second_test" do
+    lst = Enum.to_list(1..12)
+
+    assert length(Challenge26.combinations(3, lst)) == 220
+    assert length(Challenge26SecondSolution.combinations(3, lst)) == 220
+    assert length(Challenge26ThirdSolution.combinations(3, lst)) == 220
   end
 end

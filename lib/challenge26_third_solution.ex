@@ -1,0 +1,45 @@
+defmodule Challenge26ThirdSolution do
+  @moduledoc """
+  (**) Generate combinations of K distinct objects chosen from the N elements of a list.
+  """
+
+  defp combinations_impl(_, [], _, _, result), do: result
+
+  defp combinations_impl(k, [h | t], cur_count, cur_acc, result) do
+    {new_count, new_acc, new_result} =
+      if cur_count + 1 < k do
+        {cur_count + 1, cur_acc ++ [h], result}
+      else
+        {cur_count, cur_acc, result ++ [cur_acc ++ [h]]}
+      end
+
+    combinations_impl(k, t, new_count, new_acc, new_result)
+  end
+
+  def combinations(k, lst) when k <= 0 or k > length(lst), do: []
+  def combinations(_k, []), do: []
+
+  def combinations(k, lst = [h | tail]) do
+    default_acc = combinations_impl(k, lst, 0, [], [])
+
+    cond do
+      k == 1 ->
+        default_acc
+
+      k == 2 ->
+        Enum.concat(default_acc, combinations(k, tail))
+
+      true ->
+        Enum.concat(fold_tails(k, h, tail), combinations(k, tail))
+    end
+  end
+
+  defp fold_tails(_, _, []), do: []
+
+  defp fold_tails(k, header, seq) do
+    Enum.concat(
+      combinations_impl(k, [header | seq], 0, [], []),
+      fold_tails(k, header, tl(seq))
+    )
+  end
+end
