@@ -36,7 +36,7 @@ defmodule Challenge26ThirdSolution do
   end
 
   defp tails_combinations(k, header, seq, acc \\ [])
-  defp tails_combinations(_, _, [], acc), do: acc |> Enum.reverse(acc) |> Enum.concat()
+  defp tails_combinations(_, _, [], acc), do: acc |> Enum.concat()
 
   defp tails_combinations(k, header, seq, acc) do
     tails_combinations(
