@@ -3,6 +3,7 @@ defmodule Challenge26ThirdSolution do
   (**) Generate combinations of K distinct objects chosen from the N elements of a list.
   """
 
+  defp combinations_impl(k, seq, cur_count \\ 0, cur_acc \\ [], result \\ [])
   defp combinations_impl(_, [], _, _, result), do: result
 
   defp combinations_impl(k, [h | t], cur_count, cur_acc, result) do
@@ -20,7 +21,7 @@ defmodule Challenge26ThirdSolution do
   def combinations(_k, []), do: []
 
   def combinations(k, lst = [h | tail]) do
-    default_acc = combinations_impl(k, lst, 0, [], [])
+    default_acc = combinations_impl(k, lst)
 
     cond do
       k == 1 ->
@@ -30,16 +31,19 @@ defmodule Challenge26ThirdSolution do
         Enum.concat(default_acc, combinations(k, tail))
 
       true ->
-        Enum.concat(fold_tails(k, h, tail), combinations(k, tail))
+        Enum.concat(tails_combinations(k, h, tail), combinations(k, tail))
     end
   end
 
-  defp fold_tails(_, _, []), do: []
+  defp tails_combinations(k, header, seq, acc \\ [])
+  defp tails_combinations(_, _, [], acc), do: acc |> Enum.reverse(acc) |> Enum.concat()
 
-  defp fold_tails(k, header, seq) do
-    Enum.concat(
-      combinations_impl(k, [header | seq], 0, [], []),
-      fold_tails(k, header, tl(seq))
+  defp tails_combinations(k, header, seq, acc) do
+    tails_combinations(
+      k,
+      header,
+      tl(seq),
+      [combinations_impl(k, [header | seq]) | acc]
     )
   end
 end

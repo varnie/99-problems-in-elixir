@@ -3,6 +3,7 @@ defmodule Challenge26SecondSolution do
   (**) Generate combinations of K distinct objects chosen from the N elements of a list.
   """
 
+  defp combinations_impl(k, lst, cur_count \\ 0, cur_acc \\ [], result \\ [])
   defp combinations_impl(_, [], _, _, result), do: result
 
   defp combinations_impl(k, [h | t], cur_count, cur_acc, result) do
@@ -20,7 +21,7 @@ defmodule Challenge26SecondSolution do
   def combinations(_k, []), do: []
 
   def combinations(k, lst = [h | tail]) do
-    default_acc = combinations_impl(k, lst, 0, [], [])
+    default_acc = combinations_impl(k, lst)
 
     cond do
       k == 1 ->
@@ -32,7 +33,7 @@ defmodule Challenge26SecondSolution do
       true ->
         result =
           Enum.reduce(1..length(tail), default_acc, fn x, acc ->
-            Enum.concat(acc, combinations_impl(k, [h | Enum.drop(tail, x)], 0, [], []))
+            Enum.concat(acc, combinations_impl(k, [h | Enum.drop(tail, x)]))
           end)
 
         Enum.concat(result, combinations(k, tail))
