@@ -70,8 +70,9 @@ defmodule Challenge55 do
       is_nil(node) ->
         true
 
-      abs(count_nodes_in_tree(node.left) - count_nodes_in_tree(node.right)) <= 1 ->
-        calc_condition_is_met(node.left) && calc_condition_is_met(node.right)
+      abs(count_nodes_in_tree(node.left) - count_nodes_in_tree(node.right)) <= 1 &&
+        calc_condition_is_met(node.left) && calc_condition_is_met(node.right) ->
+        true
 
       true ->
         false
