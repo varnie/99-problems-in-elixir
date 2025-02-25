@@ -37,4 +37,11 @@ defmodule Challenge55Test do
 
     assert Helpers.check_two_enumerables_equal?(result_3, desired_result_3)
   end
+
+  test "cbal_tree_6" do
+    assert Challenge55.cbal_tree(6) |> length == 4
+    assert Challenge55.cbal_tree(7) |> length == 1
+    assert Challenge55.cbal_tree(11) |> length == 16
+    assert Challenge55.cbal_tree(25) |> length == 1024
+  end
 end

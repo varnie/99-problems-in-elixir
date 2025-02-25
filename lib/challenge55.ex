@@ -13,6 +13,8 @@ defmodule Challenge55 do
         (X (X NIL NIL) (X (X NIL NIL) NIL))
         etc......
   """
+
+  # TODO: buggy
   def cbal_tree(count) do
     cond do
       count == 0 ->
@@ -64,7 +66,16 @@ defmodule Challenge55 do
   end
 
   defp calc_condition_is_met(node) do
-    is_nil(node) || abs(count_nodes_in_tree(node.left) - count_nodes_in_tree(node.right)) <= 1
+    cond do
+      is_nil(node) ->
+        true
+
+      abs(count_nodes_in_tree(node.left) - count_nodes_in_tree(node.right)) <= 1 ->
+        calc_condition_is_met(node.left) && calc_condition_is_met(node.right)
+
+      true ->
+        false
+    end
   end
 
   defp count_nodes_in_tree(node) do
