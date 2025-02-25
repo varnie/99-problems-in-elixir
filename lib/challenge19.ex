@@ -6,13 +6,8 @@ defmodule Challenge19 do
     lst
     |> Stream.with_index()
     |> Enum.reduce([], fn {_val, index}, acc ->
-      new_item =
-        case index + k <= length(lst) - 1 do
-          true -> Enum.at(lst, index + k)
-          false -> Enum.at(lst, index + k - length(lst))
-        end
-
-      [new_item | acc]
+      new_index = if index + k <= length(lst) - 1, do: index + k, else: index + k - length(lst)
+      [Enum.at(lst, new_index) | acc]
     end)
     |> Enum.reverse()
   end
