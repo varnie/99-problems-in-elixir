@@ -31,7 +31,7 @@ defmodule Challenge55 do
   defp cbal_tree_helper(nodes_list) do
     nodes_list
     |> Enum.reduce([], fn x, acc ->
-      new_nodes = x |> gen_new_nodes() |> Enum.filter(&calc_condition_is_met/1)
+      new_nodes = x |> gen_new_nodes() |> Enum.filter(&check_condition_is_met/1)
       Enum.concat(acc, new_nodes)
     end)
     |> Enum.uniq()
@@ -65,18 +65,10 @@ defmodule Challenge55 do
     end
   end
 
-  defp calc_condition_is_met(node) do
-    cond do
-      is_nil(node) ->
-        true
-
-      abs(count_nodes_in_tree(node.left) - count_nodes_in_tree(node.right)) <= 1 &&
-        calc_condition_is_met(node.left) && calc_condition_is_met(node.right) ->
-        true
-
-      true ->
-        false
-    end
+  defp check_condition_is_met(node) do
+    is_nil(node) ||
+      (abs(count_nodes_in_tree(node.left) - count_nodes_in_tree(node.right)) <= 1 &&
+         check_condition_is_met(node.left) && check_condition_is_met(node.right))
   end
 
   defp count_nodes_in_tree(node) do

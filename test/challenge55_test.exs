@@ -41,6 +41,7 @@ defmodule Challenge55Test do
   test "cbal_tree_6" do
     assert Challenge55.cbal_tree(6) |> length == 4
     assert Challenge55.cbal_tree(7) |> length == 1
+    assert Challenge55.cbal_tree(9) |> length == 16
     assert Challenge55.cbal_tree(11) |> length == 16
     assert Challenge55.cbal_tree(25) |> length == 1024
   end
