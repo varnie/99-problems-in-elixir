@@ -28,15 +28,23 @@ defmodule Challenge55 do
   end
 
   defp gen_new_nodes(node) do
-    if is_nil(node) do
-      [%TreeNode{symbol: :x, left: nil, right: nil}]
-    else
-      if TreeNode.is_leaf(node) do
+    cond do
+      is_nil(node) ->
+        [%TreeNode{symbol: :x, left: nil, right: nil}]
+
+      TreeNode.is_leaf(node) ->
         [
           TreeNode.set_left(node, %TreeNode{symbol: :x, left: nil, right: nil}),
           TreeNode.set_right(node, %TreeNode{symbol: :x, left: nil, right: nil})
         ]
-      else
+
+      is_nil(node.left) ->
+        [TreeNode.set_left(node, %TreeNode{symbol: :x, left: nil, right: nil})]
+
+      is_nil(node.right) ->
+        [TreeNode.set_right(node, %TreeNode{symbol: :x, left: nil, right: nil})]
+
+      true ->
         new_left_nodes_list = gen_new_nodes(node.left)
         new_right_nodes_list = gen_new_nodes(node.right)
 
@@ -51,7 +59,6 @@ defmodule Challenge55 do
           end)
 
         Enum.concat(result_a, result_b)
-      end
     end
   end
 
