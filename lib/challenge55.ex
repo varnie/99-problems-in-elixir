@@ -17,10 +17,8 @@ defmodule Challenge55 do
   def cbal_tree(count) when count == 0, do: [nil]
 
   def cbal_tree(count) do
-    cbal_tree_helper(cbal_tree(count - 1))
-  end
+    nodes_list = cbal_tree(count - 1)
 
-  defp cbal_tree_helper(nodes_list) do
     nodes_list
     |> Enum.reduce([], fn x, acc ->
       new_nodes = x |> gen_new_nodes() |> Enum.filter(&check_condition_is_met/1)
