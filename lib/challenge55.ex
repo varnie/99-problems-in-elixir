@@ -14,18 +14,10 @@ defmodule Challenge55 do
         etc......
   """
 
-  # TODO: buggy
+  def cbal_tree(count) when count == 0, do: [nil]
+
   def cbal_tree(count) do
-    cond do
-      count == 0 ->
-        [nil]
-
-      count == 1 ->
-        [%TreeNode{symbol: :x, left: nil, right: nil}]
-
-      true ->
-        cbal_tree_helper(cbal_tree(count - 1))
-    end
+    cbal_tree_helper(cbal_tree(count - 1))
   end
 
   defp cbal_tree_helper(nodes_list) do
