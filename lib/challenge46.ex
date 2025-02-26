@@ -8,9 +8,10 @@ defmodule Challenge46 do
     A logical expression in two variables can then be written as in the following example: and(or(A,B),nand(A,B)).
     Now, write a predicate table/3 which prints the truth table of a given logical expression in two variables.
   """
-  def table(a, b, expr_fn) do
-    result = expr_fn.(a, b)
-    "#{a} #{b} #{result}"
+  def table(input_fn) do
+    for a <- [true, false],
+        b <- [true, false],
+        do: "#{a} #{b} #{input_fn.(a, b)}"
   end
 
   def tbl_impl(a, b) do
