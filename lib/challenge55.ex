@@ -14,7 +14,7 @@ defmodule Challenge55 do
         etc......
   """
 
-  def cbal_tree(count) when count == 0, do: [nil]
+  def cbal_tree(0), do: [nil]
 
   def cbal_tree(count) do
     nodes_list = cbal_tree(count - 1)

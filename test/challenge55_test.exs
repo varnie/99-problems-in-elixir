@@ -3,6 +3,9 @@ defmodule Challenge55Test do
 
   setup_all do
     {:ok,
+     cbal_tree_1_result_list: [
+       %TreeNode{symbol: :x, left: nil, right: nil}
+     ],
      cbal_tree_2_result_list: [
        %TreeNode{symbol: :x, left: %TreeNode{symbol: :x, left: nil, right: nil}, right: nil},
        %TreeNode{symbol: :x, left: nil, right: %TreeNode{symbol: :x, left: nil, right: nil}}
@@ -20,8 +23,11 @@ defmodule Challenge55Test do
     assert Challenge55.cbal_tree(0) == [nil]
   end
 
-  test "cbal_tree_1" do
-    assert Challenge55.cbal_tree(1) == [%TreeNode{symbol: :x, left: nil, right: nil}]
+  test "cbal_tree_1", state do
+    result_1 = Challenge55.cbal_tree(1)
+    desired_result_1 = state[:cbal_tree_1_result_list]
+
+    assert Helpers.check_two_enumerables_equal?(result_1, desired_result_1)
   end
 
   test "cbal_tree_2", state do

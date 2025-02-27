@@ -20,13 +20,9 @@ defmodule Challenge67 do
     end
   end
 
-  defp check_sanity([], _), do: false
-
-  defp check_sanity([head | _rest], c), do: head == c
-
   defp string_repr_to_tree_impl(src_list) do
     tree_name =
-      read_while_cond(
+      Helpers.read_while_cond(
         fn letter -> String.match?(letter, ~r/^[a-zA-Z0-9]$/i) end,
         src_list
       )
@@ -43,7 +39,7 @@ defmodule Challenge67 do
       src_list = Enum.drop(src_list, len_name)
 
       # open bracket of tree
-      if check_sanity(src_list, "(") do
+      if Helpers.check_sanity(src_list, "(") do
         cnt = cnt + 1
         src_list = Enum.drop(src_list, 1)
 
@@ -52,7 +48,7 @@ defmodule Challenge67 do
         cnt = cnt + optional_left_node_len
         src_list = Enum.drop(src_list, optional_left_node_len)
 
-        if !check_sanity(src_list, ",") do
+        if !Helpers.check_sanity(src_list, ",") do
           IO.puts(src_list)
           IO.puts(optional_left_node_len)
           raise("Expected ,")
@@ -72,7 +68,7 @@ defmodule Challenge67 do
         end
 
         # closed bracket of tree
-        if !check_sanity(src_list, ")") do
+        if !Helpers.check_sanity(src_list, ")") do
           raise("Expected )")
         end
 
@@ -84,22 +80,6 @@ defmodule Challenge67 do
       end
     end
   end
-
-  defp read_while_cond(cond_fn, coll), do: read_while_cond_impl(cond_fn, coll, [])
-
-  defp read_while_cond_impl(
-         cond_fn,
-         [head | tail],
-         result_codepoints
-       ) do
-    if cond_fn.(head) do
-      read_while_cond_impl(cond_fn, tail, [head | result_codepoints])
-    else
-      read_while_cond_impl(cond_fn, [], result_codepoints)
-    end
-  end
-
-  defp read_while_cond_impl(_cond_fn, [], result_codepoints), do: result_codepoints
 
   def tree_to_string_repr(tree) do
     cond do
