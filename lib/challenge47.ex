@@ -37,8 +37,11 @@ defmodule Challenge47 do
     else
       args_list = build(Enum.to_list(1..input_fn_arity))
 
-      for args <- args_list,
-          do: Enum.join(args, " ") <> " #{Kernel.apply(input_fn, args)}"
+      for args <- args_list do
+        args_joined = Enum.join(args, " ")
+        func_result = "#{Kernel.apply(input_fn, args)}"
+        args_joined <> " " <> func_result
+      end
     end
   end
 
