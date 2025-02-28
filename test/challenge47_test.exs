@@ -37,20 +37,5 @@ defmodule Challenge47Test do
              "false true false",
              "false false false"
            ]
-
-    result = Challenge47.table_n(fn a, b, c -> a &&& b &&& c end)
-
-    result_expected = [
-      "false false false false",
-      "false false true false",
-      "false true false false",
-      "false true true false",
-      "true false false false",
-      "true false true false",
-      "true true false false",
-      "true true true true"
-    ]
-
-    assert Helpers.check_two_enumerables_equal?(result, result_expected)
   end
 end

@@ -26,29 +26,4 @@ defmodule Challenge47 do
         b <- [true, false],
         do: "#{a} #{b} #{input_fn.(a, b)}"
   end
-
-  # TODO:
-  def table_n(input_fn) do
-    info = Function.info(input_fn)
-    input_fn_arity = Keyword.get(info, :arity)
-
-    if input_fn_arity == 0 do
-      raise("Arity must not be zero")
-    else
-      args_list = build(Enum.to_list(1..input_fn_arity))
-
-      for args <- args_list do
-        args_joined = Enum.join(args, " ")
-        func_result = "#{Kernel.apply(input_fn, args)}"
-        args_joined <> " " <> func_result
-      end
-    end
-  end
-
-  def build([_h]), do: [[true], [false]]
-
-  def build([_h | tail]) do
-    result = Enum.map(build(tail), fn t -> [[false | t], [true | t]] end)
-    Enum.concat(result)
-  end
 end
