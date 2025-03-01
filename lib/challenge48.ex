@@ -22,7 +22,7 @@ defmodule Challenge48 do
     if input_fn_arity == 0 do
       raise("Arity must not be zero")
     else
-      args_list = build(List.duplicate(false, input_fn_arity))
+      args_list = build(input_fn_arity)
 
       for args <- args_list do
         args_joined = Enum.join(args, " ")
@@ -32,9 +32,9 @@ defmodule Challenge48 do
     end
   end
 
-  defp(build([_h]), do: [[true], [false]])
+  defp build(k) when k == 1, do: [[true], [false]]
 
-  defp build([_h | tail]) do
-    tail |> build() |> Enum.map(fn t -> [[false | t], [true | t]] end) |> Enum.concat()
+  defp build(k) do
+    (k - 1) |> build() |> Enum.map(fn t -> [[false | t], [true | t]] end) |> Enum.concat()
   end
 end
