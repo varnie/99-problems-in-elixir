@@ -20,11 +20,10 @@ defmodule Challenge55 do
     nodes_list = cbal_tree(count - 1)
 
     nodes_list
-    |> Enum.reduce([], fn x, acc ->
-      new_nodes = x |> gen_new_nodes() |> Enum.filter(&check_condition_is_met/1)
-      Enum.concat(acc, new_nodes)
-    end)
+    |> Enum.map(&gen_new_nodes(&1))
+    |> Enum.concat()
     |> Enum.uniq()
+    |> Enum.filter(&check_condition_is_met/1)
   end
 
   defp gen_new_nodes(node) do
@@ -49,14 +48,12 @@ defmodule Challenge55 do
         new_right_nodes_list = gen_new_nodes(node.right)
 
         result_a =
-          Enum.reduce(new_left_nodes_list, [], fn new_left_node, acc ->
-            [TreeNode.set_left(node, new_left_node) | acc]
-          end)
+          new_left_nodes_list
+          |> Enum.map(fn new_left_node -> TreeNode.set_left(node, new_left_node) end)
 
         result_b =
-          Enum.reduce(new_right_nodes_list, [], fn new_right_node, acc ->
-            [TreeNode.set_right(node, new_right_node) | acc]
-          end)
+          new_right_nodes_list
+          |> Enum.map(fn new_right_node -> TreeNode.set_right(node, new_right_node) end)
 
         Enum.concat(result_a, result_b)
     end
