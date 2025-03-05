@@ -54,7 +54,6 @@ defmodule Challenge68 do
 
   def preorder_sequence_to_tree(_seq) do
     # Having only preorder is not enough to build an unambiguous tree.
-    # The implementation below is just one of the possible solutions.
     raise("Leads to ambiguous results")
   end
 
