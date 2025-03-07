@@ -1,6 +1,12 @@
 defmodule Challenge70Test do
   use ExUnit.Case
 
+  test "mtree_to_repr" do
+    assert Challenge70.mtree_to_repr([:a, [:f, :g], :c, [:b, :d, :e]]) == "afg^^c^bd^e^^^"
+    assert Challenge70.mtree_to_repr([:a, :b]) == "ab^^"
+    assert Challenge70.mtree_to_repr(:a) == "a^"
+  end
+
   test "is_tree" do
     assert Challenge70.is_tree(nil) == false
     assert Challenge70.is_tree([]) == false
