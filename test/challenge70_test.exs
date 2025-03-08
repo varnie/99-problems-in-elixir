@@ -1,6 +1,12 @@
 defmodule Challenge70Test do
   use ExUnit.Case
 
+  test "repr_to_mtree" do
+    assert Challenge70.repr_to_mtree("afg^^c^bd^e^^^") == ["a", ["f", "g"], "c", ["b", "d", "e"]]
+    assert Challenge70.repr_to_mtree("ab^^") == ["a", "b"]
+    assert Challenge70.repr_to_mtree("a^") == "a"
+  end
+
   test "mtree_to_repr" do
     assert Challenge70.mtree_to_repr([:a, [:f, :g], :c, [:b, :d, :e]]) == "afg^^c^bd^e^^^"
     assert Challenge70.mtree_to_repr([:a, :b]) == "ab^^"
