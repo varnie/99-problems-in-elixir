@@ -10,7 +10,7 @@ defmodule Challenge71 do
 
   def ipl(t, counter\\0)
 
-  def ipl(t=[_root|tail], counter) do
+  def ipl([_root|tail], counter) do
     counter + Enum.sum(Enum.map(tail, fn x -> ipl(x, counter+1) end))
   end
 
