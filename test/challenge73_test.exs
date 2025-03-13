@@ -1,4 +1,4 @@
-defmodule Challenge72Test do
+defmodule Challenge73Test do
   use ExUnit.Case
 
   test "mtree_ptl" do
