@@ -82,7 +82,7 @@ defmodule Challenge73 do
     cond_fn =
       if Kernel.is_function(letter_or_func), do: letter_or_func, else: &(&1 == letter_or_func)
 
-    read = Helpers.read_while_cond(cond_fn, src_list) |> Enum.reverse() |> Enum.join("")
+    read = Helpers.read_while_cond(cond_fn, src_list)
     len = String.length(read)
     if len == 0, do: raise("Invalid syntax"), else: {read, Enum.drop(src_list, len)}
   end

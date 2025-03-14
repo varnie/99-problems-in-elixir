@@ -26,8 +26,6 @@ defmodule Challenge67 do
         fn letter -> String.match?(letter, ~r/^[a-zA-Z0-9]$/i) end,
         src_list
       )
-      |> Enum.reverse()
-      |> Enum.join("")
 
     len_name = String.length(tree_name)
 

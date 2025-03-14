@@ -23,7 +23,9 @@ defmodule Helpers do
     end
   end
 
-  defp read_while_cond_impl(_cond_fn, [], result_codepoints), do: result_codepoints
+  defp read_while_cond_impl(_cond_fn, [], result_codepoints) do
+    result_codepoints |> Enum.reverse() |> Enum.join("")
+  end
 
   def check_sanity([], _), do: false
   def check_sanity([head | _rest], c), do: head == c
