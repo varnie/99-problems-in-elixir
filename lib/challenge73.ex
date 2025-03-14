@@ -55,16 +55,10 @@ defmodule Challenge73 do
     {result, coll} =
       if !Helpers.check_sanity(coll, "]") do
         {children, coll} = read_list_of_children(coll)
-        children = Enum.reverse(children)
-        IO.inspect(node_name, label: "node_name")
-        IO.inspect(children, label: "list_of_children")
         {[node_name | children], coll}
       else
         {node_name, coll}
       end
-
-    IO.inspect(result, label: "result")
-    IO.inspect("--")
 
     {_, coll} = read_and_continue(coll, "]")
     {_, coll} = read_and_continue(coll, ")")
@@ -74,12 +68,11 @@ defmodule Challenge73 do
 
   defp read_list_of_children(coll, result \\ []) do
     {child, coll} = ptl_mtree_impl(coll)
-    result = [child | result]
+    result = result ++ [child]
 
     if Helpers.check_sanity(coll, ",") do
       {_, coll} = read_and_continue(coll, ",")
-      {list_of_children, coll} = read_list_of_children(coll, result)
-      {list_of_children, coll}
+      read_list_of_children(coll, result)
     else
       {result, coll}
     end
