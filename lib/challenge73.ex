@@ -79,11 +79,14 @@ defmodule Challenge73 do
   end
 
   defp read_and_continue(src_list, letter_or_func) do
-    cond_fn =
-      if Kernel.is_function(letter_or_func), do: letter_or_func, else: &(&1 == letter_or_func)
-
-    read = Helpers.read_while_cond(cond_fn, src_list)
-    len = String.length(read)
-    if len == 0, do: raise("Invalid syntax"), else: {read, Enum.drop(src_list, len)}
+    if Kernel.is_function(letter_or_func) do
+      read = Helpers.read_while_cond(letter_or_func, src_list)
+      len = String.length(read)
+      if len > 0, do: {read, Enum.drop(src_list, len)}, else: raise("Invalid syntax")
+    else
+      if Helpers.check_sanity(src_list, letter_or_func),
+        do: {letter_or_func, Enum.drop(src_list, 1)},
+        else: raise("Invalid syntax")
+    end
   end
 end
