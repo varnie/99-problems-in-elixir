@@ -2,7 +2,7 @@ defmodule Challenge31 do
   @moduledoc """
    (**) Determine whether a given integer number is prime.
   """
-  def is_prime(num) when num == 1, do: false
+  def is_prime(1), do: false
 
   def is_prime(num), do: is_prime_helper(num, 2)
 
@@ -15,8 +15,8 @@ defmodule Challenge31 do
   @doc """
    (**) Determine whether a given integer number is prime.
   """
-  def is_prime_another_impl(num) when num == 1, do: false
-  def is_prime_another_impl(num) when num == 2, do: true
+  def is_prime_another_impl(1), do: false
+  def is_prime_another_impl(2), do: true
 
   def is_prime_another_impl(num) do
     Enum.all?(2..(num - 1), &(rem(num, &1) != 0))

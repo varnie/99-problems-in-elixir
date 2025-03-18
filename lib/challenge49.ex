@@ -12,13 +12,9 @@ defmodule Challenge49 do
 
     Can you apply the method of "result caching" in order to make the predicate more efficient, when it is to be used repeatedly?
   """
-  def gray(n) when n == 1 do
-    ["0", "1"]
-  end
+  def gray(1), do: ["0", "1"]
 
-  def gray(n) when n == 2 do
-    ["00", "01", "11", "10"]
-  end
+  def gray(2), do: ["00", "01", "11", "10"]
 
   def gray(n) do
     Challenges.CacheWrapper.get_or_create(n, fn ->

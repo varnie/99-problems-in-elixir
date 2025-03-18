@@ -33,28 +33,33 @@ defmodule Challenge70 do
             acc_result =
               case is_list(List.last(acc_result)) do
                 true ->
-                  last_elem = List.last(acc_result) |> List.flatten
-                  last_elem = if length(last_elem) == 1, do: List.first(last_elem), else: last_elem
+                  last_elem = List.last(acc_result) |> List.flatten()
+
+                  last_elem =
+                    if length(last_elem) == 1, do: List.first(last_elem), else: last_elem
+
                   List.replace_at(acc_result, -1, last_elem)
 
-                _ -> acc_result
+                _ ->
+                  acc_result
               end
 
-            {acc_result, level-1}
+            {acc_result, level - 1}
 
           _ ->
-            acc_result = cond do
-              level == 0 ->
-                [x]
+            acc_result =
+              cond do
+                level == 0 ->
+                  [x]
 
-              level == 1 ->
-                acc_result ++ [[x]]
+                level == 1 ->
+                  acc_result ++ [[x]]
 
-              true ->
-                List.replace_at(acc_result, -1, List.last(acc_result) ++ [[x]])
-            end
+                true ->
+                  List.replace_at(acc_result, -1, List.last(acc_result) ++ [[x]])
+              end
 
-            {acc_result, level+1}
+            {acc_result, level + 1}
         end
       end)
       |> Kernel.elem(0)

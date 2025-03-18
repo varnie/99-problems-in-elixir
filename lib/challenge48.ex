@@ -32,7 +32,7 @@ defmodule Challenge48 do
     end
   end
 
-  defp build(k) when k == 1, do: [[true], [false]]
+  defp build(1), do: [[true], [false]]
 
   defp build(k) do
     (k - 1) |> build() |> Enum.map(fn t -> [[false | t], [true | t]] end) |> Enum.concat()

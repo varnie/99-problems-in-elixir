@@ -14,10 +14,10 @@ defmodule Challenge58 do
     What if the number is even? Write an appropriate function.
   """
 
-  def sym_cbal_trees(count) when count <= 0 or rem(count, 2) == 0, do: []
+  def sym_cbal_trees(nodes_count) when nodes_count <= 0 or rem(nodes_count, 2) == 0, do: []
 
-  def sym_cbal_trees(count) do
+  def sym_cbal_trees(nodes_count) do
     # TODO: slow as hell
-    count |> Challenge55.cbal_tree() |> Enum.filter(&Challenge56.is_symmetric/1)
+    nodes_count |> Challenge55.cbal_tree() |> Enum.filter(&Challenge56.is_symmetric/1)
   end
 end
