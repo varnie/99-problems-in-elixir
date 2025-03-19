@@ -41,11 +41,11 @@ defmodule Challenge57 do
 
       new_node.symbol <= parent_node.symbol ->
         new_left_node = gen_node(parent_node.left, new_node)
-        TreeNode.set_left(parent_node, new_left_node)
+        TreeNode.with_left(parent_node, new_left_node)
 
       true ->
         new_right_node = gen_node(parent_node.right, new_node)
-        TreeNode.set_right(parent_node, new_right_node)
+        TreeNode.with_right(parent_node, new_right_node)
     end
   end
 end

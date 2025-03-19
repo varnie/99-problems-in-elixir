@@ -47,8 +47,8 @@ defmodule Challenge69 do
     else
       left = cleanup_tree_from_dots(tree.left)
       right = cleanup_tree_from_dots(tree.right)
-      result = TreeNode.set_left(tree, left)
-      result = TreeNode.set_right(result, right)
+      result = TreeNode.with_left(tree, left)
+      result = TreeNode.with_right(result, right)
       result
     end
   end
@@ -59,22 +59,22 @@ defmodule Challenge69 do
         {tree, false}
 
       is_nil(tree.left) ->
-        {TreeNode.set_left(tree, %TreeNode{symbol: node_name}), true}
+        {TreeNode.with_left(tree, %TreeNode{symbol: node_name}), true}
 
       Kernel.elem(
         {updated_tree, _status} = update_tree_where_appropriate(node_name, tree.left),
         1
       ) ->
-        {TreeNode.set_left(tree, updated_tree), true}
+        {TreeNode.with_left(tree, updated_tree), true}
 
       is_nil(tree.right) ->
-        {TreeNode.set_right(tree, %TreeNode{symbol: node_name}), true}
+        {TreeNode.with_right(tree, %TreeNode{symbol: node_name}), true}
 
       Kernel.elem(
         {updated_tree, _status} = update_tree_where_appropriate(node_name, tree.right),
         1
       ) ->
-        {TreeNode.set_right(tree, updated_tree), true}
+        {TreeNode.with_right(tree, updated_tree), true}
 
       true ->
         {tree, false}
