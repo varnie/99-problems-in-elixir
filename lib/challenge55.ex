@@ -37,23 +37,19 @@ defmodule Challenge55 do
           TreeNode.with_right(node, %TreeNode{symbol: :x, left: nil, right: nil})
         ]
 
-      is_nil(node.left) ->
-        [TreeNode.with_left(node, %TreeNode{symbol: :x, left: nil, right: nil})]
-
-      is_nil(node.right) ->
-        [TreeNode.with_right(node, %TreeNode{symbol: :x, left: nil, right: nil})]
-
       true ->
-        new_left_nodes_list = gen_new_nodes(node.left)
-        new_right_nodes_list = gen_new_nodes(node.right)
+        new_left_nodes = gen_new_nodes(node.left)
+        new_right_nodes = gen_new_nodes(node.right)
 
         result_a =
-          new_left_nodes_list
-          |> Enum.map(fn new_left_node -> TreeNode.with_left(node, new_left_node) end)
+          for new_left_node <- new_left_nodes do
+            TreeNode.with_left(node, new_left_node)
+          end
 
         result_b =
-          new_right_nodes_list
-          |> Enum.map(fn new_right_node -> TreeNode.with_right(node, new_right_node) end)
+          for new_right_node <- new_right_nodes do
+            TreeNode.with_right(node, new_right_node)
+          end
 
         Enum.concat(result_a, result_b)
     end

@@ -25,7 +25,6 @@ defmodule Challenge59 do
     |> Enum.map(&gen_new_nodes(&1))
     |> Enum.concat()
     |> Enum.filter(&check_condition_is_met/1)
-    |> Enum.uniq()
   end
 
   def gen_new_nodes(node) do
