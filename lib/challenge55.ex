@@ -57,13 +57,7 @@ defmodule Challenge55 do
 
   defp check_condition_is_met(node) do
     is_nil(node) ||
-      (abs(count_nodes_in_tree(node.left) - count_nodes_in_tree(node.right)) <= 1 &&
+      (abs(TreeNode.count_nodes_in_tree(node.left) - TreeNode.count_nodes_in_tree(node.right)) <= 1 &&
          check_condition_is_met(node.left) && check_condition_is_met(node.right))
-  end
-
-  defp count_nodes_in_tree(node) do
-    if is_nil(node),
-      do: 0,
-      else: 1 + count_nodes_in_tree(node.left) + count_nodes_in_tree(node.right)
   end
 end

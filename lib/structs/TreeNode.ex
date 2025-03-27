@@ -12,4 +12,10 @@ defmodule TreeNode do
   def with_right(node, r) do
     %TreeNode{node | right: r}
   end
+
+  def count_nodes_in_tree(node) do
+    if is_nil(node),
+      do: 0,
+      else: 1 + count_nodes_in_tree(node.left) + count_nodes_in_tree(node.right)
+  end
 end
