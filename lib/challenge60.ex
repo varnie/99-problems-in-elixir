@@ -19,22 +19,33 @@ defmodule Challenge60 do
 
   def min_nodes(0), do: 0
   def min_nodes(1), do: 1
+
   def min_nodes(h) do
     min_nodes(h - 1) + min_nodes(h - 2) + 1
   end
 
   def max_height(0), do: 0
   def max_height(1), do: 1
+
   def max_height(nodes_count) do
     max_height_impl(0, nodes_count)
   end
 
   defp max_height_impl(cur_height, nodes_count) do
     mn = min_nodes(cur_height)
+
     if mn <= nodes_count do
-      max_height_impl(cur_height+1, nodes_count)
+      max_height_impl(cur_height + 1, nodes_count)
     else
-      cur_height-1
+      cur_height - 1
     end
+  end
+
+  def hbal_tree_nodes(nodes_count) do
+    maxh = max_height(nodes_count)
+
+    Enum.flat_map(0..maxh, fn h ->
+      Challenge59.hbal_tree(h) |> Enum.filter(&(TreeNode.count_nodes_in_tree(&1) == nodes_count))
+    end)
   end
 end
