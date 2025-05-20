@@ -1,6 +1,6 @@
 defmodule Challenge36 do
   @moduledoc """
-  (**) Determine the prime factors of a given positive integer (2).
+  (**) Determine the prime factors of a given positive integer.
     Construct a list containing the prime factors and their multiplicity.
   """
   def prime_factors_mult(t) do
