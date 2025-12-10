@@ -56,9 +56,7 @@ defmodule Challenge93 do
   end
 
   def gen_op_combs(how_much, cur_item \\ []) do
-    ops = [:plus, :minus, :mult, :div]
-
-    Enum.reduce(ops, [], fn x, acc ->
+    Enum.reduce(@ops, [], fn x, acc ->
       # new_cur_item is a flat list
       new_cur_item = cur_item ++ [x]
 
