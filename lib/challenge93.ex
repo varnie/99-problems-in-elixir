@@ -63,7 +63,7 @@ defmodule Challenge93 do
     end)
   end
 
-  def gen_op_combs(required_size, cur_item \\ []) do
+  defp gen_op_combs(required_size, cur_item \\ []) do
     Enum.reduce(@ops, [], fn x, acc ->
       # new_cur_item is a flat list
       new_cur_item = cur_item ++ [x]
