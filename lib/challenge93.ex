@@ -10,7 +10,7 @@ defmodule Challenge93 do
   @ops [:plus, :minus, :mult, :div]
 
   def solutions(numbers) when length(numbers) < 2 do
-    raise("Two ore more items required")
+    raise("Two or more items required")
   end
 
   def solutions(numbers) do
