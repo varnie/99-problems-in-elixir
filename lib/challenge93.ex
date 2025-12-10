@@ -23,8 +23,9 @@ defmodule Challenge93 do
 
         for left_comb <- left_combs,
             right_comb <- right_combs,
-            eval_string("#{left_comb}==#{right_comb}") do
-          "#{left_comb}==#{right_comb}"
+            test_equotion = "#{left_comb}==#{right_comb}",
+            eval_string(test_equotion) do
+          test_equotion
         end
       end
 
