@@ -8,6 +8,8 @@ defmodule Challenge93 do
   """
 
   @ops [:plus, :minus, :mult, :div]
+  @open_bracket :open
+  @closed_bracket :closed
 
   def solutions(numbers) when length(numbers) < 2 do
     raise("Two or more items required")
@@ -23,13 +25,20 @@ defmodule Challenge93 do
 
         for left_comb <- left_combs,
             right_comb <- right_combs,
-            test_equotion = "#{left_comb}==#{right_comb}",
-            eval_string(test_equotion) do
-          test_equotion
+            left_comb_equation = create_str_equation(left_comb),
+            right_comb_equation = create_str_equation(right_comb),
+            eval_string("#{left_comb_equation}==#{right_comb_equation}") do
+          "#{left_comb_equation}==#{right_comb_equation}"
         end
       end
 
     result |> List.flatten()
+  end
+
+  defp create_str_equation(val) when is_number(val), do: Integer.to_string(val)
+
+  defp create_str_equation(val) do
+    Enum.map(val, &map_val_to_string/1) |> Enum.join("")
   end
 
   defp eval_string(val) do
@@ -40,13 +49,17 @@ defmodule Challenge93 do
     end
   end
 
-  defp map_op_to_string(op) do
-    case op do
-      :plus -> "+"
-      :minus -> "-"
-      :mult -> "*"
-      :div -> "/"
-      _ -> raise("Invalid operation found #{op}")
+  defp map_val_to_string(op) do
+    if is_number(op) do
+      Integer.to_string(op)
+    else
+      case op do
+        :plus -> "+"
+        :minus -> "-"
+        :mult -> "*"
+        :div -> "/"
+        _ -> raise("Invalid operation found #{op}")
+      end
     end
   end
 
@@ -55,24 +68,33 @@ defmodule Challenge93 do
   defp gen_combs(numbers) do
     op_combs = gen_op_combs(length(numbers) - 1)
 
-    Enum.map(op_combs, fn cur_op_combs ->
-      # we need to add a dummy item to cur_op_combs in order to use Enum.zip_with
-      # (we need to make lengths of these sequences equal)
-      Enum.zip_with(numbers, cur_op_combs ++ [""], fn number, op ->
-        Integer.to_string(number) <> if op == "", do: "", else: map_op_to_string(op)
+    result =
+      Enum.map(op_combs, fn cur_op_combs ->
+        zipped_numbers_with_ops = Enum.zip(numbers, cur_op_combs ++ [""])
+
+        Enum.reduce(zipped_numbers_with_ops, [], fn {cur_number, cur_op}, acc ->
+          if cur_op == "" do
+            [cur_number | acc]
+          else
+            [cur_op, cur_number | acc]
+          end
+        end)
+        |> Enum.reverse()
       end)
-    end)
+
+    result
   end
 
-  defp gen_op_combs(required_size, cur_item \\ []) do
-    Enum.reduce(@ops, [], fn x, acc ->
+  defp gen_op_combs(required_size, cur_len \\ 0, cur_item \\ []) do
+    Enum.reduce(@ops, [], fn op, acc ->
       # new_cur_item is a flat list
-      new_cur_item = cur_item ++ [x]
+      new_cur_item = cur_item ++ [op]
 
-      if length(new_cur_item) == required_size do
+      if cur_len + 1 == required_size do
         [new_cur_item | acc]
       else
-        Enum.concat(acc, gen_op_combs(required_size, new_cur_item))
+        new_gen_op_combs = gen_op_combs(required_size, cur_len + 1, new_cur_item)
+        Enum.concat(acc, new_gen_op_combs)
       end
     end)
   end
