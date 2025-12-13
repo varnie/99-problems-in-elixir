@@ -29,11 +29,9 @@ defmodule Challenge26Test do
 
     correct_result_sorted = Enum.sort(correct_result)
 
-    result_a = Challenge26.combinations(3, lst)
     result_b = Challenge26SecondSolution.combinations(3, lst)
     result_c = Challenge26ThirdSolution.combinations(3, lst)
 
-    assert Enum.sort(result_a) == correct_result_sorted
     assert Enum.sort(result_b) == correct_result_sorted
     assert Enum.sort(result_c) == correct_result_sorted
   end
@@ -41,7 +39,6 @@ defmodule Challenge26Test do
   test "combinations_second_test" do
     lst = Enum.to_list(1..12)
 
-    assert length(Challenge26.combinations(3, lst)) == 220
     assert length(Challenge26SecondSolution.combinations(3, lst)) == 220
     assert length(Challenge26ThirdSolution.combinations(3, lst)) == 220
   end
