@@ -15,7 +15,6 @@ defmodule Challenge93Test do
 
     result = Challenge93.solutions([2,3,5,7,11])
     assert Enum.member?(result, "2-3+5+7==11")
-
-    #TODO: add other tests later for ( )
+    assert Enum.member?(result, "2-3+5+7==11")
   end
 end
