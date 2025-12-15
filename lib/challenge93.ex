@@ -90,10 +90,10 @@ defmodule Challenge93 do
         |> Enum.reverse()
       end)
 
-    equations_with_mults_or_divs = Enum.filter(equations_list, &(:mult in &1 or :div in &1))
-
     new_equations =
-      Enum.map(equations_with_mults_or_divs, fn cur_equation ->
+      equations_list
+      |> Enum.filter(&(:mult in &1 or :div in &1))
+      |> Enum.map(fn cur_equation ->
         # extend equations_list with "(..)"-equations
 
         term_indexes =
