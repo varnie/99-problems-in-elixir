@@ -27,8 +27,9 @@ defmodule Challenge93 do
             right_comb <- right_combs,
             left_comb_equation = create_str_equation(left_comb),
             right_comb_equation = create_str_equation(right_comb),
-            eval_string("#{left_comb_equation}==#{right_comb_equation}") do
-          "#{left_comb_equation}==#{right_comb_equation}"
+            candidate = "#{left_comb_equation}==#{right_comb_equation}",
+            eval_string(candidate) do
+          candidate
         end
       end
 
@@ -91,12 +92,7 @@ defmodule Challenge93 do
         |> Enum.reverse()
       end)
 
-    IO.inspect(equations_list, label: "equations_list")
-
-    equations_with_mults_or_divs =
-      Enum.filter(equations_list, &(Enum.member?(&1, :mult) or Enum.member?(&1, :div)))
-
-    IO.inspect(equations_with_mults_or_divs, label: "equations_with_mults_or_divs")
+    equations_with_mults_or_divs = Enum.filter(equations_list, &(:mult in &1 or :div in &1))
 
     new_equations =
       Enum.map(equations_with_mults_or_divs, fn cur_equation ->
@@ -115,28 +111,16 @@ defmodule Challenge93 do
             end
           end)
 
-        all_possible_index_pairs = gen_all_possible_index_pairs(term_indexes)
-
-        all_possible_index_pair_combs =
-          gen_all_possible_index_pairs_combs(all_possible_index_pairs)
-
-        IO.inspect(all_possible_index_pair_combs, label: "all_possible_index_pair_combs")
+        all_possible_index_pairs = gen_all_index_pairs(term_indexes)
+        all_possible_index_pair_combs = gen_all_index_pairs_combs(all_possible_index_pairs)
 
         Enum.reduce(all_possible_index_pair_combs, [], fn x, acc ->
           index_pair_combs = x
-          IO.inspect(cur_equation, label: "cur_equation")
-          IO.inspect(index_pair_combs, label: "index_pair_combs")
-
           new_equations_with_mult_div_ops =
             setup_brackets_for_equation(cur_equation, index_pair_combs)
-
-          IO.inspect(new_equations_with_mult_div_ops, label: "new_equations_with_mult_div_ops")
-
           acc ++ new_equations_with_mult_div_ops
         end)
       end)
-
-    IO.inspect(new_equations, label: "new_equations")
 
     # merge equations_list and equations_with_brackets
     Enum.concat(equations_list, new_equations)
@@ -153,7 +137,7 @@ defmodule Challenge93 do
           Enum.map(equation_with_index, fn cur_equation_item ->
             {val, index} = cur_equation_item
 
-            if index == open_bracket_index or index == closed_bracket_index do
+            if index in [open_bracket_index, closed_bracket_index] do
               bracket_symbol =
                 if index == open_bracket_index, do: @open_bracket, else: @closed_bracket
 
@@ -173,23 +157,23 @@ defmodule Challenge93 do
     new_equation
   end
 
-  def gen_all_possible_index_pairs_combs(index_pairs_list, k \\ 1) do
+  def gen_all_index_pairs_combs(index_pairs_list, k \\ 1) do
     result = Challenge26SecondSolution.combinations(k, index_pairs_list)
 
     if result != [] do
-      result ++ gen_all_possible_index_pairs_combs(index_pairs_list, k + 1)
+      result ++ gen_all_index_pairs_combs(index_pairs_list, k + 1)
     else
       result
     end
   end
 
-  def gen_all_possible_index_pairs(term_indices = [head | tail]) do
+  def gen_all_index_pairs(_term_indices = [head | tail]) do
     Enum.reduce(tail, [], fn item, acc ->
       acc ++ [{head, item}]
-    end) ++ gen_all_possible_index_pairs(tail)
+    end) ++ gen_all_index_pairs(tail)
   end
 
-  def gen_all_possible_index_pairs([]), do: []
+  def gen_all_index_pairs([]), do: []
 
   defp gen_op_combs(required_size, cur_len \\ 0, cur_item \\ []) do
     Enum.reduce(@ops, [], fn op, acc ->
