@@ -51,29 +51,27 @@ defmodule Challenge93 do
 
   defp eval_string(val) do
     try do
-      Kernel.elem(Code.eval_string(val), 0) == true
+      {result, _} = Code.eval_string(val)
+      result === true
     rescue
       _ -> false
     end
   end
 
   defp map_val_to_string(op) do
-    if is_number(op) do
-      Integer.to_string(op)
-    else
-      case op do
-        :plus -> "+"
-        :minus -> "-"
-        :mult -> "*"
-        :div -> "/"
-        :open -> "("
-        :closed -> ")"
-        _ -> raise("Invalid operation found #{op}")
-      end
+    case op do
+      n when is_number(n) -> Integer.to_string(n)
+      :plus -> "+"
+      :minus -> "-"
+      :mult -> "*"
+      :div -> "/"
+      :open -> "("
+      :closed -> ")"
+      _ -> raise("Invalid operation found #{IO.inspect(op)}")
     end
   end
 
-  defp gen_combs(numbers) when length(numbers) == 1, do: numbers
+  defp gen_combs([item]), do: [item]
 
   defp gen_combs(numbers) do
     op_combs = gen_op_combs(length(numbers) - 1)
@@ -116,8 +114,10 @@ defmodule Challenge93 do
 
         Enum.reduce(all_possible_index_pair_combs, [], fn x, acc ->
           index_pair_combs = x
+
           new_equations_with_mult_div_ops =
             setup_brackets_for_equation(cur_equation, index_pair_combs)
+
           acc ++ new_equations_with_mult_div_ops
         end)
       end)
@@ -160,10 +160,9 @@ defmodule Challenge93 do
   def gen_all_index_pairs_combs(index_pairs_list, k \\ 1) do
     result = Challenge26SecondSolution.combinations(k, index_pairs_list)
 
-    if result != [] do
-      result ++ gen_all_index_pairs_combs(index_pairs_list, k + 1)
-    else
-      result
+    case result do
+      [] -> result
+      _ -> result ++ gen_all_index_pairs_combs(index_pairs_list, k + 1)
     end
   end
 
