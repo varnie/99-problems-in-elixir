@@ -36,17 +36,10 @@ defmodule Challenge93 do
     result |> List.flatten()
   end
 
-  defp create_str_equation(val) when is_number(val), do: Integer.to_string(val)
+  defp create_str_equation(val) when not is_list(val), do: map_val_to_string(val)
 
   defp create_str_equation(lst) do
-    Enum.map(lst, fn item ->
-      if is_list(item) do
-        create_str_equation(item)
-      else
-        map_val_to_string(item)
-      end
-    end)
-    |> Enum.join("")
+    Enum.map(lst, &create_str_equation/1) |> Enum.join("")
   end
 
   defp eval_string(val) do
