@@ -118,9 +118,9 @@ defmodule Challenge93 do
           new_equations_with_mult_div_ops =
             setup_brackets_for_equation(cur_equation, index_pair_combs)
 
-          acc ++ new_equations_with_mult_div_ops
+          acc ++ [new_equations_with_mult_div_ops]
         end)
-      end)
+      end) |> Enum.concat()
 
     # merge equations_list and equations_with_brackets
     Enum.concat(equations_list, new_equations)
@@ -142,7 +142,7 @@ defmodule Challenge93 do
                 if index == open_bracket_index, do: @open_bracket, else: @closed_bracket
 
               if is_integer(val) do
-                [bracket_symbol, val]
+                if bracket_symbol == @open_bracket, do: [@open_bracket, val], else: [val, @closed_bracket]
               else
                 val ++ [bracket_symbol]
               end
