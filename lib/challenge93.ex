@@ -63,7 +63,7 @@ defmodule Challenge93 do
     end
   end
 
-  def gen_combs([head | tail], result \\ []) do
+  defp gen_combs([head | tail], result \\ []) do
     new_result =
       case result do
         [] ->
@@ -132,7 +132,7 @@ defmodule Challenge93 do
     end
   end
 
-  def calc_tree_weight(tree) do
+  defp calc_tree_weight(tree) do
     if TreeNode.is_leaf(tree) do
       tree.symbol
     else
