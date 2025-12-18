@@ -11,13 +11,13 @@ defmodule Challenge93Test do
     end
 
     result = Challenge93.solutions([10, 10])
-    assert result == ["10==10"]
+    assert result == ["10=10"]
 
     result = Challenge93.solutions([2, 3, 5, 7, 11])
-    assert Enum.member?(result, "2==3-5-7+11")
-    assert Enum.member?(result, "2==(3*5+7)/11")
-    assert Enum.member?(result, "2*(3-5)==7-11")
-    assert Enum.member?(result, "(2*(3-5))==7-11")
-    assert Enum.member?(result, "2-3+5+7==11")
+    assert Enum.member?(result, "2=3-5-7+11")
+    assert Enum.member?(result, "2=(3*5+7)/11")
+    assert Enum.member?(result, "2*(3-5)=7-11")
+    assert Enum.member?(result, "(2*(3-5))=7-11")
+    assert Enum.member?(result, "2-3+5+7=11")
   end
 end

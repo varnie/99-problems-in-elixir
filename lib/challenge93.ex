@@ -29,7 +29,7 @@ defmodule Challenge93 do
             right_comb_equation = create_str_equation(right_comb),
             candidate = "#{left_comb_equation}==#{right_comb_equation}",
             eval_string(candidate) do
-          candidate
+          "#{left_comb_equation}=#{right_comb_equation}"
         end
       end
 
