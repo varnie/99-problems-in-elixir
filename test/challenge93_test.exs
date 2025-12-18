@@ -1,7 +1,22 @@
 defmodule Challenge93Test do
   use ExUnit.Case
 
-  test "solutions" do
+  setup_all do
+    {:ok,
+     result_list: [
+       "2=3-(5+7)+11",
+       "2=3-(5+7-11)",
+       "2=3-5-7+11",
+       "2=3-5-(7-11)",
+       "2=(3*5+7)/11",
+       "2*(3-5)=7-11",
+       "2-3+5+7=11",
+       "2-(3-5)+7=11",
+       "2-(3-5-7)=11"
+     ]}
+  end
+
+  test "solutions", state do
     assert_raise RuntimeError, fn ->
       Challenge93.solutions([])
     end
@@ -14,10 +29,7 @@ defmodule Challenge93Test do
     assert result == ["10=10"]
 
     result = Challenge93.solutions([2, 3, 5, 7, 11])
-    IO.inspect(result)
-    assert Enum.member?(result, "2=3-5-7+11")
-    assert Enum.member?(result, "2=(3*5+7)/11")
-    assert Enum.member?(result, "2*(3-5)=7-11")
-    assert Enum.member?(result, "2-3+5+7=11")
+
+    assert Helpers.check_two_enumerables_equal?(result, state[:result_list])
   end
 end
