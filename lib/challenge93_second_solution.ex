@@ -31,23 +31,35 @@ defmodule Challenge93SecondSolution do
         end
       end
 
-    result |> Enum.concat()
+    result |> Enum.concat() |> Enum.uniq()
   end
 
-  def tree_to_str(tree, is_inner \\ false) do
-    #TODO: better brackets implementation needed
-
+  defp tree_to_str(tree) do
     if TreeNode.is_leaf(tree) do
       "#{tree.symbol}"
     else
-      left_str = tree_to_str(tree.left, true)
-      right_str = tree_to_str(tree.right, true)
+      left_str = tree_to_str(tree.left)
+      right_str = tree_to_str(tree.right)
 
-      if is_inner do
-        "(#{left_str}#{tree.symbol}#{right_str})"
+      brackets_left_tree_needed =
+        !TreeNode.is_leaf(tree.left) and tree.left.symbol in ["+", "-"] and
+          tree.symbol in ["*", "/"]
+
+      brackets_right_tree_needed =
+        !TreeNode.is_leaf(tree.right) and tree.right.symbol in ["+", "-"] and
+          tree.symbol in ["*", "/", "-"]
+
+      if brackets_left_tree_needed do
+        "(#{left_str})"
       else
-        "#{left_str}#{tree.symbol}#{right_str}"
-      end
+        "#{left_str}"
+      end <>
+        "#{tree.symbol}" <>
+        if brackets_right_tree_needed do
+          "(#{right_str})"
+        else
+          "#{right_str}"
+        end
     end
   end
 
@@ -107,9 +119,11 @@ defmodule Challenge93SecondSolution do
                   ]
               end
             end)
-            |> Enum.concat()
+
+            # |> Enum.concat()
           end)
-          |> Enum.concat()
+          # |> Enum.concat()
+          |> List.flatten()
       end
 
     case tail do
