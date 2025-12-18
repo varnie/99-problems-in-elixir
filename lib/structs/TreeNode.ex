@@ -5,11 +5,11 @@ defmodule TreeNode do
     is_nil(node.left) && is_nil(node.right)
   end
 
-  def with_left(node, l) do
+  def with_left(%TreeNode{} = node, l) do
     %TreeNode{node | left: l}
   end
 
-  def with_right(node, r) do
+  def with_right(%TreeNode{} = node, r) do
     %TreeNode{node | right: r}
   end
 

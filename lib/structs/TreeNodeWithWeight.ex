@@ -5,11 +5,11 @@ defmodule TreeNodeWithWeight do
     is_nil(node.left) && is_nil(node.right)
   end
 
-  def with_left(node, l) do
+  def with_left(%TreeNodeWithWeight{} = node, l) do
     %TreeNodeWithWeight{node | left: l}
   end
 
-  def with_right(node, r) do
+  def with_right(%TreeNodeWithWeight{} = node, r) do
     %TreeNodeWithWeight{node | right: r}
   end
 end
