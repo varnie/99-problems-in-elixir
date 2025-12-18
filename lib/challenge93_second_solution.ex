@@ -35,7 +35,9 @@ defmodule Challenge93SecondSolution do
   end
 
   def tree_to_str(tree, is_inner \\ false) do
-    if is_nil(tree.left) and is_nil(tree.right) do
+    #TODO: better brackets implementation needed
+
+    if TreeNode.is_leaf(tree) do
       "#{tree.symbol}"
     else
       left_str = tree_to_str(tree.left, true)
@@ -117,7 +119,7 @@ defmodule Challenge93SecondSolution do
   end
 
   def calc_tree_weight(tree) do
-    if is_nil(tree.left) and is_nil(tree.right) do
+    if TreeNode.is_leaf(tree) do
       tree.symbol
     else
       left_tree_weight = calc_tree_weight(tree.left)
