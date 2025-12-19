@@ -25,13 +25,17 @@ defmodule Challenge96 do
         true
 
       [x] ->
-        is_letter?(x) or is_digit?(x)
+        is_letter_or_digit?(x)
 
-      [x, y | tail] ->
-        (is_underscore?(x) and (is_letter?(y) or is_digit?(y)) and is_block?(tail)) or
-          ((is_letter?(x) or is_digit?(x)) and is_block?([y | tail]))
+      ["_" | tail = [tail_a | _rest]] ->
+        !is_underscore?(tail_a) and is_block?(tail)
+
+      [x | tail] ->
+        is_letter_or_digit?(x) and is_block?(tail)
     end
   end
+
+  defp is_letter_or_digit?(x), do: is_letter?(x) or is_digit?(x)
 
   defp is_letter?(x), do: String.match?(x, ~r/^[A-Za-z]$/)
 

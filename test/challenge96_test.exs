@@ -2,8 +2,8 @@ defmodule Challenge96Test do
   use ExUnit.Case
 
   test "identifier" do
-    assert Challenge96.identifier("ab_") == false
     assert Challenge96.identifier("") == false
+    assert Challenge96.identifier("ab_") == false
     assert Challenge96.identifier("a") == true
     assert Challenge96.identifier("ab") == true
     assert Challenge96.identifier("a6") == true
@@ -11,7 +11,6 @@ defmodule Challenge96Test do
     assert Challenge96.identifier("abc") == true
     assert Challenge96.identifier("5") == false
     assert Challenge96.identifier("56") == false
-    assert Challenge96.identifier("a_5") == true
     assert Challenge96.identifier("a_5") == true
     assert Challenge96.identifier("a_b") == true
     assert Challenge96.identifier("a_bc") == true
