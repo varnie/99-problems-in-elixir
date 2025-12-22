@@ -52,27 +52,27 @@ defmodule Challenge97 do
   defp check_all_vertical_lines_valid?(lst) do
     vertical_lines =
       Enum.map(0..8, fn index ->
-        Enum.map(lst, fn row ->
-          Enum.at(row, index)
+        Enum.map(lst, fn line ->
+          Enum.at(line, index)
         end)
       end)
 
     check_all_lines_have_unique_vals?(vertical_lines)
   end
 
-  defp check_new_row_is_a_good_candidate?(new_row, row_index) do
+  defp check_new_line_is_a_good_candidate?(new_line, line_index) do
     indexed_src_list = Enum.with_index(@src, 0)
 
-    new_src_list =
+    src_list_with_updated_line =
       Enum.map(indexed_src_list, fn {cur_lst, cur_index} ->
-        if cur_index != row_index do
+        if cur_index != line_index do
           cur_lst
         else
-          new_row
+          new_line
         end
       end)
 
-    check_all_vertical_lines_valid?(new_src_list)
+    check_all_vertical_lines_valid?(src_list_with_updated_line)
   end
 
   def solve() do
@@ -104,71 +104,73 @@ defmodule Challenge97 do
     #      ...
     #    ]
 
-    possible_row_permutations =
+    possible_line_permutations =
       possible_lists_of_missed_vals_permutations
       |> Enum.with_index(0)
-      |> Enum.map(fn {updates_rows, row_index} ->
-        for updates_row <- updates_rows,
-            cur_row = Enum.at(@src, row_index),
-            {new_row, _} =
-              Enum.reduce(cur_row, {[], updates_row}, fn x, acc ->
-                {cur_acc_result, cur_updates_row} = acc
+      |> Enum.map(fn {update_lines, line_index} ->
+        for update_line <- update_lines,
+            cur_line = Enum.at(@src, line_index),
+            {new_line, _} =
+              Enum.reduce(cur_line, {[], update_line}, fn x, acc ->
+                {cur_acc_result, cur_update_line} = acc
 
                 if x == 0 do
-                  [cur_updates_row_head | cur_updates_row_tail] = cur_updates_row
-                  {cur_acc_result ++ [cur_updates_row_head], cur_updates_row_tail}
+                  [cur_update_line_head | cur_update_line_tail] = cur_update_line
+                  {cur_acc_result ++ [cur_update_line_head], cur_update_line_tail}
                 else
-                  {cur_acc_result ++ [x], cur_updates_row}
+                  {cur_acc_result ++ [x], cur_update_line}
                 end
               end),
-            check_new_row_is_a_good_candidate?(new_row, row_index) do
-          new_row
+            check_new_line_is_a_good_candidate?(new_line, line_index) do
+          new_line
         end
       end)
 
-    for a <- Enum.at(possible_row_permutations, 0),
-        b <- Enum.at(possible_row_permutations, 1),
-        c <- Enum.at(possible_row_permutations, 2),
+    for a <- Enum.at(possible_line_permutations, 0),
+        b <- Enum.at(possible_line_permutations, 1),
+        c <- Enum.at(possible_line_permutations, 2),
         check_requirements_satisfied?([a, b, c]),
-        d <- Enum.at(possible_row_permutations, 3),
-        e <- Enum.at(possible_row_permutations, 4),
-        f <- Enum.at(possible_row_permutations, 5),
+        d <- Enum.at(possible_line_permutations, 3),
+        e <- Enum.at(possible_line_permutations, 4),
+        f <- Enum.at(possible_line_permutations, 5),
         check_requirements_satisfied?([a, b, c, d, e, f]),
-        g <- Enum.at(possible_row_permutations, 6),
-        h <- Enum.at(possible_row_permutations, 7),
-        i <- Enum.at(possible_row_permutations, 8),
+        g <- Enum.at(possible_line_permutations, 6),
+        h <- Enum.at(possible_line_permutations, 7),
+        i <- Enum.at(possible_line_permutations, 8),
         check_requirements_satisfied?([a, b, c, d, e, f, g, h, i]) do
       [a, b, c, d, e, f, g, h, i]
     end
   end
 
-  defp get_all_squares(candidate) do
-    {square_rows, _} =
+  defp get_all_squares_data(candidate) do
+    {result, _} =
       candidate
       |> Enum.reduce({[], []}, fn x, {result, cur_acc} ->
         # x is a row
-        cur_acc = cur_acc ++ [x]
+        cur_acc = [x | cur_acc]
 
-        if length(cur_acc) == 3 do
-          new_result_items =
-            Enum.reduce(cur_acc, [[], [], []], fn cur_row, [x, y, z] ->
-              chunks = Enum.chunk_every(cur_row, 3)
-              [chunk_x, chunk_y, chunk_z] = chunks
-              [x ++ chunk_x, y ++ chunk_y, z ++ chunk_z]
-            end)
+        case length(cur_acc) do
+          3 ->
+            # we have 3 rows accumulated, process them
+            new_result_items =
+              Enum.reduce(cur_acc, [[], [], []], fn cur_row, [x, y, z] ->
+                [chunk_x, chunk_y, chunk_z] = Enum.chunk_every(cur_row, 3)
+                [x ++ chunk_x, y ++ chunk_y, z ++ chunk_z]
+              end)
 
-          {Enum.concat(result, new_result_items), []}
-        else
-          {result, cur_acc}
+            {result ++ new_result_items, []}
+
+          _ ->
+            {result, cur_acc}
         end
       end)
 
-    square_rows
+    result
   end
 
   defp check_requirements_satisfied?(candidate) do
     check_all_vertical_lines_valid?(candidate) and
-      check_all_lines_have_unique_vals?(get_all_squares(candidate))
+      check_all_lines_have_unique_vals?(get_all_squares_data(candidate))
   end
 
   defp permutations_without_repetitions(lst) do
