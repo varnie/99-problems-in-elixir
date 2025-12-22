@@ -27,7 +27,7 @@ defmodule Challenge59 do
     |> Enum.filter(&check_condition_is_met/1)
   end
 
-  def gen_new_nodes(node) do
+  defp gen_new_nodes(node) do
     cond do
       is_nil(node) ->
         [%TreeNode{symbol: :x, left: nil, right: nil}]

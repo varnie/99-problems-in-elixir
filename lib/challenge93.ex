@@ -119,10 +119,7 @@ defmodule Challenge93 do
                   ]
               end
             end)
-
-            # |> Enum.concat()
           end)
-          # |> Enum.concat()
           |> List.flatten()
       end
 
