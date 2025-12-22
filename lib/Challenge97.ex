@@ -142,32 +142,33 @@ defmodule Challenge97 do
     end
   end
 
+  defp get_all_squares(candidate) do
+    {square_rows, _} =
+      candidate
+      |> Enum.reduce({[], []}, fn x, {result, cur_acc} ->
+        # x is a row
+        cur_acc = cur_acc ++ [x]
+
+        if length(cur_acc) == 3 do
+          new_result_items =
+            Enum.reduce(cur_acc, [[], [], []], fn cur_row, [x, y, z] ->
+              chunks = Enum.chunk_every(cur_row, 3)
+              [chunk_x, chunk_y, chunk_z] = chunks
+              [x ++ chunk_x, y ++ chunk_y, z ++ chunk_z]
+            end)
+
+          {Enum.concat(result, new_result_items), []}
+        else
+          {result, cur_acc}
+        end
+      end)
+
+    square_rows
+  end
+
   defp check_requirements_satisfied?(candidate) do
-    if !check_all_vertical_lines_valid?(candidate) do
-      false
-    else
-      {square_rows, _} =
-        candidate
-        |> Enum.reduce({[], []}, fn x, {result, cur_acc} ->
-          # x is a row
-          cur_acc = cur_acc ++ [x]
-
-          if length(cur_acc) == 3 do
-            new_result_items =
-              Enum.reduce(cur_acc, [[], [], []], fn cur_row, [x, y, z] ->
-                chunks = Enum.chunk_every(cur_row, 3)
-                [chunk_x, chunk_y, chunk_z] = chunks
-                [x ++ chunk_x, y ++ chunk_y, z ++ chunk_z]
-              end)
-
-            {Enum.concat(result, new_result_items), []}
-          else
-            {result, cur_acc}
-          end
-        end)
-
-      check_all_lines_have_unique_vals?(square_rows)
-    end
+    check_all_vertical_lines_valid?(candidate) and
+      check_all_lines_have_unique_vals?(get_all_squares(candidate))
   end
 
   defp permutations_without_repetitions(lst) do
