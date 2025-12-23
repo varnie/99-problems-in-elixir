@@ -34,21 +34,29 @@ defmodule Challenge81 do
     end
   end
 
-  def path_impl(graph, x, y) do
-    # here graph is of Graph Expression Form
+  defp path_impl(graph, x, y) do
     [_nodes, edges] = graph
 
-    Enum.filter(edges, fn [from_node, _] -> from_node == x end)
-    |>
-    Enum.map(fn [from_node, to_node] ->
-      if to_node == y do
-        [x, y]
+    Enum.reduce(edges, [], fn next_node, acc ->
+      [from_node, to_node] = next_node
+
+      if from_node !== x do
+        # skip
+        acc
       else
-        Enum.flat_map(path_impl(graph, to_node, y), fn new_item ->
-          [from_node | new_item]
-        end)
+        new_acc =
+          if to_node == y do
+            acc ++ [[next_node]]
+          else
+            new_vals = path_impl(graph, to_node, y)
+            Enum.reduce(new_vals, acc, fn x, new_acc ->
+              new_acc = new_acc ++ [[next_node | x]]
+              new_acc
+            end)
+          end
+
+        new_acc
       end
     end)
-    |> Enum.reject(fn item -> item == [] end)
   end
 end
