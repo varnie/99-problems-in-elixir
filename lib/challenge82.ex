@@ -1,7 +1,7 @@
-defmodule Challenge81 do
+defmodule Challenge82 do
   @moduledoc """
-  P81 (**) Path from one node to another one
-    Write a function (path g a b) to return an acyclic path from node a to node b in the graph g. The function should return all paths.
+  P82 [*] Cycle from a given node
+    Write a function [cycle g a] to find a closed path [cycle] starting at a given node a in the graph g. The function should return all cycles.
 
   Graph Expression Form:
   [
@@ -21,34 +21,35 @@ defmodule Challenge81 do
   ]
   """
 
-  def path(_graph, x, y) when x == y, do: []
-
-  def path(graph, x, y) do
+  def cycle(graph, a) do
     # here graph is of Graph Expression Form
     [nodes, _edges] = graph
 
-    if x not in nodes or y not in nodes do
+    if a not in nodes do
       []
     else
-      path_impl(graph, x, y)
+      cycle_impl(graph, a, a)
     end
   end
 
-  defp path_impl(graph, x, y) do
+  def cycle_impl(graph, cur_node, dest, visited_nodes \\ []) do
+    # here graph is of Graph Expression Form
     [_nodes, edges] = graph
 
     Enum.reduce(edges, [], fn next_node, acc ->
       [from_node, to_node] = next_node
 
-      if from_node != x do
+      if from_node != cur_node or next_node in visited_nodes do
         # skip
         acc
       else
         new_acc =
-          if to_node == y do
+          if to_node == dest do
             acc ++ [[next_node]]
           else
-            new_vals = path_impl(graph, to_node, y)
+            new_visited_nodes = visited_nodes ++ [next_node]
+            new_vals = cycle_impl(graph, to_node, dest, new_visited_nodes)
+
             Enum.reduce(new_vals, acc, fn x, new_acc ->
               new_acc = new_acc ++ [[next_node | x]]
               new_acc
