@@ -50,21 +50,14 @@ defmodule Challenge86 do
     # here graph is of Graph Expression Form
     [_nodes, edges] = graph
 
-    IO.inspect(nodes, label: "nodes to process")
-
     result_map =
       Enum.reduce(nodes_tail, %{node_head => color}, fn x, acc ->
-        IO.inspect(x, label: "checking ...")
         if Enum.find(edges, fn edge -> edge == [node_head, x] or edge == [x, node_head] end) do
-          IO.inspect(x, label: "found in edges, skipping")
           acc
         else
-        IO.inspect(x, label: "not found, adding")
           Map.put(acc, x, color)
         end
       end)
-
-    IO.inspect(result_map, label: "result_map")
 
     # find remaining nodes
     remaining_nodes = Enum.reject(nodes, fn cur_node -> Map.has_key?(result_map, cur_node) end)

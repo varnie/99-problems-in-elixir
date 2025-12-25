@@ -28,8 +28,8 @@ defmodule Challenge87 do
     [nodes, _edges] = graph
 
     if start_node in nodes do
-      # Move start_node to the beginning; the order of the remaining items is irrelevant
-      nodes = Enum.sort(nodes, fn a, b -> a == start_node end)
+      # Move start_node to the beginning
+      nodes = [start_node] ++ Enum.reject(nodes, fn a -> a == start_node end)
 
       {result, _visited_nodes} =
         Enum.reduce(nodes, {[], []}, fn x, acc ->
@@ -47,7 +47,7 @@ defmodule Challenge87 do
     end
   end
 
-  def graph_traversal_depth_first_order_impl(graph, start_node, visited_nodes \\ []) do
+  defp graph_traversal_depth_first_order_impl(graph, start_node, visited_nodes) do
     # here graph is of Graph Expression Form
     [_nodes, edges] = graph
 
@@ -60,7 +60,7 @@ defmodule Challenge87 do
         end)
 
       Enum.reduce(next_nodes, {[start_node], visited_nodes ++ [start_node]}, fn x, acc ->
-        [next_node_from, next_node_to] = x
+        [_next_node_from, next_node_to] = x
         {cur_result, cur_visited_nodes} = acc
 
         if next_node_to in cur_visited_nodes do
