@@ -25,14 +25,14 @@ defmodule Challenge82 do
     # here graph is of Graph Expression Form
     [nodes, _edges] = graph
 
-    if a not in nodes do
-      []
-    else
+    if a in nodes do
       cycle_impl(graph, a, a)
+    else
+      []
     end
   end
 
-  def cycle_impl(graph, cur_node, dest, visited_nodes \\ []) do
+  defp cycle_impl(graph, cur_node, dest, visited_nodes \\ []) do
     # here graph is of Graph Expression Form
     [_nodes, edges] = graph
 

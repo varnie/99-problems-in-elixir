@@ -27,10 +27,10 @@ defmodule Challenge81 do
     # here graph is of Graph Expression Form
     [nodes, _edges] = graph
 
-    if x not in nodes or y not in nodes do
-      []
-    else
+    if x in nodes and y in nodes do
       path_impl(graph, x, y)
+    else
+      []
     end
   end
 

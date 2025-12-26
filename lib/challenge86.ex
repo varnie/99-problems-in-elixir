@@ -28,7 +28,7 @@ defmodule Challenge86 do
     # here graph is of Graph Expression Form
     [_nodes, edges] = graph
 
-    Enum.count(edges, fn [a, b] -> node == a or node == b end)
+    Enum.count(edges, fn [a, b] -> node in [a, b] end)
   end
 
   def all_nodes_sorted_by_decreasing_degree(graph) do
@@ -52,7 +52,7 @@ defmodule Challenge86 do
 
     result_map =
       Enum.reduce(nodes_tail, %{node_head => color}, fn x, acc ->
-        if Enum.find(edges, fn edge -> edge == [node_head, x] or edge == [x, node_head] end) do
+        if Enum.find(edges, fn edge -> edge in [[node_head, x], [x, node_head]] end) do
           acc
         else
           Map.put(acc, x, color)
