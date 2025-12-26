@@ -29,7 +29,7 @@ defmodule Challenge41 do
 
   def goldbach_list_for_limit(from, to, limit) do
     goldbach_list_helper(from, to)
-    |> Enum.filter(fn {_x, a, b} -> a > limit && b > limit end)
+    |> Enum.filter(fn {_x, a, b} -> a > limit and b > limit end)
     |> Enum.map(fn {x, a, b} -> "#{x} = #{a} + #{b}" end)
   end
 

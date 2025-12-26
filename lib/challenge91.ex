@@ -42,7 +42,7 @@ defmodule Challenge91 do
   end
 
   defp is_within_gamefield_fn?({x, y}) do
-    x in 1..8 && y in 1..8
+    x in 1..8 and y in 1..8
   end
 
   def jumps({x, y} = _coordinate) do

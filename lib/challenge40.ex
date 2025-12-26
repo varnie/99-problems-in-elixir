@@ -11,7 +11,7 @@ defmodule Challenge40 do
     result_with_duplicates_in_another_order =
       1..(num - 1)
       |> Enum.filter(fn elem ->
-        Challenge31.is_prime(elem) && Challenge31.is_prime(num - elem)
+        Challenge31.is_prime(elem) and Challenge31.is_prime(num - elem)
       end)
       |> Enum.map(fn elem -> {elem, num - elem} end)
 

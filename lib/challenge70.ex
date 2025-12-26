@@ -91,7 +91,7 @@ defmodule Challenge70 do
 
   def nnodes(_a), do: 1
 
-  def is_tree(t = [_a, _b | _tail]), do: Enum.all?(t, fn x -> is_root(x) || is_tree(x) end)
+  def is_tree(t = [_a, _b | _tail]), do: Enum.all?(t, fn x -> is_root(x) or is_tree(x) end)
   def is_tree(a), do: is_root(a)
-  defp is_root(a), do: is_atom(a) && !is_nil(a)
+  defp is_root(a), do: is_atom(a) and !is_nil(a)
 end

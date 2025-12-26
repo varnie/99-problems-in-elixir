@@ -61,7 +61,7 @@ defmodule Challenge67 do
         cnt = cnt + optional_right_node_len
         src_list = Enum.drop(src_list, optional_right_node_len)
 
-        if is_nil(optional_left_node) && is_nil(optional_right_node) do
+        if is_nil(optional_left_node) and is_nil(optional_right_node) do
           raise("At least one inner node expected: either left left or right)")
         end
 

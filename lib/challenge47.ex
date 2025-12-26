@@ -13,9 +13,9 @@ defmodule Challenge47 do
   """
 
   # or
-  def a ||| b, do: a || b
+  def a ||| b, do: a or b
   # and
-  def a &&& b, do: a && b
+  def a &&& b, do: a and b
   # impl
   def a +++ b, do: Challenge46.tbl_impl(a, b)
   # xor

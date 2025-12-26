@@ -81,22 +81,22 @@ defmodule Challenge90SecondSolution do
 
     move_leftx_upy_corner_stream =
       Stream.iterate(new_queen, fn pos ->
-        if pos in @left || pos in @top, do: -1, else: pos + 8 - 1
+        if pos in @left or pos in @top, do: -1, else: pos + 8 - 1
       end)
 
     move_rightx_upy_corner_stream =
       Stream.iterate(new_queen, fn pos ->
-        if pos in @right || pos in @top, do: -1, else: pos + 8 + 1
+        if pos in @right or pos in @top, do: -1, else: pos + 8 + 1
       end)
 
     move_leftx_downy_corner_stream =
       Stream.iterate(new_queen, fn pos ->
-        if pos in @left || pos in @bottom, do: -1, else: pos - 8 - 1
+        if pos in @left or pos in @bottom, do: -1, else: pos - 8 - 1
       end)
 
     move_rightx_downy_corner_stream =
       Stream.iterate(new_queen, fn pos ->
-        if pos in @right || pos in @bottom, do: -1, else: pos - 8 + 1
+        if pos in @right or pos in @bottom, do: -1, else: pos - 8 + 1
       end)
 
     reduce_stream_fn = fn stream ->

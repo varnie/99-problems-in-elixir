@@ -13,7 +13,7 @@ defmodule Challenge56 do
       is_nil(b) -> is_nil(a)
       TreeNode.is_leaf(a) -> TreeNode.is_leaf(b)
       TreeNode.is_leaf(b) -> TreeNode.is_leaf(a)
-      true -> is_symmetric_helper(a.left, b.right) && is_symmetric_helper(a.right, b.left)
+      true -> is_symmetric_helper(a.left, b.right) and is_symmetric_helper(a.right, b.left)
     end
   end
 end

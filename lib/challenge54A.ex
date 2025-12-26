@@ -6,7 +6,7 @@ defmodule Challenge54A do
   def is_tree(nil), do: true
 
   def is_tree([root, l, r]) when root != nil and is_atom(root) do
-    is_tree(l) && is_tree(r)
+    is_tree(l) and is_tree(r)
   end
 
   def is_tree(_), do: false

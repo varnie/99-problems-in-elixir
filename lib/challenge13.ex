@@ -10,7 +10,7 @@ defmodule Challenge13 do
   end
 
   defp encode_direct_helper([], dst, countLetter = %CountLetter{count: count, letter: letter}) do
-    if count > 0 && !is_nil(letter) do
+    if count > 0 and !is_nil(letter) do
       [generated_item(countLetter) | dst]
     else
       dst

@@ -9,7 +9,7 @@ defmodule Challenge31 do
   defp is_prime_helper(num, index) when index == num, do: true
 
   defp is_prime_helper(num, index) do
-    rem(num, index) != 0 && is_prime_helper(num, index + 1)
+    rem(num, index) != 0 and is_prime_helper(num, index + 1)
   end
 
   @doc """
