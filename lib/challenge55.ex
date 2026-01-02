@@ -20,7 +20,7 @@ defmodule Challenge55 do
     nodes_list = cbal_tree(count - 1)
 
     nodes_list
-    |> Enum.map(&gen_new_nodes(&1))
+    |> Enum.map(&gen_new_nodes/1)
     |> Enum.concat()
     |> Enum.filter(&check_condition_is_met/1)
     |> Enum.uniq()
