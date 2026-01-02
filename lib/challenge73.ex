@@ -27,7 +27,7 @@ defmodule Challenge73 do
   """
 
   def mtree_ptl([h | tail]) do
-    children = Enum.map(tail, &mtree_ptl(&1)) |> Enum.join(",")
+    children = Enum.map(tail, &mtree_ptl/1) |> Enum.join(",")
     "t(#{h},[#{children}])"
   end
 

@@ -6,7 +6,7 @@ defmodule Challenge72 do
   """
 
   def bottom_up([h | tail]) do
-    Enum.concat(Enum.map(tail, &bottom_up(&1))) ++ [h]
+    Enum.concat(Enum.map(tail, &bottom_up/1)) ++ [h]
   end
 
   def bottom_up([]), do: []
