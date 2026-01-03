@@ -29,9 +29,7 @@ defmodule Challenge80 do
 
     Enum.map(nodes, fn cur_node ->
       adjacent_nodes =
-        Enum.filter(edges, fn [from, to] ->
-          from == cur_node or to == cur_node
-        end)
+        Enum.filter(edges, fn [from, to] -> cur_node in [from, to] end)
         |> Enum.map(fn [from, to] ->
           if from == cur_node, do: to, else: from
         end)

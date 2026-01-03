@@ -61,7 +61,7 @@ defmodule Challenge97 do
   end
 
   defp check_new_line_is_a_good_candidate?(new_line, line_index) do
-    indexed_src_list = Enum.with_index(@src, 0)
+    indexed_src_list = Enum.with_index(@src)
 
     src_list_with_updated_line =
       Enum.map(indexed_src_list, fn {cur_lst, cur_index} ->
@@ -76,7 +76,7 @@ defmodule Challenge97 do
   end
 
   def solve() do
-    numbers = MapSet.new([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    numbers = MapSet.new(Enum.to_list(1..9))
 
     list_of_missed_vals =
       @src
@@ -106,7 +106,7 @@ defmodule Challenge97 do
 
     possible_line_permutations =
       possible_lists_of_missed_vals_permutations
-      |> Enum.with_index(0)
+      |> Enum.with_index()
       |> Enum.map(fn {update_lines, line_index} ->
         for update_line <- update_lines,
             cur_line = Enum.at(@src, line_index),
@@ -181,7 +181,7 @@ defmodule Challenge97 do
     #     [3,1,2]
     #     [3,2,1]"
 
-    indexed_list = lst |> Enum.with_index(1)
+    indexed_list = lst |> Enum.with_index()
     permutations_without_repetitions_helper(indexed_list)
   end
 

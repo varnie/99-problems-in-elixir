@@ -11,9 +11,6 @@ defmodule Challenge90ThirdSolution do
         Use the generate-and-test paradigm.
   """
 
-  @left 1..64//8
-  @right 8..64//8
-
   @letters Map.new(Enum.zip(1..8, [:a, :b, :c, :d, :e, :f, :g, :h]))
 
   def solve() do
@@ -23,14 +20,14 @@ defmodule Challenge90ThirdSolution do
     #      b = [2, 10, 18, 26, 34, 42, 50, 58]
     #      c = [3, 11, 19, 27, 35, 43, 51, 59]
     #      ...
-    for a <- @left,
+    for a <- 1..64//8,
         b <- 2..64//8,
         c <- 3..64//8,
         d <- 4..64//8,
         e <- 5..64//8,
         f <- 6..64//8,
         g <- 7..64//8,
-        h <- @right,
+        h <- 8..64//8,
         length(
           Enum.uniq_by([a, b, c, d, e, f, g, h], fn queen ->
             div(queen - 1, 8)
@@ -60,10 +57,8 @@ defmodule Challenge90ThirdSolution do
   defp index_to_coordinates(index) do
     remainder = rem(index, 8)
 
-    y = if remainder > 0, do: div(index, 8) + 1, else: div(index, 8)
-
     x = if remainder > 0, do: remainder, else: 8
-
+    y = if remainder > 0, do: div(index, 8) + 1, else: div(index, 8)
     {x, y}
   end
 
