@@ -134,29 +134,17 @@ defmodule Challenge97 do
   end
 
   defp get_all_squares_data(candidate) do
-    {result, _} =
-      candidate
-      |> Enum.reduce({[], []}, fn x, {result, cur_acc} ->
-        # x is a row
-        new_cur_acc = [x | cur_acc]
+    candidate
+    |> Enum.chunk_every(3)
+    |> Enum.flat_map(fn cur_chunk ->
+      new_result_items =
+        Enum.reduce(cur_chunk, [[], [], []], fn cur_row, [x, y, z] ->
+          [chunk_x, chunk_y, chunk_z] = Enum.chunk_every(cur_row, 3)
+          [x ++ chunk_x, y ++ chunk_y, z ++ chunk_z]
+        end)
 
-        case length(new_cur_acc) do
-          3 ->
-            # we have 3 rows accumulated, process them
-            new_result_items =
-              Enum.reduce(new_cur_acc, [[], [], []], fn cur_row, [x, y, z] ->
-                [chunk_x, chunk_y, chunk_z] = Enum.chunk_every(cur_row, 3)
-                [x ++ chunk_x, y ++ chunk_y, z ++ chunk_z]
-              end)
-
-            {result ++ new_result_items, []}
-
-          _ ->
-            {result, new_cur_acc}
-        end
-      end)
-
-    result
+      new_result_items
+    end)
   end
 
   defp check_requirements_satisfied?(candidate) do
