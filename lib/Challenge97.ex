@@ -61,17 +61,7 @@ defmodule Challenge97 do
   end
 
   defp check_new_line_is_a_good_candidate?(new_line, line_index) do
-    indexed_src_list = Enum.with_index(@src)
-
-    src_list_with_updated_line =
-      Enum.map(indexed_src_list, fn {cur_lst, cur_index} ->
-        if cur_index != line_index do
-          cur_lst
-        else
-          new_line
-        end
-      end)
-
+    src_list_with_updated_line = List.replace_at(@src, line_index, new_line)
     check_all_vertical_lines_valid?(src_list_with_updated_line)
   end
 
@@ -108,8 +98,9 @@ defmodule Challenge97 do
       possible_lists_of_missed_vals_permutations
       |> Enum.with_index()
       |> Enum.map(fn {update_lines, line_index} ->
+        cur_line = Enum.at(@src, line_index)
+
         for update_line <- update_lines,
-            cur_line = Enum.at(@src, line_index),
             {new_line, _} =
               Enum.reduce(cur_line, {[], update_line}, fn x, acc ->
                 {cur_acc_result, cur_update_line} = acc
@@ -147,13 +138,13 @@ defmodule Challenge97 do
       candidate
       |> Enum.reduce({[], []}, fn x, {result, cur_acc} ->
         # x is a row
-        cur_acc = [x | cur_acc]
+        new_cur_acc = [x | cur_acc]
 
-        case length(cur_acc) do
+        case length(new_cur_acc) do
           3 ->
             # we have 3 rows accumulated, process them
             new_result_items =
-              Enum.reduce(cur_acc, [[], [], []], fn cur_row, [x, y, z] ->
+              Enum.reduce(new_cur_acc, [[], [], []], fn cur_row, [x, y, z] ->
                 [chunk_x, chunk_y, chunk_z] = Enum.chunk_every(cur_row, 3)
                 [x ++ chunk_x, y ++ chunk_y, z ++ chunk_z]
               end)
@@ -161,7 +152,7 @@ defmodule Challenge97 do
             {result ++ new_result_items, []}
 
           _ ->
-            {result, cur_acc}
+            {result, new_cur_acc}
         end
       end)
 
