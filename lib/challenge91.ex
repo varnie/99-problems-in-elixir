@@ -18,27 +18,23 @@ defmodule Challenge91 do
     vals
   end
 
+  defp solve_helper(solution) when length(solution) == 64, do: {:stop, solution}
+
   defp solve_helper(solution = [h | _rest]) do
-    if length(solution) == 64 do
-      {:stopmepls, solution}
-    else
-      possible_jumps = jumps(h) |> Enum.filter(fn ps -> ps not in solution end)
+    possible_jumps = jumps(h) |> Enum.reject(fn ps -> ps in solution end)
 
-      Enum.reduce_while(possible_jumps, nil, fn val, acc ->
-        case acc do
-          {:stopmepls, foo} ->
-            {:halt, {:stopmepls, foo}}
+    Enum.reduce_while(possible_jumps, nil, fn val, acc ->
+      case acc do
+        {:stop, solution} ->
+          {:halt, {:stop, solution}}
 
-          _ ->
-            new_jump = val
-
-            case solve_helper([new_jump | solution]) do
-              {:stopmepls, result} -> {:halt, {:stopmepls, result}}
-              _ -> {:cont, acc}
-            end
-        end
-      end)
-    end
+        _ ->
+          case solve_helper([val | solution]) do
+            {:stop, result} -> {:halt, {:stop, result}}
+            _ -> {:cont, acc}
+          end
+      end
+    end)
   end
 
   defp is_within_gamefield_fn?({x, y}) do

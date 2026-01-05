@@ -39,14 +39,10 @@ defmodule Challenge85 do
 
       nodes1
       |> Enum.map(&Challenge86.degree(graph1, &1))
-      |> Enum.sort(fn a, b ->
-        a >= b
-      end) !=
+      |> Enum.sort() !=
           nodes2
           |> Enum.map(&Challenge86.degree(graph2, &1))
-          |> Enum.sort(fn a, b ->
-            a >= b
-          end) ->
+          |> Enum.sort() ->
         false
 
       true ->

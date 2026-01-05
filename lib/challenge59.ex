@@ -22,8 +22,7 @@ defmodule Challenge59 do
     nodes_list = hbal_tree(h - 1)
 
     nodes_list
-    |> Enum.map(&gen_new_nodes/1)
-    |> Enum.concat()
+    |> Enum.flat_map(&gen_new_nodes/1)
     |> Enum.filter(&check_condition_is_met/1)
   end
 
