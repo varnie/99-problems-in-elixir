@@ -137,13 +137,14 @@ defmodule Challenge97 do
     candidate
     |> Enum.chunk_every(3)
     |> Enum.flat_map(fn cur_chunk ->
-      new_result_items =
-        Enum.reduce(cur_chunk, [[], [], []], fn cur_row, [x, y, z] ->
-          [chunk_x, chunk_y, chunk_z] = Enum.chunk_every(cur_row, 3)
-          [x ++ chunk_x, y ++ chunk_y, z ++ chunk_z]
-        end)
+      Enum.reduce(cur_chunk, [], fn cur_row, acc ->
+        [chunk_x, chunk_y, chunk_z] = Enum.chunk_every(cur_row, 3)
 
-      new_result_items
+        case acc do
+          [] -> [chunk_x, chunk_y, chunk_z]
+          [x, y, z] -> [x ++ chunk_x, y ++ chunk_y, z ++ chunk_z]
+        end
+      end)
     end)
   end
 
