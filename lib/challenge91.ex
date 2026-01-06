@@ -58,12 +58,10 @@ defmodule Challenge91 do
     )
   end
 
-  def index_to_coordinates(index) do
+  defp index_to_coordinates(index) do
     remainder = rem(index, 8)
 
-    y = if remainder > 0, do: div(index, 8) + 1, else: div(index, 8)
-    x = if remainder > 0, do: remainder, else: 8
-
-    {x, y}
+    pair = if remainder > 0, do: {remainder, div(index, 8) + 1}, else: {8, div(index, 8)}
+    pair
   end
 end
