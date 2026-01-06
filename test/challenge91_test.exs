@@ -4,7 +4,7 @@ defmodule Challenge91Test do
   test "solve" do
     result = Challenge91.solve()
     assert length(result) == 64
-    assert length(Enum.uniq(result)) == length(result)
+    assert length(Enum.uniq(result)) == 64
 
     pairs = Enum.zip(result, tl(result))
 

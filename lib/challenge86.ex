@@ -28,7 +28,7 @@ defmodule Challenge86 do
     # here graph is of Graph Expression Form
     [_nodes, edges] = graph
 
-    Enum.count(edges, fn [a, b] -> node in [a, b] end)
+    Enum.count(edges, fn edge -> node in edge end)
   end
 
   def all_nodes_sorted_by_decreasing_degree(graph) do

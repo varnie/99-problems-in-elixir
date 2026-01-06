@@ -14,34 +14,35 @@ defmodule Challenge91 do
 
   def solve() do
     coords = index_to_coordinates(1)
-    {_tag, vals} = solve_helper([coords])
-    vals
+    {_, result} = gen_solution([coords], coords, 1)
+    result
   end
 
-  defp solve_helper(solution) when length(solution) == 64, do: {:stop, solution}
+  defp gen_solution(solution, head, len) do
+    if len == 64 do
+      {true, solution}
+    else
+      possible_jumps = jumps(head) |> Enum.reject(fn ps -> ps in solution end)
+      try_jumps(solution, len, possible_jumps)
+    end
+  end
 
-  defp solve_helper(solution = [h | _rest]) do
-    possible_jumps = jumps(h) |> Enum.reject(fn ps -> ps in solution end)
+  defp try_jumps(_acc, _len, []) do
+    {false, nil}
+  end
 
-    Enum.reduce_while(possible_jumps, nil, fn val, acc ->
-      case acc do
-        {:stop, solution} ->
-          {:halt, {:stop, solution}}
-
-        _ ->
-          case solve_helper([val | solution]) do
-            {:stop, result} -> {:halt, {:stop, result}}
-            _ -> {:cont, acc}
-          end
-      end
-    end)
+  defp try_jumps(acc, len, [jump_head | jumps_tail]) do
+    case gen_solution([jump_head | acc], jump_head, len + 1) do
+      {false, _} -> try_jumps(acc, len, jumps_tail)
+      result -> result
+    end
   end
 
   defp is_within_gamefield_fn?({x, y}) do
     x in 1..8 and y in 1..8
   end
 
-  def jumps({x, y} = _coordinate) do
+  def jumps({x, y}) do
     test1 = {x + 1, y + 2}
     test2 = {x + 2, y + 1}
     test3 = {x + 2, y - 1}
@@ -61,7 +62,6 @@ defmodule Challenge91 do
     remainder = rem(index, 8)
 
     y = if remainder > 0, do: div(index, 8) + 1, else: div(index, 8)
-
     x = if remainder > 0, do: remainder, else: 8
 
     {x, y}
