@@ -25,20 +25,23 @@ defmodule Challenge81 do
 
   def path(graph, x, y) do
     # here graph is of Graph Expression Form
-    [nodes, _edges] = graph
+    [nodes, edges] = graph
 
-    if x in nodes and y in nodes do
-      path_impl(graph, x, y)
-    else
-      []
+    cond do
+      x not in nodes -> []
+      y not in nodes -> []
+      !Enum.find(edges, false, fn [from, _to] -> from == x end) -> []
+      !Enum.find(edges, false, fn [_from, to] -> to == y end) -> []
+      true -> path_impl(graph, x, y, [])
     end
   end
 
-  defp path_impl(graph, x, y) do
+  defp path_impl(graph, x, y, seen) do
+    # skips possible loops
     [_nodes, edges] = graph
 
-    Enum.reduce(edges, [], fn next_node, acc ->
-      [from_node, to_node] = next_node
+    Enum.reduce(edges, [], fn edge, acc ->
+      [from_node, to_node] = edge
 
       if from_node != x do
         # skip
@@ -46,13 +49,19 @@ defmodule Challenge81 do
       else
         new_acc =
           if to_node == y do
-            acc ++ [[next_node]]
+            acc ++ [[edge]]
           else
-            new_vals = path_impl(graph, to_node, y)
-            Enum.reduce(new_vals, acc, fn x, new_acc ->
-              new_acc = new_acc ++ [[next_node | x]]
-              new_acc
-            end)
+            if edge in seen do
+              # skip, loop?
+              acc
+            else
+              new_vals = path_impl(graph, to_node, y, seen ++ [[from_node, to_node], [to_node, from_node]])
+
+              Enum.reduce(new_vals, acc, fn x, new_acc ->
+                new_acc = new_acc ++ [[edge | x]]
+                new_acc
+              end)
+            end
           end
 
         new_acc

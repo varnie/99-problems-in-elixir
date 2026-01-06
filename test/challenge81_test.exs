@@ -29,6 +29,7 @@ defmodule Challenge81Test do
            )
 
     graph2 = state[:graph2]
+
     assert Helpers.check_two_enumerables_equal?(
              Challenge81.path(graph2, "b", "k"),
              [[["b", "c"], ["c", "f"], ["f", "k"]], [["b", "f"], ["f", "k"]]]
@@ -37,6 +38,22 @@ defmodule Challenge81Test do
     assert Helpers.check_two_enumerables_equal?(
              Challenge81.path(graph2, "b", "g"),
              []
+           )
+
+    graph = [[1, 2, 3], [[1, 2], [2, 1]]]
+    assert Challenge81.path(graph, 1, 2) != []
+    assert Challenge81.path(graph, 1, 3) == []
+
+    graph = [
+      ["b", "c", "f", "k"],
+      [["b", "c"], ["c", "b"], ["b", "f"], ["c", "f"], ["f", "k"]]
+    ]
+
+    assert Challenge81.path(graph, "b", "c") == [[["b", "c"]]]
+
+    assert Helpers.check_two_enumerables_equal?(
+             Challenge81.path(graph, "b", "f"),
+             [[["b", "c"], ["c", "f"]], [["b", "f"]]]
            )
   end
 end
