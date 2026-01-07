@@ -32,33 +32,31 @@ defmodule Challenge82 do
     end
   end
 
-  #TODO: work with undirected graphs also pls?
-  defp cycle_impl(graph, cur_node, dest, visited_edges \\ []) do
+  defp cycle_impl(graph, cur_node, dest_node, visited_edges \\ []) do
     # here graph is of Graph Expression Form
     [_nodes, edges] = graph
 
-    Enum.reduce(edges, [], fn next_edge, acc ->
-      [from_node, to_node] = next_edge
+    relevant_edges =
+      Enum.filter(edges, fn edge -> cur_node in edge and !(edge in visited_edges) end)
 
-      if from_node != cur_node or next_edge in visited_edges do
-        # skip
-        acc
-      else
-        new_acc =
-          if to_node == dest do
-            acc ++ [[next_edge]]
-          else
-            new_visited_edges = visited_edges ++ [next_edge]
-            new_vals = cycle_impl(graph, to_node, dest, new_visited_edges)
+    Enum.reduce(relevant_edges, [], fn next_edge, acc ->
+      [a, b] = next_edge
 
-            Enum.reduce(new_vals, acc, fn x, new_acc ->
-              new_acc = new_acc ++ [[next_edge | x]]
-              new_acc
-            end)
-          end
+      new_acc =
+        if dest_node in next_edge and cur_node != dest_node do
+          acc ++ [[next_edge]]
+        else
+          new_visited_edges = visited_edges ++ [next_edge]
+          new_from_node = if a == cur_node, do: b, else: a
+          new_vals = cycle_impl(graph, new_from_node, dest_node, new_visited_edges)
 
-        new_acc
-      end
+          Enum.reduce(new_vals, acc, fn x, new_acc ->
+            new_acc = new_acc ++ [[next_edge | x]]
+            new_acc
+          end)
+        end
+
+      new_acc
     end)
   end
 end

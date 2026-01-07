@@ -3,6 +3,12 @@ defmodule Helpers do
     Enum.sort(c1) == Enum.sort(c2)
   end
 
+  def normalize_edges(rows) do
+    Enum.map(rows, fn row ->
+      Enum.map(row, &Enum.sort/1)
+    end)
+  end
+
   def read_while_cond(cond_fn, coll), do: read_while_cond_impl(cond_fn, coll, [])
 
   defp read_while_cond_impl(

@@ -19,20 +19,31 @@ defmodule Challenge81Test do
     assert Challenge81.path(graph1, "w", "w") == []
 
     assert Helpers.check_two_enumerables_equal?(
-             Challenge81.path(graph1, "w", "y"),
-             [[["w", "x"], ["x", "y"]], [["z", "w"], ["y", "z"]], [["w", "y"]]]
+             Helpers.normalize_edges(Challenge81.path(graph1, "w", "y")),
+             Helpers.normalize_edges([
+               [["w", "x"], ["x", "y"]],
+               [["z", "w"], ["y", "z"]],
+               [["w", "y"]]
+             ])
            )
 
     assert Helpers.check_two_enumerables_equal?(
-             Challenge81.path(graph1, "y", "w"),
-             [[["x", "y"], ["w", "x"]], [["y", "z"], ["z", "w"]], [["w", "y"]]]
+             Helpers.normalize_edges(Challenge81.path(graph1, "y", "w")),
+             Helpers.normalize_edges([
+               [["x", "y"], ["w", "x"]],
+               [["y", "z"], ["z", "w"]],
+               [["w", "y"]]
+             ])
            )
 
     graph2 = state[:graph2]
 
     assert Helpers.check_two_enumerables_equal?(
-             Challenge81.path(graph2, "b", "k"),
-             [[["b", "c"], ["c", "f"], ["f", "k"]], [["b", "f"], ["f", "k"]]]
+             Helpers.normalize_edges(Challenge81.path(graph2, "b", "k")),
+             Helpers.normalize_edges([
+               [["b", "c"], ["c", "f"], ["f", "k"]],
+               [["b", "f"], ["f", "k"]]
+             ])
            )
 
     assert Helpers.check_two_enumerables_equal?(
@@ -49,19 +60,22 @@ defmodule Challenge81Test do
       [["b", "c"], ["b", "f"], ["c", "f"], ["f", "k"]]
     ]
 
-    assert Challenge81.path(graph, "b", "c") == [[["b", "c"]], [["b", "f"], ["c", "f"]]]
+    assert Helpers.check_two_enumerables_equal?(
+             Helpers.normalize_edges(Challenge81.path(graph, "b", "c")),
+             Helpers.normalize_edges([[["b", "c"]], [["b", "f"], ["c", "f"]]])
+           )
 
     assert Helpers.check_two_enumerables_equal?(
-             Challenge81.path(graph, "b", "f"),
-             [[["b", "c"], ["c", "f"]], [["b", "f"]]]
+             Helpers.normalize_edges(Challenge81.path(graph, "b", "f")),
+             Helpers.normalize_edges([[["b", "c"], ["c", "f"]], [["b", "f"]]])
            )
 
     graph = [[1, 2, 3, 4], [[1, 2], [3, 4], [1, 3]]]
     assert Challenge81.path(graph, 1, 2) == [[[1, 2]]]
 
-    assert Challenge81.path(graph, 2, 1) in [
-             [[[1, 2]]],
-             [[[2, 1]]]
-           ]
+    assert Helpers.check_two_enumerables_equal?(
+             Helpers.normalize_edges(Challenge81.path(graph, 2, 1)),
+             Helpers.normalize_edges([[[1, 2]]])
+           )
   end
 end

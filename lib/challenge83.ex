@@ -71,6 +71,12 @@ defmodule Challenge83 do
     # TODO:
   end
 
+  def is_tree?(graph) do
+    [nodes, _edges] = graph
+    #is_connected?(graph) and Enum.flat_map(nodes, fn node -> Challenge82.cycle(graph, node) end) == []
+    #TODO: should be no cycles
+  end
+
   def is_connected?(graph) do
     [nodes, edges] = graph
     length(edges) > 0 and Enum.all?(nodes, &is_connected_impl(graph, &1, nodes))
