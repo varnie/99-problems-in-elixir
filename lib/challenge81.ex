@@ -28,38 +28,46 @@ defmodule Challenge81 do
     [nodes, edges] = graph
 
     cond do
-      x not in nodes -> []
-      y not in nodes -> []
-      !Enum.any?(edges, fn [from, _to] -> from == x end) -> []
-      !Enum.any?(edges, fn [_from, to] -> to == y end) -> []
-      true -> path_impl(graph, x, y, [])
+      x not in nodes ->
+        []
+
+      y not in nodes ->
+        []
+
+      true ->
+        paths = path_impl(graph, x, y, [])
+
+        Enum.map(paths, fn path ->
+          Enum.map(path, fn [a, b] ->
+            if [a, b] in edges, do: [a, b], else: [b, a]
+          end)
+        end)
     end
   end
 
   defp path_impl(graph, x, y, seen) do
-    # skips possible loops
     [_nodes, edges] = graph
 
     Enum.reduce(edges, [], fn edge, acc ->
-      [from_node, to_node] = edge
+      [a, b] = edge
 
-      if from_node != x do
+      if !(x in edge) do
         # skip
         acc
       else
         new_acc =
-          if to_node == y do
+          if y in edge do
             acc ++ [[edge]]
           else
-            if edge in seen do
+            if [a, b] in seen or [b, a] in seen do
               # skip, loop?
               acc
             else
-              new_vals = path_impl(graph, to_node, y, seen ++ [[from_node, to_node], [to_node, from_node]])
+              new_x = if a == x, do: b, else: a
+              new_vals = path_impl(graph, new_x, y, [edge | seen])
 
-              Enum.reduce(new_vals, acc, fn x, new_acc ->
-                new_acc = new_acc ++ [[edge | x]]
-                new_acc
+              Enum.reduce(new_vals, acc, fn cur_val, new_acc ->
+                new_acc ++ [[edge | cur_val]]
               end)
             end
           end
