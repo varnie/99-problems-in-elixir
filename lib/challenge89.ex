@@ -39,13 +39,16 @@ defmodule Challenge89 do
     neighbour_nodes = Enum.map(adjacent_edges, fn [a, b] -> if a == head_node, do: b, else: a end)
 
     cond do
-      neighbour_nodes == [] -> false
+      neighbour_nodes == [] ->
+        false
+
       head_node in right_nodes ->
         if Enum.any?(neighbour_nodes, fn test_node -> test_node in right_nodes end) do
           false
         else
           is_bipartite_impl(rest_nodes, edges, left_nodes, right_nodes, true)
         end
+
       true ->
         new_left_nodes = [head_node | left_nodes]
         new_right_nodes = right_nodes ++ neighbour_nodes
