@@ -30,8 +30,8 @@ defmodule Challenge81 do
     cond do
       x not in nodes -> []
       y not in nodes -> []
-      !Enum.find(edges, false, fn [from, _to] -> from == x end) -> []
-      !Enum.find(edges, false, fn [_from, to] -> to == y end) -> []
+      !Enum.any?(edges, fn [from, _to] -> from == x end) -> []
+      !Enum.any?(edges, fn [_from, to] -> to == y end) -> []
       true -> path_impl(graph, x, y, [])
     end
   end
