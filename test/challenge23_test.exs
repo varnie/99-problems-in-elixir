@@ -2,13 +2,15 @@ defmodule Challenge23Test do
   use ExUnit.Case
 
   setup_all do
-    {:ok, test_list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+    {:ok, test_list: Enum.to_list(1..10)}
   end
 
   test "rnd_select", state do
     desired_size = state[:test_list] |> length |> div(2)
 
     result = Challenge23.rnd_select(state[:test_list], desired_size)
-    assert Helpers.check_two_enumerables_equal?(result, state[:test_list])
+    assert length(result) == desired_size
+    assert length(Enum.uniq(result)) == desired_size
+    assert Enum.all?(result, &(&1 in state[:test_list]))
   end
 end

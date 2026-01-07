@@ -2,10 +2,12 @@ defmodule Challenge24Test do
   use ExUnit.Case
 
   test "rnd_select" do
-    k = 6
-    items_cnt = 49
+    desired_size = 6
+    count = 49
 
-    result = Challenge24.rnd_select(k, items_cnt)
-    assert Helpers.check_two_enumerables_equal?(result, Enum.to_list(1..items_cnt))
+    result = Challenge24.rnd_select(desired_size, count)
+    assert length(result) == desired_size
+    assert length(Enum.uniq(result)) == desired_size
+    assert Enum.all?(result, &(&1 in 1..count))
   end
 end

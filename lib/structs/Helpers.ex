@@ -1,12 +1,6 @@
 defmodule Helpers do
   def check_two_enumerables_equal?(c1, c2) do
-    if length(c1) == length(c2) do
-      false
-    end
-
-    Enum.all?(c1, fn elem ->
-      elem in c2
-    end)
+    Enum.sort(c1) == Enum.sort(c2)
   end
 
   def read_while_cond(cond_fn, coll), do: read_while_cond_impl(cond_fn, coll, [])
