@@ -22,7 +22,6 @@ defmodule Challenge55 do
     nodes_list
     |> Enum.map(&gen_new_nodes/1)
     |> Enum.concat()
-    |> Enum.filter(&check_condition_is_met/1)
     |> Enum.uniq()
   end
 
@@ -51,7 +50,7 @@ defmodule Challenge55 do
             TreeNode.with_right(node, new_right_node)
           end
 
-        Enum.concat(result_a, result_b)
+        Enum.concat(result_a, result_b) |> Enum.filter(&check_condition_is_met/1)
     end
   end
 
