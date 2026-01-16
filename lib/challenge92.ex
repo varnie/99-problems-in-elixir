@@ -63,7 +63,7 @@ defmodule Challenge92 do
     [node | rest_nodes] = nodes
     node_candidate_number = 1
 
-    find(
+    case find(
       %{node => node_candidate_number},
       %{},
       node_neighbours_map,
@@ -71,7 +71,10 @@ defmodule Challenge92 do
       %{},
       rest_nodes,
       length(nodes)
-    )
+    ) do
+      {true, result} -> result
+      _ -> nil
+    end
   end
 
   defp check_correctness(
