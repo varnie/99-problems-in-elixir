@@ -83,12 +83,11 @@ defmodule Challenge92 do
       neighbours = Map.get(node_neighbours_map, node, [])
 
       Enum.all?(neighbours, fn neighbour_node ->
-        cond do
-          !Map.has_key?(nodes_numbered_map, neighbour_node) ->
+        case Map.get(nodes_numbered_map, neighbour_node) do
+          nil ->
             true
 
-          true ->
-            neighbour_number = Map.get(nodes_numbered_map, neighbour_node)
+          neighbour_number ->
             edge_name = calc_edge_name_for_nodes(node, neighbour_node)
 
             case Map.get(edges_numbered_map, edge_name) do
@@ -117,12 +116,15 @@ defmodule Challenge92 do
     # there's at least 1 item in the nodes_numbered_map;
     # find some not processed node, for which there's an already processed neighbour node
 
-    {not_processed_node, processed_node} = Enum.find_value(nodes, {nil, nil}, fn some_not_processed_node ->
-      node_neighbours = Map.get(node_neighbours_map, some_not_processed_node, [])
-      Enum.find_value(node_neighbours, fn some_neighbour_node ->
-        if Map.get(nodes_numbered_map, some_neighbour_node, false), do: {some_not_processed_node, some_neighbour_node}
+    {not_processed_node, processed_node} =
+      Enum.find_value(nodes, {nil, nil}, fn some_not_processed_node ->
+        node_neighbours = Map.get(node_neighbours_map, some_not_processed_node, [])
+
+        Enum.find_value(node_neighbours, fn some_neighbour_node ->
+          if Map.get(nodes_numbered_map, some_neighbour_node, false),
+            do: {some_not_processed_node, some_neighbour_node}
+        end)
       end)
-    end)
 
     if !not_processed_node do
       {true, {nodes_numbered_map, edges_numbered_map}}
@@ -198,7 +200,7 @@ defmodule Challenge92 do
                        new_edges_numbered_map,
                        node_neighbours_map
                      ) do
-                    ###
+
                     inner_result =
                       find(
                         new_nodes_numbered_map,
