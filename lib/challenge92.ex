@@ -116,19 +116,12 @@ defmodule Challenge92 do
        ) do
     # there's at least 1 item in the nodes_numbered_map;
     # find some not processed node, for which there's an already processed neighbour-node
-    processed_nodes = Map.keys(nodes_numbered_map)
-
     not_processed_node =
       Enum.find(nodes, false, fn not_processed_node ->
-        case Map.get(node_neighbours_map, not_processed_node) do
-          nil ->
-            false
-
-          neighbours_list ->
-            Enum.any?(neighbours_list, fn neighbour_node ->
-              neighbour_node in processed_nodes
-            end)
-        end
+        neighbours_list = Map.get(node_neighbours_map, not_processed_node, [])
+        Enum.any?(neighbours_list, fn neighbour_node ->
+          Map.get(nodes_numbered_map, neighbour_node, false)
+        end)
       end)
 
     # TODO:
