@@ -60,7 +60,18 @@ defmodule Challenge92 do
         Map.put(acc, x, neighbour_nodes)
       end)
 
-    find(%{}, %{}, node_neighbours_map, %{}, %{}, nodes, length(nodes))
+    [node | rest_nodes] = nodes
+    node_candidate_number = 1
+
+    find(
+      %{node => node_candidate_number},
+      %{},
+      node_neighbours_map,
+      %{node => [node_candidate_number]},
+      %{},
+      rest_nodes,
+      length(nodes)
+    )
   end
 
   defp check_correctness(
@@ -103,21 +114,63 @@ defmodule Challenge92 do
          nodes,
          k
        ) do
-    # IO.inspect(nodes_numbered_map, label: "in find")
+    # there's at least 1 item in the nodes_numbered_map;
+    # find some not processed node, for which there's an already processed neighbour-node
+    processed_nodes = Map.keys(nodes_numbered_map)
 
-    cond do
-      map_size(nodes_numbered_map) == 0 ->
-        [node | rest_nodes] = nodes
+    not_processed_node =
+      Enum.find(nodes, false, fn not_processed_node ->
+        case Map.get(node_neighbours_map, not_processed_node) do
+          nil ->
+            false
 
-        result =
-          Enum.reduce_while(1..k, {nodes_numbered_map, tried_node_numbers_map}, fn x, acc ->
+          neighbours_list ->
+            Enum.any?(neighbours_list, fn neighbour_node ->
+              neighbour_node in processed_nodes
+            end)
+        end
+      end)
+
+    # TODO:
+    if !not_processed_node do
+      {true, {nodes_numbered_map, edges_numbered_map}}
+    else
+      processed_nodes_numbers = Map.values(nodes_numbered_map)
+      already_tried_node_numbers = Map.get(tried_node_numbers_map, not_processed_node, [])
+
+      free_node_numbers_to_check =
+        Enum.to_list(1..k) -- Enum.concat(processed_nodes_numbers, already_tried_node_numbers)
+
+      # find some processed node
+      {processed_node, _} =
+        Enum.find(nodes_numbered_map, fn {some_processed_node, _} ->
+          not_processed_node in Map.get(node_neighbours_map, some_processed_node, [])
+        end)
+
+      edge_key = calc_edge_name_for_nodes(not_processed_node, processed_node)
+
+      processed_edges_numbers = Map.values(edges_numbered_map)
+      already_tried_edge_numbers = Map.get(tried_edge_numbers_map, edge_key, [])
+
+      free_edge_numbers_to_check =
+        Enum.to_list(1..(k - 1)) --
+          Enum.concat(processed_edges_numbers, already_tried_edge_numbers)
+
+      result =
+        Enum.reduce_while(
+          free_node_numbers_to_check,
+          {nodes_numbered_map, tried_node_numbers_map, edges_numbered_map,
+           tried_edge_numbers_map},
+          fn x, acc ->
             node_candidate_number = x
-            {nodes_numbered_map, tried_node_numbers_map} = acc
+
+            {nodes_numbered_map, tried_node_numbers_map, edges_numbered_map,
+             tried_edge_numbers_map} = acc
 
             new_tried_node_numbers_map =
               Map.update(
                 tried_node_numbers_map,
-                node,
+                not_processed_node,
                 [node_candidate_number],
                 fn existing_candidates ->
                   [node_candidate_number | existing_candidates]
@@ -127,181 +180,89 @@ defmodule Challenge92 do
             new_nodes_numbered_map =
               Map.put(
                 nodes_numbered_map,
-                node,
+                not_processed_node,
                 node_candidate_number
               )
 
-            case find(
-                   new_nodes_numbered_map,
-                   edges_numbered_map,
-                   node_neighbours_map,
-                   new_tried_node_numbers_map,
-                   tried_edge_numbers_map,
-                   rest_nodes,
-                   k
-                 ) do
-              {true, data} ->
-                {:halt, {true, data}}
+            next_result =
+              Enum.reduce_while(
+                free_edge_numbers_to_check,
+                {edges_numbered_map, tried_edge_numbers_map},
+                fn x, acc ->
+                  edge_candidate_number = x
+                  {edges_numbered_map, tried_edge_numbers_map} = acc
 
-              _ ->
-                new_acc = {nodes_numbered_map, new_tried_node_numbers_map}
-                {:cont, new_acc}
-            end
-          end)
+                  new_tried_edge_numbers_map =
+                    Map.update(
+                      tried_edge_numbers_map,
+                      edge_key,
+                      [edge_candidate_number],
+                      fn existing_candidates ->
+                        [edge_candidate_number | existing_candidates]
+                      end
+                    )
 
-        result
+                  new_edges_numbered_map =
+                    Map.put(
+                      edges_numbered_map,
+                      edge_key,
+                      edge_candidate_number
+                    )
 
-      true ->
-        # there's at least 1 item in the nodes_numbered_map;
-        # find some not processed node, for which there's an already processed neighbour-node
-        processed_nodes = Map.keys(nodes_numbered_map)
+                  # IO.puts("BEFORE")
+                  # here should be some sanity check right?
+                  if check_correctness(
+                       new_nodes_numbered_map,
+                       new_edges_numbered_map,
+                       node_neighbours_map
+                     ) do
+                    ###
+                    inner_result =
+                      find(
+                        new_nodes_numbered_map,
+                        new_edges_numbered_map,
+                        node_neighbours_map,
+                        new_tried_node_numbers_map,
+                        new_tried_edge_numbers_map,
+                        nodes -- [not_processed_node],
+                        k
+                      )
 
-        not_processed_node =
-          Enum.find(nodes, false, fn not_processed_node ->
-            case Map.get(node_neighbours_map, not_processed_node) do
-              nil ->
-                false
+                    # IO.inspect(inner_result, label: "inner_result")
 
-              neighbours_list ->
-                Enum.any?(neighbours_list, fn neighbour_node ->
-                  neighbour_node in processed_nodes
-                end)
-            end
-          end)
+                    case inner_result do
+                      {true, _data} ->
+                        {:halt, inner_result}
 
-        # TODO:
-        if !not_processed_node do
-          {true, {nodes_numbered_map, edges_numbered_map}}
-        else
-          processed_nodes_numbers = Map.values(nodes_numbered_map)
-          already_tried_node_numbers = Map.get(tried_node_numbers_map, not_processed_node, [])
-
-          free_node_numbers_to_check =
-            Enum.to_list(1..k) -- Enum.concat(processed_nodes_numbers, already_tried_node_numbers)
-
-          # find some processed node
-          {processed_node, _} =
-            Enum.find(nodes_numbered_map, fn {some_processed_node, _} ->
-              not_processed_node in Map.get(node_neighbours_map, some_processed_node, [])
-            end)
-
-          edge_key = calc_edge_name_for_nodes(not_processed_node, processed_node)
-
-          processed_edges_numbers = Map.values(edges_numbered_map)
-          already_tried_edge_numbers = Map.get(tried_edge_numbers_map, edge_key, [])
-
-          free_edge_numbers_to_check =
-            Enum.to_list(1..(k - 1)) --
-              Enum.concat(processed_edges_numbers, already_tried_edge_numbers)
-
-          result =
-            Enum.reduce_while(
-              free_node_numbers_to_check,
-              {nodes_numbered_map, tried_node_numbers_map, edges_numbered_map,
-               tried_edge_numbers_map},
-              fn x, acc ->
-                node_candidate_number = x
-
-                {nodes_numbered_map, tried_node_numbers_map, edges_numbered_map,
-                 tried_edge_numbers_map} = acc
-
-                new_tried_node_numbers_map =
-                  Map.update(
-                    tried_node_numbers_map,
-                    not_processed_node,
-                    [node_candidate_number],
-                    fn existing_candidates ->
-                      [node_candidate_number | existing_candidates]
-                    end
-                  )
-
-                new_nodes_numbered_map =
-                  Map.put(
-                    nodes_numbered_map,
-                    not_processed_node,
-                    node_candidate_number
-                  )
-
-                next_result =
-                  Enum.reduce_while(
-                    free_edge_numbers_to_check,
-                    {edges_numbered_map, tried_edge_numbers_map},
-                    fn x, acc ->
-                      edge_candidate_number = x
-                      {edges_numbered_map, tried_edge_numbers_map} = acc
-
-                      new_tried_edge_numbers_map =
-                        Map.update(
-                          tried_edge_numbers_map,
-                          edge_key,
-                          [edge_candidate_number],
-                          fn existing_candidates ->
-                            [edge_candidate_number | existing_candidates]
-                          end
-                        )
-
-                      new_edges_numbered_map =
-                        Map.put(
-                          edges_numbered_map,
-                          edge_key,
-                          edge_candidate_number
-                        )
-
-                      # IO.puts("BEFORE")
-                      # here should be some sanity check right?
-                      if check_correctness(
-                           new_nodes_numbered_map,
-                           new_edges_numbered_map,
-                           node_neighbours_map
-                         ) do
-                        ###
-                        inner_result =
-                          find(
-                            new_nodes_numbered_map,
-                            new_edges_numbered_map,
-                            node_neighbours_map,
-                            new_tried_node_numbers_map,
-                            new_tried_edge_numbers_map,
-                            nodes -- [not_processed_node],
-                            k
-                          )
-
-                        # IO.inspect(inner_result, label: "inner_result")
-
-                        case inner_result do
-                          {true, _data} ->
-                            {:halt, inner_result}
-
-                          _ ->
-                            new_acc = {edges_numbered_map, new_tried_edge_numbers_map}
-                            {:cont, new_acc}
-                        end
-                      else
+                      _ ->
                         new_acc = {edges_numbered_map, new_tried_edge_numbers_map}
                         {:cont, new_acc}
-                      end
                     end
-                  )
-
-                # IO.inspect(next_result, label: "next_result")
-
-                case next_result do
-                  {true, _data} ->
-                    {:halt, next_result}
-
-                  _ ->
-                    {:cont,
-                     {nodes_numbered_map, tried_node_numbers_map, edges_numbered_map,
-                      tried_edge_numbers_map}}
+                  else
+                    new_acc = {edges_numbered_map, new_tried_edge_numbers_map}
+                    {:cont, new_acc}
+                  end
                 end
-              end
-            )
+              )
 
-          case result do
-            {true, _data} -> result
-            _ -> {false, nil}
+            # IO.inspect(next_result, label: "next_result")
+
+            case next_result do
+              {true, _data} ->
+                {:halt, next_result}
+
+              _ ->
+                {:cont,
+                 {nodes_numbered_map, tried_node_numbers_map, edges_numbered_map,
+                  tried_edge_numbers_map}}
+            end
           end
-        end
+        )
+
+      case result do
+        {true, _data} -> result
+        _ -> {false, nil}
+      end
     end
   end
 end
