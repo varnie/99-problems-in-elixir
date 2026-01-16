@@ -14,30 +14,24 @@ defmodule Challenge92 do
     Write a function that calculates a numbering scheme for a given tree. What is the solution for the larger tree pictured above?
   """
 
-  #
-  g = [
-    ["a", "b", "c", "d", "e", "f", "g"],
-    [["a", "d"], ["a", "g"], ["a", "b"], ["e", "b"], ["e", "f"], ["b", "c"]]
-  ]
-
-  g1 = [
-    ["a", "b", "c", "d", "e", "f", "g", "h", "i", "k", "m", "n", "p", "q"],
-    [
-      ["a", "b"],
-      ["a", "c"],
-      ["a", "h"],
-      ["a", "i"],
-      ["a", "g"],
-      ["d", "c"],
-      ["d", "k"],
-      ["e", "q"],
-      ["e", "c"],
-      ["f", "c"],
-      ["q", "m"],
-      ["q", "n"],
-      ["p", "n"]
-    ]
-  ]
+#  g1 = [
+#    ["a", "b", "c", "d", "e", "f", "g", "h", "i", "k", "m", "n", "p", "q"],
+#    [
+#      ["a", "b"],
+#      ["a", "c"],
+#      ["a", "h"],
+#      ["a", "i"],
+#      ["a", "g"],
+#      ["d", "c"],
+#      ["d", "k"],
+#      ["e", "q"],
+#      ["e", "c"],
+#      ["f", "c"],
+#      ["q", "m"],
+#      ["q", "n"],
+#      ["p", "n"]
+#    ]
+#  ]
 
   def solve(graph) do
     #    we accept the undirected graph in the Graph Expression Form:
