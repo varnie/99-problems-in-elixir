@@ -115,16 +115,15 @@ defmodule Challenge92 do
          k
        ) do
     # there's at least 1 item in the nodes_numbered_map;
-    # find some not processed node, for which there's an already processed neighbour-node
-    not_processed_node =
-      Enum.find(nodes, false, fn not_processed_node ->
-        neighbours_list = Map.get(node_neighbours_map, not_processed_node, [])
-        Enum.any?(neighbours_list, fn neighbour_node ->
-          Map.get(nodes_numbered_map, neighbour_node, false)
-        end)
-      end)
+    # find some not processed node, for which there's an already processed neighbour node
 
-    # TODO:
+    {not_processed_node, processed_node} = Enum.find_value(nodes, {nil, nil}, fn some_not_processed_node ->
+      node_neighbours = Map.get(node_neighbours_map, some_not_processed_node, [])
+      Enum.find_value(node_neighbours, fn some_neighbour_node ->
+        if Map.get(nodes_numbered_map, some_neighbour_node, false), do: {some_not_processed_node, some_neighbour_node}
+      end)
+    end)
+
     if !not_processed_node do
       {true, {nodes_numbered_map, edges_numbered_map}}
     else
@@ -133,12 +132,6 @@ defmodule Challenge92 do
 
       free_node_numbers_to_check =
         Enum.to_list(1..k) -- Enum.concat(processed_nodes_numbers, already_tried_node_numbers)
-
-      # find some processed node
-      {processed_node, _} =
-        Enum.find(nodes_numbered_map, fn {some_processed_node, _} ->
-          not_processed_node in Map.get(node_neighbours_map, some_processed_node, [])
-        end)
 
       edge_key = calc_edge_name_for_nodes(not_processed_node, processed_node)
 
@@ -152,13 +145,10 @@ defmodule Challenge92 do
       result =
         Enum.reduce_while(
           free_node_numbers_to_check,
-          {nodes_numbered_map, tried_node_numbers_map, edges_numbered_map,
-           tried_edge_numbers_map},
+          {nodes_numbered_map, tried_node_numbers_map},
           fn x, acc ->
             node_candidate_number = x
-
-            {nodes_numbered_map, tried_node_numbers_map, edges_numbered_map,
-             tried_edge_numbers_map} = acc
+            {nodes_numbered_map, tried_node_numbers_map} = acc
 
             new_tried_node_numbers_map =
               Map.update(
@@ -202,7 +192,6 @@ defmodule Challenge92 do
                       edge_candidate_number
                     )
 
-                  # IO.puts("BEFORE")
                   # here should be some sanity check right?
                   if check_correctness(
                        new_nodes_numbered_map,
@@ -221,8 +210,6 @@ defmodule Challenge92 do
                         k
                       )
 
-                    # IO.inspect(inner_result, label: "inner_result")
-
                     case inner_result do
                       {true, _data} ->
                         {:halt, inner_result}
@@ -238,16 +225,12 @@ defmodule Challenge92 do
                 end
               )
 
-            # IO.inspect(next_result, label: "next_result")
-
             case next_result do
               {true, _data} ->
                 {:halt, next_result}
 
               _ ->
-                {:cont,
-                 {nodes_numbered_map, tried_node_numbers_map, edges_numbered_map,
-                  tried_edge_numbers_map}}
+                {:cont, {nodes_numbered_map, tried_node_numbers_map}}
             end
           end
         )
