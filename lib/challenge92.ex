@@ -37,18 +37,18 @@ defmodule Challenge92 do
 
     node_candidate_number = 1
 
-    case find(
-           %{node => node_candidate_number},
-           %{},
-           node_neighbours_map,
-           %{node => [node_candidate_number]},
-           %{},
-           rest_nodes,
-           length(nodes)
-         ) do
-      {true, result} -> result
-      _ -> nil
-    end
+    {_status, result} =
+      find(
+        %{node => node_candidate_number},
+        %{},
+        node_neighbours_map,
+        %{node => [node_candidate_number]},
+        %{},
+        rest_nodes,
+        length(nodes)
+      )
+
+    result
   end
 
   defp check_correctness(candidate_node_number, processed_node_number, candidate_edge_number) do
