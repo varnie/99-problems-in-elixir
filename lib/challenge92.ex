@@ -14,24 +14,24 @@ defmodule Challenge92 do
     Write a function that calculates a numbering scheme for a given tree. What is the solution for the larger tree pictured above?
   """
 
-#  g1 = [
-#    ["a", "b", "c", "d", "e", "f", "g", "h", "i", "k", "m", "n", "p", "q"],
-#    [
-#      ["a", "b"],
-#      ["a", "c"],
-#      ["a", "h"],
-#      ["a", "i"],
-#      ["a", "g"],
-#      ["d", "c"],
-#      ["d", "k"],
-#      ["e", "q"],
-#      ["e", "c"],
-#      ["f", "c"],
-#      ["q", "m"],
-#      ["q", "n"],
-#      ["p", "n"]
-#    ]
-#  ]
+  #  g1 = [
+  #    ["a", "b", "c", "d", "e", "f", "g", "h", "i", "k", "m", "n", "p", "q"],
+  #    [
+  #      ["a", "b"],
+  #      ["a", "c"],
+  #      ["a", "h"],
+  #      ["a", "i"],
+  #      ["a", "g"],
+  #      ["d", "c"],
+  #      ["d", "k"],
+  #      ["e", "q"],
+  #      ["e", "c"],
+  #      ["f", "c"],
+  #      ["q", "m"],
+  #      ["q", "n"],
+  #      ["p", "n"]
+  #    ]
+  #  ]
 
   def solve(graph) do
     #    we accept the undirected graph in the Graph Expression Form:
@@ -58,14 +58,14 @@ defmodule Challenge92 do
     node_candidate_number = 1
 
     case find(
-      %{node => node_candidate_number},
-      %{},
-      node_neighbours_map,
-      %{node => [node_candidate_number]},
-      %{},
-      rest_nodes,
-      length(nodes)
-    ) do
+           %{node => node_candidate_number},
+           %{},
+           node_neighbours_map,
+           %{node => [node_candidate_number]},
+           %{},
+           rest_nodes,
+           length(nodes)
+         ) do
       {true, result} -> result
       _ -> nil
     end
@@ -141,101 +141,91 @@ defmodule Challenge92 do
         Enum.to_list(1..(k - 1)) --
           Enum.concat(processed_edges_numbers, already_tried_edge_numbers)
 
-      result =
-        Enum.reduce_while(
-          free_node_numbers_to_check,
-          {nodes_numbered_map, tried_node_numbers_map},
-          fn x, acc ->
-            node_candidate_number = x
-            {nodes_numbered_map, tried_node_numbers_map} = acc
+      case Enum.reduce_while(
+             free_node_numbers_to_check,
+             {nodes_numbered_map, tried_node_numbers_map},
+             fn x, acc ->
+               node_candidate_number = x
+               {nodes_numbered_map, tried_node_numbers_map} = acc
 
-            new_tried_node_numbers_map =
-              Map.update(
-                tried_node_numbers_map,
-                not_processed_node,
-                [node_candidate_number],
-                fn existing_candidates ->
-                  [node_candidate_number | existing_candidates]
-                end
-              )
+               new_tried_node_numbers_map =
+                 Map.update(
+                   tried_node_numbers_map,
+                   not_processed_node,
+                   [node_candidate_number],
+                   fn existing_candidates ->
+                     [node_candidate_number | existing_candidates]
+                   end
+                 )
 
-            new_nodes_numbered_map =
-              Map.put(
-                nodes_numbered_map,
-                not_processed_node,
-                node_candidate_number
-              )
+               new_nodes_numbered_map =
+                 Map.put(
+                   nodes_numbered_map,
+                   not_processed_node,
+                   node_candidate_number
+                 )
 
-            next_result =
-              Enum.reduce_while(
-                free_edge_numbers_to_check,
-                {edges_numbered_map, tried_edge_numbers_map},
-                fn x, acc ->
-                  edge_candidate_number = x
-                  {edges_numbered_map, tried_edge_numbers_map} = acc
+               case Enum.reduce_while(
+                      free_edge_numbers_to_check,
+                      {edges_numbered_map, tried_edge_numbers_map},
+                      fn x, acc ->
+                        edge_candidate_number = x
+                        {edges_numbered_map, tried_edge_numbers_map} = acc
 
-                  new_tried_edge_numbers_map =
-                    Map.update(
-                      tried_edge_numbers_map,
-                      edge_key,
-                      [edge_candidate_number],
-                      fn existing_candidates ->
-                        [edge_candidate_number | existing_candidates]
+                        new_tried_edge_numbers_map =
+                          Map.update(
+                            tried_edge_numbers_map,
+                            edge_key,
+                            [edge_candidate_number],
+                            fn existing_candidates ->
+                              [edge_candidate_number | existing_candidates]
+                            end
+                          )
+
+                        new_edges_numbered_map =
+                          Map.put(
+                            edges_numbered_map,
+                            edge_key,
+                            edge_candidate_number
+                          )
+
+                        # here should be some sanity check right?
+                        if check_correctness(
+                             new_nodes_numbered_map,
+                             new_edges_numbered_map,
+                             node_neighbours_map
+                           ) do
+                          case find(
+                                 new_nodes_numbered_map,
+                                 new_edges_numbered_map,
+                                 node_neighbours_map,
+                                 new_tried_node_numbers_map,
+                                 new_tried_edge_numbers_map,
+                                 nodes -- [not_processed_node],
+                                 k
+                               ) do
+                            {true, data} ->
+                              {:halt, {true, data}}
+
+                            _ ->
+                              new_acc = {edges_numbered_map, new_tried_edge_numbers_map}
+                              {:cont, new_acc}
+                          end
+                        else
+                          new_acc = {edges_numbered_map, new_tried_edge_numbers_map}
+                          {:cont, new_acc}
+                        end
                       end
-                    )
+                    ) do
+                 {true, data} ->
+                   {:halt, {true, data}}
 
-                  new_edges_numbered_map =
-                    Map.put(
-                      edges_numbered_map,
-                      edge_key,
-                      edge_candidate_number
-                    )
-
-                  # here should be some sanity check right?
-                  if check_correctness(
-                       new_nodes_numbered_map,
-                       new_edges_numbered_map,
-                       node_neighbours_map
-                     ) do
-
-                    inner_result =
-                      find(
-                        new_nodes_numbered_map,
-                        new_edges_numbered_map,
-                        node_neighbours_map,
-                        new_tried_node_numbers_map,
-                        new_tried_edge_numbers_map,
-                        nodes -- [not_processed_node],
-                        k
-                      )
-
-                    case inner_result do
-                      {true, _data} ->
-                        {:halt, inner_result}
-
-                      _ ->
-                        new_acc = {edges_numbered_map, new_tried_edge_numbers_map}
-                        {:cont, new_acc}
-                    end
-                  else
-                    new_acc = {edges_numbered_map, new_tried_edge_numbers_map}
-                    {:cont, new_acc}
-                  end
-                end
-              )
-
-            case next_result do
-              {true, _data} ->
-                {:halt, next_result}
-
-              _ ->
-                {:cont, {nodes_numbered_map, tried_node_numbers_map}}
-            end
-          end
-        )
-
-      case result do
-        {true, _data} -> result
+                 _ ->
+                   {:cont, {nodes_numbered_map, tried_node_numbers_map}}
+               end
+             end
+           ) do
+        {true, data} -> {true, data}
         _ -> {false, nil}
       end
     end
