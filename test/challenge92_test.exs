@@ -7,6 +7,30 @@ defmodule Challenge92Test do
       [["a", "d"], ["a", "g"], ["a", "b"], ["e", "b"], ["e", "f"], ["b", "c"]]
     ]
 
+    _g2 = [
+      ["a", "b", "c", "d", "e", "f", "g", "h", "i", "k", "m", "n", "p", "q"],
+      [
+        ["a", "b"],
+        ["a", "c"],
+        ["a", "h"],
+        ["a", "i"],
+        ["a", "g"],
+        ["d", "c"],
+        ["d", "k"],
+        ["e", "q"],
+        ["e", "c"],
+        ["f", "c"],
+        ["q", "m"],
+        ["q", "n"],
+        ["p", "n"]
+      ]
+    ]
+
+    validate_solution_for_graph(g)
+    #validate_solution_for_graph(g2)
+  end
+
+  defp validate_solution_for_graph(g) do
     [nodes, _edges] = g
 
     result = Challenge92.solve(g)

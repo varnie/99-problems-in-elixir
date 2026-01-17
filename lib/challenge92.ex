@@ -14,25 +14,6 @@ defmodule Challenge92 do
     Write a function that calculates a numbering scheme for a given tree. What is the solution for the larger tree pictured above?
   """
 
-  #  g1 = [
-  #    ["a", "b", "c", "d", "e", "f", "g", "h", "i", "k", "m", "n", "p", "q"],
-  #    [
-  #      ["a", "b"],
-  #      ["a", "c"],
-  #      ["a", "h"],
-  #      ["a", "i"],
-  #      ["a", "g"],
-  #      ["d", "c"],
-  #      ["d", "k"],
-  #      ["e", "q"],
-  #      ["e", "c"],
-  #      ["f", "c"],
-  #      ["q", "m"],
-  #      ["q", "n"],
-  #      ["p", "n"]
-  #    ]
-  #  ]
-
   def solve(graph) do
     #    we accept the undirected graph in the Graph Expression Form:
     #    [
@@ -41,7 +22,7 @@ defmodule Challenge92 do
     #    ]
     #    The undirected graph is a tree.
 
-    [nodes, edges] = graph
+    [nodes = [node | rest_nodes], edges] = graph
 
     # prepare mapping from nodes to their neighbours for convenience
     node_neighbours_map =
@@ -54,7 +35,6 @@ defmodule Challenge92 do
         Map.put(acc, x, neighbour_nodes)
       end)
 
-    [node | rest_nodes] = nodes
     node_candidate_number = 1
 
     case find(
@@ -71,29 +51,8 @@ defmodule Challenge92 do
     end
   end
 
-  defp check_correctness(
-         nodes_numbered_map,
-         edges_numbered_map,
-         node_neighbours_map
-       ) do
-    Enum.all?(nodes_numbered_map, fn {node, node_number} ->
-      neighbours = Map.get(node_neighbours_map, node, [])
-
-      Enum.all?(neighbours, fn neighbour_node ->
-        case Map.get(nodes_numbered_map, neighbour_node) do
-          nil ->
-            true
-
-          neighbour_number ->
-            edge_name = calc_edge_name_for_nodes(node, neighbour_node)
-
-            case Map.get(edges_numbered_map, edge_name) do
-              nil -> false
-              edge_number -> abs(node_number - neighbour_number) == edge_number
-            end
-        end
-      end)
-    end)
+  defp check_correctness(candidate_node_number, processed_node_number, candidate_edge_number) do
+    abs(candidate_node_number - processed_node_number) == candidate_edge_number
   end
 
   defp calc_edge_name_for_nodes(n1, n2) do
@@ -113,8 +72,8 @@ defmodule Challenge92 do
     # there's at least 1 item in the nodes_numbered_map;
     # find some not processed node, for which there's an already processed neighbour node
 
-    {not_processed_node, processed_node} =
-      Enum.find_value(nodes, {nil, nil}, fn some_not_processed_node ->
+    pair_of_nodes =
+      Enum.find_value(nodes, nil, fn some_not_processed_node ->
         node_neighbours = Map.get(node_neighbours_map, some_not_processed_node, [])
 
         Enum.find_value(node_neighbours, fn some_neighbour_node ->
@@ -123,9 +82,13 @@ defmodule Challenge92 do
         end)
       end)
 
-    if !not_processed_node do
+    if !pair_of_nodes do
       {true, {nodes_numbered_map, edges_numbered_map}}
     else
+      {not_processed_node, processed_node} = pair_of_nodes
+
+      processed_node_number = Map.get(nodes_numbered_map, processed_node)
+
       processed_nodes_numbers = Map.values(nodes_numbered_map)
       already_tried_node_numbers = Map.get(tried_node_numbers_map, not_processed_node, [])
 
@@ -189,13 +152,13 @@ defmodule Challenge92 do
                             edge_candidate_number
                           )
 
-                        # here should be some sanity check right?
-                        if check_correctness(
-                             new_nodes_numbered_map,
-                             new_edges_numbered_map,
-                             node_neighbours_map
-                           ) do
-                          case find(
+                        # here should be some sanity check, right?
+                        case check_correctness(
+                               node_candidate_number,
+                               processed_node_number,
+                               edge_candidate_number
+                             ) and
+                               find(
                                  new_nodes_numbered_map,
                                  new_edges_numbered_map,
                                  node_neighbours_map,
@@ -204,16 +167,12 @@ defmodule Challenge92 do
                                  nodes -- [not_processed_node],
                                  k
                                ) do
-                            {true, data} ->
-                              {:halt, {true, data}}
+                          {true, data} ->
+                            {:halt, {true, data}}
 
-                            _ ->
-                              new_acc = {edges_numbered_map, new_tried_edge_numbers_map}
-                              {:cont, new_acc}
-                          end
-                        else
-                          new_acc = {edges_numbered_map, new_tried_edge_numbers_map}
-                          {:cont, new_acc}
+                          _ ->
+                            new_acc = {edges_numbered_map, new_tried_edge_numbers_map}
+                            {:cont, new_acc}
                         end
                       end
                     ) do
