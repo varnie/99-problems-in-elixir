@@ -11,13 +11,11 @@ defmodule Challenge90 do
         Use the generate-and-test paradigm.
   """
 
-  @letters Map.new(Enum.zip(1..8, [:a, :b, :c, :d, :e, :f, :g, :h]))
   @board_axis_indexes 1..8
+  @letters Map.new(Enum.zip(@board_axis_indexes, [:a, :b, :c, :d, :e, :f, :g, :h]))
 
   defp create_board() do
-    Enum.reduce(@board_axis_indexes, Map.new(), fn x, acc_tmp ->
-      board_tmp = acc_tmp
-
+    Enum.reduce(@board_axis_indexes, Map.new(), fn x, board_tmp ->
       Enum.reduce(@board_axis_indexes, board_tmp, fn y, acc ->
         Map.put(acc, (x - 1) * 8 + y, {x, y})
       end)
@@ -40,33 +38,24 @@ defmodule Challenge90 do
             div(queen - 1, 8)
           end)
         ) == 8,
-        suitable_positions(
-          board[a],
-          board[b],
-          board[c],
-          board[d],
-          board[e],
-          board[f],
-          board[g],
-          board[h]
-        ),
+        positions = Enum.map([a, b, c, d, e, f, g, h], fn index -> board[index] end),
+        suitable_positions(positions),
         do:
-          Enum.map(
-            [board[a], board[b], board[c], board[d], board[e], board[f], board[g], board[h]],
-            fn {x, y} ->
-              {@letters[y], x}
-            end
-          )
+          Enum.map(positions, fn {x, y} ->
+            {@letters[x], y}
+          end)
   end
 
-  defp suitable_positions(pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8) do
-    is_suitable_place_for_new_queen([pos1], pos2) and
-      is_suitable_place_for_new_queen([pos1, pos2], pos3) and
-      is_suitable_place_for_new_queen([pos1, pos2, pos3], pos4) and
-      is_suitable_place_for_new_queen([pos1, pos2, pos3, pos4], pos5) and
-      is_suitable_place_for_new_queen([pos1, pos2, pos3, pos4, pos5], pos6) and
-      is_suitable_place_for_new_queen([pos1, pos2, pos3, pos4, pos5, pos6], pos7) and
-      is_suitable_place_for_new_queen([pos1, pos2, pos3, pos4, pos5, pos6, pos7], pos8)
+  defp suitable_positions(positions) do
+    result = Enum.reduce_while(positions, [], fn val, acc ->
+      if is_suitable_place_for_new_queen(acc, val) do
+        {:cont, [val | acc]}
+      else
+        {:halt, nil}
+      end
+    end)
+
+    !is_nil(result)
   end
 
   defp is_suitable_place_for_new_queen(present_queens, queen) do
@@ -101,14 +90,10 @@ defmodule Challenge90 do
 
     check_while = fn while_fn, pred_fn, modify_val_fn ->
       fn me, val ->
-        if !while_fn.(val) do
-          true
-        else
-          if !pred_fn.(val) do
-            false
-          else
-            me.(me, modify_val_fn.(val))
-          end
+        cond do
+          !while_fn.(val) -> true
+          !pred_fn.(val) -> false
+          true -> me.(me, modify_val_fn.(val))
         end
       end
     end
