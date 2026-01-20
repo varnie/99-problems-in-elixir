@@ -110,7 +110,10 @@ defmodule Challenge92 do
   end
 
   defp try_node_numbers(
-         state,
+         state = %{
+           nodes_numbered_map: nodes_numbered_map,
+           tried_node_numbers_map: tried_node_numbers_map
+         },
          not_processed_node,
          processed_node,
          free_node_numbers_to_check,
@@ -122,7 +125,7 @@ defmodule Challenge92 do
 
     Enum.reduce_while(
       free_node_numbers_to_check,
-      {state.nodes_numbered_map, state.tried_node_numbers_map},
+      {nodes_numbered_map, tried_node_numbers_map},
       fn node_candidate_number, {nodes_numbered_map, tried_node_numbers_map} ->
         new_tried_node_numbers_map =
           Map.update(
@@ -164,7 +167,10 @@ defmodule Challenge92 do
   end
 
   defp try_edge_numbers(
-         state,
+         state = %{
+           edges_numbered_map: edges_numbered_map,
+           tried_edge_numbers_map: tried_edge_numbers_map
+         },
          free_edge_numbers_to_check,
          edge_key,
          node_candidate_number,
@@ -173,7 +179,7 @@ defmodule Challenge92 do
        ) do
     Enum.reduce_while(
       free_edge_numbers_to_check,
-      {state.edges_numbered_map, state.tried_edge_numbers_map},
+      {edges_numbered_map, tried_edge_numbers_map},
       fn edge_candidate_number, {edges_numbered_map, tried_edge_numbers_map} ->
         new_tried_edge_numbers_map =
           Map.update(
