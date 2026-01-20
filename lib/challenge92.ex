@@ -191,13 +191,6 @@ defmodule Challenge92 do
             end
           )
 
-        new_edges_numbered_map =
-          Map.put(
-            edges_numbered_map,
-            edge_key,
-            edge_candidate_number
-          )
-
         # here should be some sanity check, right?
         case check_correctness(
                node_candidate_number,
@@ -207,7 +200,11 @@ defmodule Challenge92 do
                find(
                  %{
                    state
-                   | edges_numbered_map: new_edges_numbered_map,
+                   | edges_numbered_map: Map.put(
+                      edges_numbered_map,
+                      edge_key,
+                      edge_candidate_number
+                    ),
                      tried_edge_numbers_map: new_tried_edge_numbers_map
                  },
                  nodes
