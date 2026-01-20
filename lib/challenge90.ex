@@ -47,13 +47,14 @@ defmodule Challenge90 do
   end
 
   defp suitable_positions(positions) do
-    result = Enum.reduce_while(positions, [], fn val, acc ->
-      if is_suitable_place_for_new_queen(acc, val) do
-        {:cont, [val | acc]}
-      else
-        {:halt, nil}
-      end
-    end)
+    result =
+      Enum.reduce_while(positions, [], fn val, acc ->
+        if is_suitable_place_for_new_queen(acc, val) do
+          {:cont, [val | acc]}
+        else
+          {:halt, nil}
+        end
+      end)
 
     !is_nil(result)
   end
@@ -71,48 +72,40 @@ defmodule Challenge90 do
     # returns true if it is not hit by the present queen
     # left bottom deck's corner is (1, 1)
 
-    inc_fn = fn x -> x + 1 end
-    dec_fn = fn x -> x - 1 end
-
-    modify_pos_builder_fn = fn xfnmod, yfnmod -> fn {x, y} -> {xfnmod.(x), yfnmod.(y)} end end
-
-    is_within_gamefield_fn? = fn {x, y} ->
-      x in @board_axis_indexes and y in @board_axis_indexes
-    end
-
-    leftx_upy_modify_fn = modify_pos_builder_fn.(dec_fn, inc_fn)
-    rightx_upy_modify_fn = modify_pos_builder_fn.(inc_fn, inc_fn)
-
-    leftx_downy_modify_fn = modify_pos_builder_fn.(dec_fn, dec_fn)
-    rightx_downy_modify_fn = modify_pos_builder_fn.(inc_fn, dec_fn)
-
     pred_fn = fn item -> item != present_queen end
 
-    check_while = fn while_fn, pred_fn, modify_val_fn ->
-      fn me, val ->
-        cond do
-          !while_fn.(val) -> true
-          !pred_fn.(val) -> false
-          true -> me.(me, modify_val_fn.(val))
-        end
-      end
-    end
-
     check_while_leftx_upy_instance_fn =
-      check_while.(is_within_gamefield_fn?, pred_fn, leftx_upy_modify_fn)
+      check_while(&is_within_gamefield?/1, pred_fn, &leftx_upy_modify/1)
 
     check_while_rightx_upy_modify_fn =
-      check_while.(is_within_gamefield_fn?, pred_fn, rightx_upy_modify_fn)
+      check_while(&is_within_gamefield?/1, pred_fn, &rightx_upy_modify/1)
 
     check_while_leftx_downy_modify_fn =
-      check_while.(is_within_gamefield_fn?, pred_fn, leftx_downy_modify_fn)
+      check_while(&is_within_gamefield?/1, pred_fn, &leftx_downy_modify/1)
 
     check_while_rightx_downy_modify_fn =
-      check_while.(is_within_gamefield_fn?, pred_fn, rightx_downy_modify_fn)
+      check_while(&is_within_gamefield?/1, pred_fn, &rightx_downy_modify/1)
 
     check_while_leftx_upy_instance_fn.(check_while_leftx_upy_instance_fn, new_queen) and
       check_while_rightx_upy_modify_fn.(check_while_rightx_upy_modify_fn, new_queen) and
       check_while_leftx_downy_modify_fn.(check_while_leftx_downy_modify_fn, new_queen) and
       check_while_rightx_downy_modify_fn.(check_while_rightx_downy_modify_fn, new_queen)
   end
+
+  defp check_while(while_fn, pred_fn, modify_val_fn) do
+    fn me, val ->
+      cond do
+        !while_fn.(val) -> true
+        !pred_fn.(val) -> false
+        true -> me.(me, modify_val_fn.(val))
+      end
+    end
+  end
+
+  defp is_within_gamefield?({x, y}), do: x in @board_axis_indexes and y in @board_axis_indexes
+
+  defp leftx_upy_modify({x, y}), do: {x - 1, y + 1}
+  defp rightx_upy_modify({x, y}), do: {x + 1, y + 1}
+  defp leftx_downy_modify({x, y}), do: {x - 1, y - 1}
+  defp rightx_downy_modify({x, y}), do: {x + 1, y - 1}
 end
