@@ -29,4 +29,37 @@ defmodule Helpers do
 
   def check_sanity([], _), do: false
   def check_sanity([head | _rest], c), do: head == c
+
+  def permutations_without_repetitions(lst) do
+    #    "[1,2,3]
+    #     [1,3,2]
+    #     [2,1,3]
+    #     [2,3,1]
+    #     [3,1,2]
+    #     [3,2,1]"
+
+    indexed_list = lst |> Enum.with_index()
+    permutations_without_repetitions_helper(indexed_list)
+  end
+
+  def permutations_without_repetitions_helper(indexed_list) do
+    Enum.reduce(indexed_list, [], fn x, acc ->
+      {head, index} = x
+
+      rest = Enum.reject(indexed_list, fn {_some_val, some_index} -> some_index == index end)
+
+      new_elems =
+        case rest do
+          [] ->
+            [[head]]
+
+          _ ->
+            Enum.map(permutations_without_repetitions_helper(rest), fn new_item ->
+              [head | new_item]
+            end)
+        end
+
+      acc ++ new_elems
+    end)
+  end
 end

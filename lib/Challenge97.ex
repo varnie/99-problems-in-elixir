@@ -77,7 +77,7 @@ defmodule Challenge97 do
       end)
 
     possible_lists_of_missed_vals_permutations =
-      Enum.map(list_of_missed_vals, &permutations_without_repetitions/1)
+      Enum.map(list_of_missed_vals, &Helpers.permutations_without_repetitions/1)
 
     #    possible_list_of_missed_vals_permutations:
     #    [
@@ -151,38 +151,5 @@ defmodule Challenge97 do
   defp check_requirements_satisfied?(candidate) do
     check_all_vertical_lines_valid?(candidate) and
       check_all_lines_have_unique_vals?(get_all_squares_data(candidate))
-  end
-
-  defp permutations_without_repetitions(lst) do
-    #    "[1,2,3]
-    #     [1,3,2]
-    #     [2,1,3]
-    #     [2,3,1]
-    #     [3,1,2]
-    #     [3,2,1]"
-
-    indexed_list = lst |> Enum.with_index()
-    permutations_without_repetitions_helper(indexed_list)
-  end
-
-  defp permutations_without_repetitions_helper(indexed_list) do
-    Enum.reduce(indexed_list, [], fn x, acc ->
-      {head, index} = x
-
-      rest = Enum.reject(indexed_list, fn {_some_val, some_index} -> some_index == index end)
-
-      new_elems =
-        case rest do
-          [] ->
-            [[head]]
-
-          _ ->
-            Enum.map(permutations_without_repetitions_helper(rest), fn new_item ->
-              [head | new_item]
-            end)
-        end
-
-      acc ++ new_elems
-    end)
   end
 end
