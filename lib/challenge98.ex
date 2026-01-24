@@ -49,81 +49,64 @@ defmodule Challenge98 do
     Enum.reduce(combinations, [[]], fn x, acc ->
       # x is a list of possible lines
 
-      # IO.inspect(acc, label: "acc")
-
       for prev <- acc,
           candidate_line <- x,
           new_candidate = prev ++ [candidate_line],
           check_requirements(new_candidate, row_specs) do
-        # IO.inspect(new_candidate, label: "new_candidate")
         new_candidate
       end
     end)
     |> Enum.uniq()
-
-    # TODO:
   end
 
   defp check_requirements(solution, row_specs) do
-    # IO.inspect(solution, label: "solution_to_check")
-
     vertical_lines = Enum.zip_with(solution, fn list -> list end)
     vertical_lines_with_index = Enum.with_index(vertical_lines)
 
-    result =
-      Enum.all?(vertical_lines_with_index, fn {vertical_line, index} ->
-        {counter, found_sizes} =
-          Enum.reduce(vertical_line, {0, []}, fn x, acc ->
-            symbol = x
-            {counter, sizes} = acc
+    Enum.all?(vertical_lines_with_index, fn {vertical_line, index} ->
+      {counter, found_sizes} =
+        Enum.reduce(vertical_line, {0, []}, fn x, acc ->
+          symbol = x
+          {counter, sizes} = acc
 
-            if symbol == 1 do
-              {counter + 1, sizes}
+          if symbol == 1 do
+            {counter + 1, sizes}
+          else
+            if counter > 0 do
+              {0, [counter | sizes]}
             else
-              if counter > 0 do
-                {0, [counter | sizes]}
-              else
-                acc
-              end
+              acc
             end
-          end)
+          end
+        end)
 
-        #            #partly_sizes = if counter > 0, do: counter, else: "none"
-        #    #        IO.inspect(row_index, label: "row_index")
-        #    #        IO.inspect(found_sizes, label: "found_sizes")
-        #    #        IO.inspect(partly_sizes, label: "partly_sizes")
-        #
-        valid_sizes = Enum.at(row_specs, index)
+      valid_sizes = Enum.at(row_specs, index)
 
-        has_partially_discovered_size = counter > 0
+      has_partially_discovered_size = counter > 0
 
-        # at first do strict check
-        cond do
-          !Enum.all?(found_sizes, fn found_size ->
-            found_size in valid_sizes
-          end) ->
-            false
+      # at first do strict check
+      cond do
+        !Enum.all?(found_sizes, fn found_size ->
+          found_size in valid_sizes
+        end) ->
+          false
 
-          !has_partially_discovered_size ->
-            true
+        !has_partially_discovered_size ->
+          true
 
-          true ->
-            remaining_valid_sizes =
-              MapSet.new(valid_sizes)
-              |> MapSet.difference(MapSet.new(found_sizes))
-              |> MapSet.to_list()
+        true ->
+          remaining_valid_sizes =
+            MapSet.new(valid_sizes)
+            |> MapSet.difference(MapSet.new(found_sizes))
+            |> MapSet.to_list()
 
-            Enum.any?(remaining_valid_sizes, &(&1 >= counter))
-        end
-      end)
-
-    # IO.inspect(result, label: "check_requirements")
-    result
+          Enum.any?(remaining_valid_sizes, &(&1 >= counter))
+      end
+    end)
   end
 
   defp produce_combinations(lst, dimension_size) do
     permutations = Helpers.permutations_without_repetitions(lst)
-    # IO.inspect(permutations, label: "permutations")
     available_space = dimension_size
 
     Enum.flat_map(permutations, fn items ->
