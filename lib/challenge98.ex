@@ -61,9 +61,9 @@ defmodule Challenge98 do
 
   defp check_requirements(solution, row_specs) do
     vertical_lines = Enum.zip_with(solution, fn list -> list end)
-    vertical_lines_with_index = Enum.with_index(vertical_lines)
+    vertical_lines_with_valid_sizes = Enum.zip(vertical_lines, row_specs)
 
-    Enum.all?(vertical_lines_with_index, fn {vertical_line, index} ->
+    Enum.all?(vertical_lines_with_valid_sizes, fn {vertical_line, valid_sizes} ->
       {counter, found_sizes} =
         Enum.reduce(vertical_line, {0, []}, fn x, acc ->
           symbol = x
@@ -79,8 +79,6 @@ defmodule Challenge98 do
             end
           end
         end)
-
-      valid_sizes = Enum.at(row_specs, index)
 
       has_partially_discovered_size = counter > 0
 
